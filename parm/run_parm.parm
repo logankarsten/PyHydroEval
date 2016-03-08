@@ -1,0 +1,134 @@
+# run_parm file to run analysis/plotting on specified
+# model runs/projects. Model output should be specified
+# by alias values
+
+# Logan Karsten
+# National Center for Atmospheric Research
+# Research Applications Laboratory
+
+# --------------------------------------------------------
+# This is a Python configuration file that will direct
+# parent program to run analysis on specified models, 
+# which were entered into the database by the setup
+# function. Models should be referenced by their
+# "alias" values so program can pull accurate information
+# on where data resides.
+# --------------------------------------------------------
+
+[modelInfo]
+# Specify model(s) to run analysis/plotting on. If multiple
+# model runs chosen, plots comparing multiple models will 
+# be placed in first model output directory with symbolic
+# links in subsequent directories to first directory. 
+modelAlias = ['test1', 'test2']
+
+# Specify ensembles to run analysis/plotting on. If multiple
+# models selected above, each model directory MUST have
+# same ensembles. Program will raise error otherwise. List
+# ensembles by ensemble alias values. 
+ens = []
+
+[dateInfo]
+# Beginning/end read/analysis date in YYYYMMDDHH format.
+startYYYYMMDDHHanalysis = 2014100100
+endYYYYMMDDHHanalysis = 2015100100
+
+# Beginning/end plot date in YYYYMMDDHH format.
+startYYYYMMDDHHplot = 2014100100
+endYYYYMMDDHHplot = 2015100100
+ 
+[readFlags]
+# NOTE - All model read/analysis flags can be more than one value.
+#        This is available to read in multiple datasets in one
+#        job submit.
+
+# Specify flag to read in LDASOUT data to Rdata framework. 
+# Acceptable values include:
+# 1 -  Basin aggregated LDASOUT - All available variables.
+# 2 -  Basin aggregated LDASOUT - Subset of available variables.
+# 3 -  Basin aggregated LDASOUT - NFIE configuration variables.
+# 4 -  Basin aggregated LDASOUT - IOC configuration variables.
+# 5 -  Basin aggregated LDASOUT - Snow only variables.
+# 6 -  LDASOUT at SNOTEL sites - All available variables.
+# 7 -  LDASOUT at SNOTEL sites - Subset of available variables.
+# 8 -  LDASOUT at SNOTEL sites - NFIE configuration variables.
+# 9 -  LDASOUT at SNOTEL sites - IOC configuration variables.
+# 10 - LDASOUT at SNOTEL sites - Snow only variables.
+# 11 - LDASOUT at AMF sites - All available variables.
+# 12 - LDASOUT at AMF sites - Subset of available variables.
+# 13 - LDASOUT at AMF sites - NFIE configuration variables.
+# 14 - LDASOUT at AMF sites - IOC configuration variables.
+# 15 - LDASOUT at AMF sites - Snow only variables.
+# 16 - LDASOUT at custom Met sites - All available variables.
+# 17 - LDASOUT at custom Met sites - Subset of available variables.
+# 18 - LDASOUT at custom Met sites - NFIE configuration variables.
+# 19 - LDASOUT at custom Met sites - IOC configuration variables.
+# 20 - LDASOUT at custom Met sites - Snow only variables.
+ldasReadFlag = [5, 10, 15, 20]
+
+# Specify flag to read in basin RTOUT files.
+# Acceptable values include:
+# 1 - Read RTOUT for basins.
+rtOutReadFlag = [] 
+
+# Specify flag to read in GWOUT files.
+# Acceptable values include:
+# 1 - Read GWOUT files.
+gwOutReadFlag = [] 
+
+# Specify flag to read in frxstout files.
+# 1 - Read frxstout files.
+frxstReadFlag = [] 
+
+# Specify flag to read in CHRTOUT files.
+# 1 - Read all available links.
+# 2 - Read only links with gages available
+chrtOutReadFlag = [] 
+
+# Specify flag to read in forcing data.
+# Acceptable values include:
+# 1 - Basin-aggregated read.
+# 2 - SNOTEL sites.
+# 3 - AMF sites.
+# 4 - HydroMet sites.
+forcingReadFlag = []
+
+# Specify flag to read in SNODAS data  
+# Acceptable values include:
+# 1 - Basin-aggregated read.
+# 2 - SNOTEL sites.
+# 3 - AMF sites.
+# 4 - HydroMet sites.
+
+[statisticsFlags]
+# Specify statistics to be ran on data.
+# Acceptable values include:
+# 1 - Streamflow performance.
+# 2 - Streamflow performance plus daily performance.
+# 3 - SNOTEL performance statistics.
+# 4 - HydroMet performance statistics.
+# 5 - Basin-aggregated snow statistics.
+statsFlag = []
+
+[plotFlags]
+# Specify plotting to be performed.
+# Acceptable values include:
+# 1 - Accumulated streamflow plots.
+# 2 - Hydrograph plots.
+# 3 - Ensemble hydrograph plots.
+# 4 - Accumulated precipitation plots.
+# 5 - SWE against streamflow plots.
+# 6 - Streamflow against basin runoff plots.
+# 7 - SWE SNOTEL plots.
+# 8 - HydroMet data plots.
+# 9 - Basin-aggregated snow plots.
+# 10 - Streamflow bias map plots.
+# 11 - Streamflow correlation map plots.
+# 12 - SNOTEL SWE error map plots.
+# 13 - SNOTEL Precip map plots.
+# 14 - SNODAS against SWE bias map plots.
+# 15 - Peak SWE date map plots.
+# 16 - Individual SNOTEL scatter plots.
+# 17 - Individual HydroMet scatter plots.
+# 18 - Basin-aggregated SNOTEL scatter plots.
+
