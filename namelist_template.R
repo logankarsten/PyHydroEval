@@ -81,7 +81,7 @@ readMod <- FALSE
 			# Read only links with gages?
 			readChrtout_GAGES <- FALSE
 			# Read specified subset? Provide object with link and site_no columns
-			readLink2gage <- read.table(NULL,sep="\t",header=TRUE,colClasses=c("integer","character"))
+			readLink2gage <- NULL 
 
 		# Snotel sites
 		readSnoLdasout <- FALSE 
@@ -99,8 +99,8 @@ readMod <- FALSE
 	varsLdasoutSNOW <- FALSE 
 
 	# Specify start and end dates if you do NOT want to read all files
-	readModStart <- as.POSIXct(NULL, format="%Y-%m-%d", tz="UTC")
-	readModEnd <- as.POSIXct(NULL, format="%Y-%m-%d", tz="UTC")
+	readModStart <- NULL 
+	readModEnd <- NULL 
 
 
 ################## Forcing Reads ##################
@@ -137,8 +137,8 @@ readForc <- FALSE
 		readMetLdasin <- FALSE 
 
         # Specify start and end dates if you do NOT want to read all files
-        readForcStart <- as.POSIXct(NULL, format="%Y-%m-%d", tz="UTC") 
-        readForcEnd <- as.POSIXct(NULL, format="%Y-%m-%d", tz="UTC")
+        readForcStart <- NULL 
+        readForcEnd <- NULL 
 
 ############# SNODAS ################
 
@@ -177,8 +177,8 @@ readSnodas <- FALSE
                 readMetSnodas <- FALSE
 
         # Specify start and end dates if you do NOT want to read all files
-        readSnodasStart <- as.POSIXct(NULL, format="%Y-%m-%d", tz="UTC")
-        readSnodasEnd <- as.POSIXct(NULL, format="%Y-%m-%d", tz="UTC")
+        readSnodasStart <- NULL 
+        readSnodasEnd <- NULL 
 
 ############# Model Performance Stats #############
 
@@ -202,7 +202,7 @@ calcStats <- FALSE
 	metProc <- FALSE
 
 	## Calculate basin snow performance/analysis statistics?
-        basSnoProc <- TRUE
+        basSnoProc <- FALSE 
 
 ## If any are TRUE, specify the following:
 
@@ -216,11 +216,11 @@ calcStats <- FALSE
 
 	# Range dates for main stats
         stdate_stats <- NULL
-        enddate_stats <- as.POSIXct(NULL, format="%Y-%m-%d %H:%M", tz="UTC")
+        enddate_stats <- NULL 
 
 	# Range dates for seasonal stats (e.g., spring)
-        stdate_stats_sub <- as.POSIXct(NULL, format="%Y-%m-%d %H:%M", tz="UTC")
-        enddate_stats_sub <- as.POSIXct(NULL, format="%Y-%m-%d %H:%M", tz="UTC")
+        stdate_stats_sub <- NULL 
+        enddate_stats_sub <- NULL 
 
 	# Write stats tables?
 	writeStatsFile <- FALSE
@@ -247,7 +247,7 @@ writePlotDir <- NULL
 		accflowTags <- NULL
 
 		# Specify start date
-		accflowStartDate <- as.POSIXct(NULL, format="%Y-%m-%d", tz="UTC")
+		accflowStartDate <- NULL 
 
 		# Specify end date
 		accflowEndDate <- NULL
@@ -259,7 +259,7 @@ writePlotDir <- NULL
         	hydroTags <- NULL 
  
         	# Specify start date
-        	hydroStartDate <- as.POSIXct(NULL, format="%Y-%m-%d", tz="UTC")
+        	hydroStartDate <- NULL 
         
         	# Specify end date
         	hydroEndDate <- NULL
@@ -271,7 +271,7 @@ writePlotDir <- NULL
         	accprecipTags <- NULL
         
         	# Specify start date
-        	accprecipStartDate <- as.POSIXct(NULL, format="%Y-%m-%d", tz="UTC") 
+        	accprecipStartDate <- NULL 
         
         	# Specify end date
         	accprecipEndDate <- NULL
@@ -283,7 +283,7 @@ writePlotDir <- NULL
         	flowsweTags <- NULL
         
         	# Specify start date
-        	flowsweStartDate <- as.POSIXct(NULL, format="%Y-%m-%d", tz="UTC")
+        	flowsweStartDate <- NULL 
         
         	# Specify end date
         	flowsweEndDate <- NULL
@@ -307,7 +307,7 @@ writePlotDir <- NULL
         	sweTags <- NULL
 
         	# Specify start date
-        	sweStartDate <- as.POSIXct(NULL, format="%Y-%m-%d", tz="UTC")
+        	sweStartDate <- NULL 
 
         	# Specify end date
         	sweEndDate <- NULL
@@ -319,7 +319,7 @@ writePlotDir <- NULL
                 metTags <- NULL
 
                 # Specify start date
-                metStartDate <- as.POSIXct(NULL, format="%Y-%m-%d", tz="UTC")
+                metStartDate <- NULL 
 
                 # Specify end date
                 metEndDate <- NULL
@@ -331,10 +331,10 @@ writePlotDir <- NULL
 		snowBasDataFile <- NULL
 
                 # Specify start date
-                snowBasStartDate <- as.POSIXct(NULL, format="%Y-%m-%d", tz="UTC")
+                snowBasStartDate <- NULL 
 
                 # Specify end date
-                snowBasEndDate <- as.POSIXct(NULL, format="%Y-%m-%d", tz="UTC")
+                snowBasEndDate <- NULL 
 
 	########### MAPS #############
 
@@ -384,10 +384,10 @@ writePlotDir <- NULL
         snodasErrorMap <- FALSE
 
                 # Specify beginning date
-                snowMapBegDate <- as.POSIXct(NULL, format="%Y-%m-%d", tz="UTC")
+                snowMapBegDate <- NULL 
 
                 # Specify ending date
-                snowMapEndDate <- as.POSIXct(NULL, format="%Y-%m-%d", tz="UTC")
+                snowMapEndDate <- NULL 
 
 	## Scatter plots ##
 
@@ -395,10 +395,10 @@ writePlotDir <- NULL
 	snowPointScatter <- FALSE
 
 		# Specify the beginning date
-		snowScatterBegDate <- as.POSIXct(NULL, format="%Y-%m-%d", tz="UTC")
+		snowScatterBegDate <- NULL 
 
 		# Specify the ending date
-		snowScatterEndDate <- as.POSIXct(NULL, format="%Y-%m-%d", tz="UTC")
+		snowScatterEndDate <- NULL 
 
 		snotelScatter <- FALSE
 

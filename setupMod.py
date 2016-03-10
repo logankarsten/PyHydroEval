@@ -69,7 +69,7 @@ class modelDatabase:
 		lenTmp = len(self.alias)
 		if lenTmp > 0:
 			for i in range(0,lenTmp):
-				if (self.alias[i] == aliasTmp) or (self.modelInDir[i] == modelInTmp):
+				if self.alias[i] == aliasTmp:
 					print "ERROR: " + aliasTmp + " has already been entered into database."
 					print "Consider removing before trying again."
 					return
@@ -114,6 +114,10 @@ class modelDatabase:
 		# Make model input directory
 		modelInDir1 = subDir1 + "/WRF-Hydro_Output" 
 		os.symlink(self.modelInDir[ind],modelInDir1)
+
+		# Create namelist directory to hold all namelists created by evaluation program.
+		namelistDir = subDir1 + "/namelists"
+		os.mkdir(namelistDir)
 
 		# Make observations directory, symlink observation files in (if they were listed)
 		obsDir1 = subDir1 + "/Observations"
@@ -170,7 +174,7 @@ class modelDatabase:
 		aliasTmp = []
 		modelInDirTmp = []
 		topDirTmp = []
-		forceDirTmp = []
+		forceInDirTmp = []
 		tagTmp = []
 		geoFileTmp = []
 		fullDomFileTmp = []
@@ -209,13 +213,13 @@ class modelDatabase:
 				aliasTmp.append(self.alias[i])
 				modelInDirTmp.append(self.modelInDir[i])
 				topDirTmp.append(self.topDir[i])
-				forceDirTmp.append(self.forceInDir[i])
+				forceInDirTmp.append(self.forceInDir[i])
 				tagTmp.append(self.tag[i])
 				geoFileTmp.append(self.geoFile[i])
 				fullDomFileTmp.append(self.fullDomFile[i])
 				mskFileTmp.append(self.mskFile[i])
 				link2GageFileTmp.append(self.link2GageFile[i])
-				strObsFileTmp.append(self.strObsFileTmp[i])
+				strObsFileTmp.append(self.strObsFile[i])
 				snotelObsFileTmp.append(self.snotelObsFile[i])
 				amfObsFileTmp.append(self.amfObsFile[i])
 				metObsFileTmp.append(self.metObsFile[i])
@@ -242,17 +246,17 @@ class modelDatabase:
 
 		for i in range(0,len(aliasTmp)):
 			self.alias.append(aliasTmp[i])
-			self.modelInDir.append(modelInDir[i])
+			self.modelInDir.append(modelInDirTmp[i])
 			self.topDir.append(topDirTmp[i])
-			self.forceInDir.append(forceInDir[i])
+			self.forceInDir.append(forceInDirTmp[i])
 			self.tag.append(tagTmp[i])
-			self.geoFile.append(geoFile[i])
+			self.geoFile.append(geoFileTmp[i])
 			self.fullDomFile.append(fullDomFileTmp[i])
 			self.mskFile.append(mskFileTmp[i])
-			self.link2GageFileTmp.append(link2GageFileTmp[i])
+			self.link2GageFile.append(link2GageFileTmp[i])
 			self.strObsFile.append(strObsFileTmp[i])
 			self.snotelObsFile.append(snotelObsFileTmp[i])
-			self.amfObsFile.append(amfObsFile[i])
+			self.amfObsFile.append(amfObsFileTmp[i])
 			self.metObsFile.append(metObsFileTmp[i])
 			self.snodasPath.append(snodasPathTmp[i])
 
