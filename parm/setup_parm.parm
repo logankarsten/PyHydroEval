@@ -24,8 +24,8 @@ modelDir = /d4/karsten/PyHydroEval_test/modelIn1
 # Specify model tag and alias. Model tag will be used for plotting 
 # purposes. The alias will be used when calling main analysis program,
 # directing program to this model project.
-tag = test2
-alias = test2
+tag = retrospective 
+alias = test3
 
 [forcing_specification]
 # Specify the directory containing model forcing data used for this specified

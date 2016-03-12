@@ -11,6 +11,7 @@ import pickle
 import shutil
 import fileinput
 import sys
+import string
 
 def checkArgs(parser):
 	# First check to ensure dates passed make sense
@@ -117,9 +118,8 @@ def checkDb(args,dbIn):
 			raise
 
 def initNamelist(args,dbIn):
-	# If existing symbolic link is present, remove
-	if os.path.islink('./namelist.R'):
-		os.unlink('./namelist.R')
+	# Establish namelist link based off current process id
+	nLnk = "./namelist_" + str(os.getpid()) + ".R"
 
 	# Establish index of 1st model project in the database.
 	numModIn = len(args.modelProjects)
@@ -149,9 +149,9 @@ def initNamelist(args,dbIn):
 			 	os.symlink(nameListPathOrig,nameLnkPath)
 
 	# Create symbolic link in current directory for when analysis is to be ran
-	os.symlink(nameListPathOrig,"./namelist.R")
+	os.symlink(nameListPathOrig,nLnk)
 		
-	return nameListPathOrig
+	return nameListPathOrig, nLnk
 
 def editLine(fileIn,searchExp,replaceExp):
 	# Edit line in text file, replacing search string with passed string.
@@ -164,4 +164,67 @@ def editLine(fileIn,searchExp,replaceExp):
 				check = check + 1 
 			else:
 			 	check = check + 1	
-		sys.stdout.write(line)	
+		sys.stdout.write(line)
+
+def findInFile(bDate,eDate,str1,str2):
+	# Find expected input file based on expected format
+	# Walk the top level directory, parse datetime strings, and
+	# check to see if passed dates fall within range. If they do,
+	# pass file path back to calling routine to place into namelist
+	# file. If no files found, raise exception.
+
+	check = False
+	fileOut = '' 
+	tags = []
+	splitTmp = string.split(str2,'.')
+	splitTmp2 = string.split(splitTmp[0],'_')
+	if len(splitTmp2) <= 3:
+		print "ERROR: Unexpected model string: " + splitTmp[0] + " passed to findInFile."
+		raise
+	for i in range(0, len(splitTmp2)):
+		tags.append(splitTmp2[i])
+	for listing in os.walk(str1):
+		files = listing[2]
+		for file in files:
+			split1 = string.split(file,'.')
+			if len(split1) != 2:
+				continue
+			if split1[1] != 'Rdata':
+				continue
+			split2 = string.split(split1[0],"_")
+			if len(split2) != (len(tags)+2):
+				continue
+			if not split2[2:len(tags)] != tags:
+				continue
+			# Found expected type of file. Check dates.
+			d1Str = split2[0]
+			d2Str = split2[1]		
+			if (len(d1Str) != 12) or (len(d2Str) != 12):
+				print "ERROR: Unexpected date length found in: " + file
+				raise
+			dCheckStart = datetime.datetime(int(d1Str[0:4]),int(d1Str[4:6]),\
+				      int(d1Str[6:8]),int(d1Str[8:10]),int(d1Str[10:12]))
+			dCheckEnd = datetime.datetime(int(d2Str[0:4]),int(d2Str[4:6]),\
+                                    int(d2Str[6:8]),int(d2Str[8:10]),int(d2Str[10:12]))
+			if (bDate >= dCheckStart) and (eDate <= dCheckEnd):
+				check = True
+				fileOut = str1 + file
+				break
+			else:
+				print "WARNING: Found file that contained date range outside of desired range"
+				print "         File found: " + file
+				print "         Start Date Found: " + dCheckStart.strftime("%Y%m%d%H%M")
+				print "         End Date Found: " + dCheckEnd.strftime("%Y%m%d%H%M")
+				print "         Start Date Desired: " + bDate.strftime("%Y%m%d%H%M")
+				print "         End Date Desired: " + eDate.strftime("%Y%m%d%H%M")
+
+		if check == True:
+			break
+
+	# If no files found, raise error
+	if check == False:
+		print "ERROR: Failed to find necessary input file."
+		raise
+	else:
+		print "MSG: Found input file: " + fileOut
+		return fileOut
