@@ -11,6 +11,7 @@
 import sys
 sys.path.insert(0, './python')
 
+import subprocess
 import argparse
 import os
 import pyHydroEvalUtils
@@ -97,8 +98,22 @@ def main(argv):
 	# Begin editing R namelist file
  	compileNamelist.editNamelist(namePath,args,db)	
 	
-	# Remove namelist link specific to processor ID
+	# Run Rscript command to perform analysis. Pipe stdout and stderr
+	# to text files for users to inspect after analysis job complete.
+	stdOutPath = "./stdout_" + str(os.getpid()) + ".txt"
+	stdErrPath = "./stdout_" + str(os.getpid()) + ".txt"
+	cmd = "Rscript " + nameLink
+
 	try:
+		fOut = open(stdOutPath,"w")
+		fErr = open(stdErrPath,"w")
+		subprocess.call(cmd,stdout=fOut,stderr=fErr)
+	except:
+		print "ERROR: Failure to execute/run analysis."
+		print "ERROR: Please see output diagnostic files."
+
+	# Remove namelist link specific to processor ID
+	:try:
 		os.unlink(nameLink)
 	except:
 		print "ERROR: Failure to remove link: " + nameLink
