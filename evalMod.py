@@ -113,7 +113,7 @@ def main(argv):
 		print "ERROR: Please see output diagnostic files."
 
 	# Remove namelist link specific to processor ID
-	:try:
+	try:
 		os.unlink(nameLink)
 	except:
 		print "ERROR: Failure to remove link: " + nameLink
