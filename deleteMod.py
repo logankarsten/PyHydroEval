@@ -7,13 +7,15 @@
 # National Center for Atmopsheric Research
 # Research Applications Laboratory
 
+import sys
+sys.path.insert(0, './python')
+
 import setupMod
 import os
-import sys
 
 argIn = sys.argv
 
-dbPath = "./modelMeta_db.pkl"
+dbPath = "./parm/modelMeta_db.pkl"
 if not os.path.isfile(dbPath):
 	print "ERROR: Database file: " + dbPath + " not found."
 	sys.exit(1)

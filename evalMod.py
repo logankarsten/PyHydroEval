@@ -8,8 +8,10 @@
 # National Center for Amtmospheric Research
 # Research Applications Laboratory
 
-import argparse
 import sys
+sys.path.insert(0, './python')
+
+import argparse
 import os
 import pyHydroEvalUtils
 import datetime
@@ -58,8 +60,8 @@ def main(argv):
 			sys.exit(1)
 
 	# Check to ensure proper files exist to run analysis
-	dbPath = "./modelMeta_db.pkl"
-	namelistTemplate = "./namelist_template.R"
+	dbPath = "./parm/modelMeta_db.pkl"
+	namelistTemplate = "./parm/namelist_template.R"
 
 	if not os.path.isfile(dbPath):
 		print "ERROR: Database: " + dbPath + " not found."
@@ -96,11 +98,11 @@ def main(argv):
  	compileNamelist.editNamelist(namePath,args,db)	
 	
 	# Remove namelist link specific to processor ID
-	#try:
-	#	os.unlink(nameLink)
-	#except:
-	#	print "ERROR: Failure to remove link: " + nameLink
-	#	sys.exit(1)
+	try:
+		os.unlink(nameLink)
+	except:
+		print "ERROR: Failure to remove link: " + nameLink
+		sys.exit(1)
 	
 if __name__ == "__main__":
 	main(sys.argv[1:])

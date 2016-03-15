@@ -119,7 +119,7 @@ def checkDb(args,dbIn):
 
 def initNamelist(args,dbIn):
 	# Establish namelist link based off current process id
-	nLnk = "./namelist_" + str(os.getpid()) + ".R"
+	nLnk = "./parm/namelist_" + str(os.getpid()) + ".R"
 
 	# Establish index of 1st model project in the database.
 	numModIn = len(args.modelProjects)
@@ -139,7 +139,7 @@ def initNamelist(args,dbIn):
 	nameListPathOrig = dbIn.topDir[indDbOrig] + "/" + dbIn.alias[indDbOrig] + "/namelists/" + nameListFileOrig
 
 	# Copy template file over to directory
-	shutil.copyfile('./namelist_template.R',nameListPathOrig)
+	shutil.copyfile('./parm/namelist_template.R',nameListPathOrig)
 	
 	# Create symbolic link in corresponding model project namelist directories
 	for i in range(1, numModIn):

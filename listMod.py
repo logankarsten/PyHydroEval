@@ -9,6 +9,8 @@ import sys
 import os
 import pickle
 
+sys.path.insert(0, './python')
+
 # Establish class object to hold information on model runs
 class modelDatabase:
         def __init__(self):
@@ -27,7 +29,7 @@ class modelDatabase:
                 self.metObsFile = []
 		self.snodasPath = []
         def printInfo(self):
-                filePathDb = "./modelMeta_db.pkl"
+                filePathDb = "./parm/modelMeta_db.pkl"
                 # Read data in from pickle file
                 with open(filePathDb,'rb') as input:
                         dbTmp = pickle.load(input)
@@ -50,7 +52,7 @@ class modelDatabase:
 			print "*Link2Gage File:                 " + dbTmp.link2GageFile[i]
 			print "*SNODAS Directory:               " + dbTmp.snodasPath[i]
 
-fileIn = "./modelMeta_db.pkl"
+fileIn = "./parm/modelMeta_db.pkl"
 
 if not os.path.isfile(fileIn):
 	print "ERROR: Input database file not found."

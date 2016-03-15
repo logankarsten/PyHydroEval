@@ -27,7 +27,7 @@ class modelDatabase:
 		self.metObsFile = []
 		self.snodasPath = []
 	def readData(self,parser,readFlag):
-		filePathDb = "./modelMeta_db.pkl"
+		filePathDb = "./parm/modelMeta_db.pkl"
 		if readFlag == 1:
 			# Read data in from pickle file
 			with open(filePathDb,'rb') as input:
@@ -287,7 +287,7 @@ def addModelProject():
 
 	# Read in model database containing all relevant information
 	readFlag = 1
-	dbPath = "./modelMeta_db.pkl"
+	dbPath = "./parm/modelMeta_db.pkl"
 	if not os.path.isfile(dbPath):
 		readFlag = 0
 
@@ -321,7 +321,7 @@ def removeModelProject(alias):
  	    ONCE THIS IS INVOKED!!!!
 	"""
 
-	dbPath = "./modelMeta_db.pkl"
+	dbPath = "./parm/modelMeta_db.pkl"
 	if not os.path.isfile(dbPath):
 		print "ERROR: Cannot remove database entry, DB file not found."
 		return
