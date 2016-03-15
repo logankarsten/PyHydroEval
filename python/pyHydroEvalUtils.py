@@ -89,7 +89,6 @@ def checkArgs(parser):
 			print "ERROR: begADate and endADate required for reading/analysis."
 			raise
 
-
 def returnDate(dIn):
 	# Convert a date string in YYYYMMDDHH format to a datetime object
 	dIn = str(dIn)

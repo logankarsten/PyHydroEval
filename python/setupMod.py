@@ -260,6 +260,117 @@ class modelDatabase:
 			self.metObsFile.append(metObsFileTmp[i])
 			self.snodasPath.append(snodasPathTmp[i])
 
+	def copyModel(self,dbPath,args,aliasIn,aliasNew):
+		""" Copy model database entry to
+		    new database entry using passed
+		    arguments.
+		"""
+		with open(dbPath,'rb') as input:
+                        dbTmp = pickle.load(input)
+                        lenTmp = len(dbTmp.tag)
+                        for i in range(0,lenTmp):
+                                self.topDir.append(dbTmp.topDir[i])
+                                self.modelInDir.append(dbTmp.modelInDir[i])
+                                self.alias.append(dbTmp.alias[i])
+                                self.tag.append(dbTmp.tag[i])
+                                self.forceInDir.append(dbTmp.forceInDir[i])
+                                self.geoFile.append(dbTmp.geoFile[i])
+                                self.fullDomFile.append(dbTmp.fullDomFile[i])
+                                self.mskFile.append(dbTmp.mskFile[i])
+                                self.link2GageFile.append(dbTmp.link2GageFile[i])
+                                self.strObsFile.append(dbTmp.strObsFile[i])
+                                self.snotelObsFile.append(dbTmp.snotelObsFile[i])
+                                self.amfObsFile.append(dbTmp.amfObsFile[i])
+                                self.metObsFile.append(dbTmp.metObsFile[i])
+                                self.snodasPath.append(dbTmp.snodasPath[i])
+
+		# Loop through projects in database, once the primary
+		# input alias has been found, calculate the index, which
+		# will be used to pull information from for the new entry.
+		aliasInd = -1
+                for i in range(0,len(self.alias)):
+			if self.alias[i] == aliasIn:
+				aliasInd = i
+			if self.alias[i] == aliasNew:
+				aliasInd = -2
+
+		# If model not found, raise error.
+		if aliasInd == -1:
+			print "ERROR: Existing model project specified."
+			raise 
+
+		# If model has already been entered, raise error.
+		if aliasInd == -2:
+			print "ERROR: Requested new project already in database."
+			raise
+
+		# Begin populating new database entry
+		self.alias.append(aliasNew)
+
+		if args.topOut:
+			self.topDir.append(args.topOut)
+		else:
+			self.topDir.append(self.topDir[aliasInd])
+
+		if args.modelIn:
+			self.modelInDir.append(args.modelIn)
+		else:
+			self.modelInDir.append(self.modelInDir[aliasInd])
+		
+		if args.forcingDir:
+			self.forceInDir.append(args.forcingDir)
+		else:
+			self.forceInDir.append(self.forceInDir[aliasInd])
+
+		if args.tag:
+			self.tag.append(args.tag)
+		else:
+			self.tag.append(self.tag[aliasInd])
+
+		if args.mskFile:
+			self.mskFile.append(args.mskFile)
+		else:
+			self.mskFile.append(self.mskFile[aliasInd])
+
+		if args.geoFile:
+			self.geoFile.append(args.geoFile)
+		else:
+			self.geoFile.append(self.geoFile[aliasInd])
+
+		if args.hydFile:
+			self.fullDomFile.append(args.hydFile)
+		else:
+			self.fullDomFile.append(self.fullDomFile[aliasInd])
+
+		if args.link2gage:
+			self.link2GageFile.append(args.link2gage)
+		else:
+			self.link2GageFile.append(self.link2GageFile[aliasInd])
+	
+		if args.snPath:
+			self.snodasPath.append(args.snPath)
+		else:
+			self.snodasPath.append(self.snodasPath[aliasInd])
+
+		if args.strObsFile:
+			self.strObsFile.append(args.strObsFile)
+		else:
+			self.strObsFile.append(self.strObsFile[aliasInd])
+
+		if args.snotelFile:
+			self.snotelObsFile.append(args.snotelFile)
+		else:
+			self.snotelObsFile.append(self.snotelObsFile[aliasInd])
+
+		if args.metFile:
+			self.metObsFile.append(args.metFile)
+		else:
+			self.metObsFile.append(self.metObsFile[aliasInd])
+
+		if args.amfFile:
+			self.amfObsFile.append(args.amfFile)
+		else:
+			self.amfObsFile.append(self.amfObsFile[aliasInd])
 
 def addModelProject():
 	""" Setup new model project, which will be added to the db
@@ -334,4 +445,26 @@ def removeModelProject(alias):
 	# Save updated database with project removed
 	with open(dbPath,'wb') as output:
 		pickle.dump(db, output, pickle.HIGHEST_PROTOCOL)
-	
+
+def copyModelProject(args,aliasIn,aliasNew):
+	""" Copy existing model database entry 
+	    using entered user options.
+	"""
+
+	dbPath = "./parm/modelMeta_db.pkl"
+        if not os.path.isfile(dbPath):
+                print "ERROR: Cannot remove database entry, DB file not found."
+                return
+
+        # Initiate model database class instance
+        db = modelDatabase()
+
+	modelDatabase.copyModel(db,dbPath,args,aliasIn,aliasNew)
+
+	# Save updated database with project removed
+        with open(dbPath,'wb') as output:
+                pickle.dump(db, output, pickle.HIGHEST_PROTOCOL)
+
+	# Establish subdirectory within specified output directory 
+	# for model project.
+	modelDatabase.setupProject(db)	
