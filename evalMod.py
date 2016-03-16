@@ -98,6 +98,20 @@ def main(argv):
 	# Begin editing R namelist file
  	compileNamelist.editNamelist(namePath,args,db)	
 	
+	# Create temporary symbolic links to R scripts based on current
+	# working directory.
+	cmd1 = "for FILE in ./R/COMMON/*.R; do ln -s $FILE; done"
+	cmd2 = "for FILE in ./R/OBS/*.R; do ln -s $FILE; done"
+	cmd3 = "for FILE in ./R/UTILS/*.R; do ln -s $FILE; done
+
+	try:
+		subprocess.call(cmd1,shell=True)
+		subprocess.call(cmd2,shell=True)
+		subprocess.call(cmd3,shell=True)
+	except:
+		print "ERROR: Failure to create symbolic links to R scripts."
+		sys.exit(1)
+
 	# Run Rscript command to perform analysis. Pipe stdout and stderr
 	# to text files for users to inspect after analysis job complete.
 	stdOutPath = "./stdout_" + str(os.getpid()) + ".txt"
@@ -118,6 +132,14 @@ def main(argv):
 	except:
 		print "ERROR: Failure to remove link: " + nameLink
 		sys.exit(1)
+
+	# Remove temporary links to R scripts
+	cmd4 = "rm *.R"
 	
+	try:
+		subprocess.call(cmd4,shell=True)
+	except:
+		print "ERROR: Failure to remove symbolic links to R scripts."
+		sys.exit(1)	
 if __name__ == "__main__":
 	main(sys.argv[1:])
