@@ -535,7 +535,7 @@ def editNamelist(pathIn,args,dbIn):
 		el(pathIn,searchStr,replaceStr)
 
 		searchStr = "snodasTagList <- NULL"
-		replaceStr = "snodasTagList < c('SNEQV')"
+		replaceStr = "snodasTagList <- c('SNEQV')"
 		el(pathIn,searchStr,replaceStr)
 
 		if int(args.snRead) == 1:
