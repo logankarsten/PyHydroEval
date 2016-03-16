@@ -102,7 +102,7 @@ def main(argv):
 	# working directory.
 	cmd1 = "for FILE in ./R/COMMON/*.R; do ln -s $FILE; done"
 	cmd2 = "for FILE in ./R/OBS/*.R; do ln -s $FILE; done"
-	cmd3 = "for FILE in ./R/UTILS/*.R; do ln -s $FILE; done
+	cmd3 = "for FILE in ./R/UTILS/*.R; do ln -s $FILE; done"
 
 	try:
 		subprocess.call(cmd1,shell=True)
