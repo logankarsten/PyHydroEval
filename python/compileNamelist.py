@@ -695,6 +695,18 @@ def editNamelist(pathIn,args,dbIn):
                         replaceStr = "peakSweMap <- TRUE"
                         el(pathIn,searchStr,replaceStr)
 		elif int(args.plot) == 16:
+			status = 0
+			for checkStr in ['_LSMSNOTEL_ALL.Rdata','_LSMSNOTEL_SUB.Rdata','_LSMSNOTEL_NFIE.Rdata','_LSMSNOTEL_IOC.Rdata',\
+					 '_LSMSNOTEL_SNOW.Rdata']:
+				try:
+					ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
+					status = 1
+				except:
+					continue
+			if status == 0:
+				print "ERROR: Failure to find input model file for SNOTEL Point Scatter Plots." 
+				sys.exit(1)
+					
 			searchStr = "snowPointScatter <- FALSE"
                         replaceStr = "snowPointScatter <- TRUE"
                         el(pathIn,searchStr,replaceStr)
@@ -702,13 +714,37 @@ def editNamelist(pathIn,args,dbIn):
 			replaceStr = "snotelScatter <- TRUE"
 			el(pathIn,searchStr,replaceStr)
 		elif int(args.plot) == 17:
+			status = 0
+                        for checkStr in ['_LSMMET_ALL.Rdata','_LSMMET_SUB.Rdata','_LSMMET_NFIE.Rdata','_LSMMET_IOC.Rdata',\
+                                         '_LSMMET_SNOW.Rdata']:
+                                try:
+                                        ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
+                                        status = 1
+                                except:
+                                        continue
+                        if status == 0:
+                                print "ERROR: Failure to find input model file for HydroMet Point Scatter Plots." 
+                                sys.exit(1)
+
 			searchStr = "snowPointScatter <- FALSE"
                         replaceStr = "snowPointScatter <- TRUE"
                         el(pathIn,searchStr,replaceStr)
 			searchStr = "metScatter <- FALSE"
 			replaceStr = "metScatter <- TRUE"
 			el(pathIn,searchStr,replaceStr)
-		elif int(args.plot) == 18: 
+		elif int(args.plot) == 18:
+			status = 0
+                        for checkStr in ['_LSMSNOTEL_ALL.Rdata','_LSMSNOTEL_SUB.Rdata','_LSMSNOTEL_NFIE.Rdata','_LSMSNOTEL_IOC.Rdata',\
+                                         '_LSMSNOTEL_SNOW.Rdata']:
+                                try:
+                                        ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
+                                        status = 1
+                                except:
+                                        continue
+                        if status == 0:
+                                print "ERROR: Failure to find input model file for SNOTEL Region Scatter Plots." 
+                                sys.exit(1)
+ 
 			searchStr = "snowPointScatter <- FALSE"
                         replaceStr = "snowPointScatter <- TRUE"
                         el(pathIn,searchStr,replaceStr)

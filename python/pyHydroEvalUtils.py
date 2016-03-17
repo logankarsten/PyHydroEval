@@ -222,7 +222,7 @@ def findInFile(bDate,eDate,str1,str2):
 
 	# If no files found, raise error
 	if check == False:
-		print "ERROR: Failed to find necessary input file."
+		print "WARNING: Failed to find necessary input file."
 		raise
 	else:
 		print "MSG: Found input file: " + fileOut

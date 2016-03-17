@@ -39,3 +39,21 @@ def snodasBasCheck(dbInd,bDate,eDate,nListPath,args,dbIn,strTmp):
 	searchStr = "modReadFileIn <- NULL"
 	replaceStr = "modReadFileIn <- '" + fileIn + "'"
 	el(nListPath,searchStr,replaceStr)
+
+def modReadInCheck(dbInd,bDate,eDate,nListPath,args,dbIn,strTmp):
+	# Find necessary input Rdata files for model reads
+	# necessary for plotting/statistics.
+
+	# Compose strings to be used in checking for files.
+        strCheck1 = dbIn.topDir[dbInd] + "/" + dbIn.alias[dbInd] + "/analysis_out/read_datasets/"
+
+        try:
+                fileIn = ff(bDate,eDate,strCheck1,strTmp)
+        except:
+                print "WARNING: No input found for : " + strTmp + " files."
+		raise
+
+	# Place into namelist file
+	searchStr = "modReadFileIn <- NULL"
+	replaceStr = "modReadFileIn <- '" + fileIn + "'"
+	el(nListPath,searchStr,replaceStr)
