@@ -698,10 +698,10 @@ def editNamelist(pathIn,args,dbIn):
 			status = 0
 			for checkStr in ['_LSMSNOTEL_ALL.Rdata','_LSMSNOTEL_SUB.Rdata','_LSMSNOTEL_NFIE.Rdata','_LSMSNOTEL_IOC.Rdata',\
 					 '_LSMSNOTEL_SNOW.Rdata']:
-				print checkStr
 				try:
 					ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
 					status = 1
+					break
 				except:
 					continue
 			if status == 0:
