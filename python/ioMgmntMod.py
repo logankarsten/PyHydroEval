@@ -36,3 +36,6 @@ def snodasBasCheck(dbInd,bDate,eDate,nListPath,args,dbIn,strTmp):
 	searchStr = "snowBasDataFile <- NULL"
 	replaceStr = "snowBasDataFile <- '" + fileIn + "'"
 	el(nListPath,searchStr,replaceStr)
+	searchStr = "modReadFileIn <- NULL"
+	replaceStr = "modReadFileIn <- '" + fileIn + "'"
+	el(nListPath,searchStr,replaceStr)
