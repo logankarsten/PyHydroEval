@@ -117,17 +117,18 @@ def main(argv):
 	stdOutPath = "./stdout_" + str(os.getpid()) + ".txt"
 	stdErrPath = "./stdout_" + str(os.getpid()) + ".txt"
 
-        cmd = "Rscript " + nameLink	
-	try:
-		fOut = open(stdOutPath,"w")
-		fErr = open(stdErrPath,"w")
-		subprocess.call(cmd,stdout=fOut,stderr=fErr)
-	except:
-		print "ERROR: Failure to execute/run analysis."
-		print "ERROR: Please see output diagnostic files."
-		subprocess.call("rm *.R",shell=True)
-		os.unlink(nameLink)
-		sys.exit(1)
+        cmd = "Rscript " + nameLink
+	subprocess.call(cmd,shell=True)	
+	#try:
+	#	fOut = open(stdOutPath,"w")
+	#	fErr = open(stdErrPath,"w")
+	#	subprocess.call(cmd,stdout=fOut,stderr=fErr)
+	#except:
+	#	print "ERROR: Failure to execute/run analysis."
+	#	print "ERROR: Please see output diagnostic files."
+	#	subprocess.call("rm *.R",shell=True)
+	#	os.unlink(nameLink)
+	#	sys.exit(1)
 
 	# Remove namelist link specific to processor ID
 	try:
