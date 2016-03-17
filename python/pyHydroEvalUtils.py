@@ -195,6 +195,7 @@ def findInFile(bDate,eDate,str1,str2):
 				continue
 			print split2[2:len(split2)]
 			print tags
+			print split2[2:len(split2)] == tags
 			if not split2[2:len(split2)] != tags:
 				continue
 			# Found expected type of file. Check dates.
