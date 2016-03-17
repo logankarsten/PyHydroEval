@@ -263,6 +263,13 @@ writePlotDir <- NULL
         
         	# Specify end date
         	hydroEndDate <- NULL
+	## Generate ensemble hydrographs?
+        hydroEnsPlot <- TRUE
+
+                hydroEnsStartDate <- NULL 
+
+                # Specify end date
+                hydroEnsEndDate <- NULL 
 
 	## Generate accumulated precip plots?
 	accprecipPlot <- FALSE
