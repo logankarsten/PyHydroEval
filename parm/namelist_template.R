@@ -263,8 +263,15 @@ writePlotDir <- NULL
         
         	# Specify end date
         	hydroEndDate <- NULL
+
 	## Generate ensemble hydrographs?
-        hydroEnsPlot <- TRUE
+        hydroEnsPlot <- FALSE
+
+		# Specify which run tags to plot
+                hydroTags2 <- NULL
+
+                # Specify which ensembles to plot
+                hydroEnsTags <- NULL 
 
                 hydroEnsStartDate <- NULL 
 
