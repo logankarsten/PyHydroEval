@@ -117,6 +117,7 @@ def main(argv):
 	stdOutPath = "./stdout_" + str(os.getpid()) + ".txt"
 	stdErrPath = "./stdout_" + str(os.getpid()) + ".txt"
 
+        cmd <- "Rscript " + nameLink	
 	try:
 		fOut = open(stdOutPath,"w")
 		fErr = open(stdErrPath,"w")
