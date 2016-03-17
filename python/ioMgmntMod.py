@@ -34,5 +34,5 @@ def snodasBasCheck(dbInd,bDate,eDate,nListPath,args,dbIn,strTmp):
 
 	# Place into namelist file
 	searchStr = "snowBasDataFile <- NULL"
-	replaceStr = "snowBasDataFile <- " + fileIn
+	replaceStr = "snowBasDataFile <- '" + fileIn + "'"
 	el(nListPath,searchStr,replaceStr)

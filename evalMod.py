@@ -116,16 +116,16 @@ def main(argv):
 	# to text files for users to inspect after analysis job complete.
 	stdOutPath = "./stdout_" + str(os.getpid()) + ".txt"
 	stdErrPath = "./stdout_" + str(os.getpid()) + ".txt"
-	cmd = "Rscript " + nameLink
 
-	subprocess.call(cmd,shell=True)
-	#try:
-	#	fOut = open(stdOutPath,"w")
-	#	fErr = open(stdErrPath,"w")
-	#	subprocess.call(cmd,stdout=fOut,stderr=fErr)
-	#except:
-	#	print "ERROR: Failure to execute/run analysis."
-	#	print "ERROR: Please see output diagnostic files."
+	try:
+		fOut = open(stdOutPath,"w")
+		fErr = open(stdErrPath,"w")
+		subprocess.call(cmd,stdout=fOut,stderr=fErr)
+	except:
+		print "ERROR: Failure to execute/run analysis."
+		print "ERROR: Please see output diagnostic files."
+		os.unlink(nameLink)
+		sys.exit(1)
 
 	# Remove namelist link specific to processor ID
 	try:
