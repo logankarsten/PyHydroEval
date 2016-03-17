@@ -125,6 +125,7 @@ def main(argv):
 	except:
 		print "ERROR: Failure to execute/run analysis."
 		print "ERROR: Please see output diagnostic files."
+		subprocess.call("rm *.R",shell=True)
 		os.unlink(nameLink)
 		sys.exit(1)
 
