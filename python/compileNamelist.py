@@ -721,6 +721,7 @@ def editNamelist(pathIn,args,dbIn):
                                 try:
                                         ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
                                         status = 1
+					break
                                 except:
                                         continue
                         if status == 0:
@@ -740,6 +741,7 @@ def editNamelist(pathIn,args,dbIn):
                                 try:
                                         ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
                                         status = 1
+					break
                                 except:
                                         continue
                         if status == 0:
