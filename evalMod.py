@@ -96,8 +96,14 @@ def main(argv):
 		sys.exit(1)
 
 	# Begin editing R namelist file
- 	compileNamelist.editNamelist(namePath,args,db)	
-	
+	try:
+ 		compileNamelist.editNamelist(namePath,args,db)
+	except: 
+		print "ERROR: Failure to compile R namelist file."
+	        os.unlink(nameLink)	
+		sys.exit(1)	
+
+	sys.exit(1)	
 	# Create temporary symbolic links to R scripts based on current
 	# working directory.
 	#cmd1 = "for FILE in ./R/COMMON/*.R; do ln -s $FILE; done"

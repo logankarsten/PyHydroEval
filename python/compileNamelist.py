@@ -54,6 +54,35 @@ def editNamelist(pathIn,args,dbIn):
 			pathListStr = pathListStr + "'" + modPaths[i] + "', "
 			forcPathListStr = forcPathListStr + "'" + forcPaths[i] + "', "
 
+	# Edit ensemble information if ensembles present
+	ensListStr = "c("
+	ensTagStr = "c("
+	numEns = len(dbIn.ensList[indDbOrig])
+	if numModIn > 1 and numEns > 1:
+		# Cannot do analysis between different groups of ensembles from different models at this time.
+		print "ERROR: Cannot peform cross model analysis with ensembles at this time."
+		raise
+	ensList = dbIn.ensList[indDbOrig]
+	ensTag = dbIn.ensTag[indDbOrig]
+	if numEns > 0:
+		searchStr = "readEnsemble <- FALSE"
+		replaceStr = "readEnsemble <- TRUE"
+		el(pathIn,searchStr,replaceStr)
+		for i in range(0, numEns):
+			if i == (numEns - 1):
+				ensListStr = ensListStr + "'" + ensList[i] + "')"
+				ensTagStr = ensTagStr + "'" +  ensTag[i] + "')"
+			else:
+				ensListStr = ensListStr + "'" + ensList[i] + "', "
+				ensTagStr = ensTagStr + "'" + ensTag[i] + "', "
+		searchStr = "ensembleList <- NULL"
+		replaceStr = "ensembleList <- " + ensListStr
+		el(pathIn,searchStr,replaceStr)
+		searchStr = "ensembleTagList <- NULL"
+		replaceStr = "ensembleTagList <- " + ensTagStr
+		el(pathIn,searchStr,replaceStr)
+
+
 	# Edit high resolution routing domain file.
 	searchStr = "hydFile <- NULL"
 	replaceStr = "hydFile <- " + "'" + dbIn.fullDomFile[indDbOrig] + "'"
@@ -63,6 +92,22 @@ def editNamelist(pathIn,args,dbIn):
 	searchStr = "geoFile <- NULL"
 	replaceStr = "geoFile <- " + "'" + dbIn.geoFile[indDbOrig] + "'"
 	el(pathIn,searchStr,replaceStr)
+
+	# Edit resolution information
+	searchStr = "resMod <- NULL"
+	replaceStr = "resMod <- " + dbIn.geoRes[indDbOrig]
+	el(pathIn,searchStr,replaceStr)
+
+	# Edit number of cores information
+	searchStr = "ncores <- NULL"
+	if len(dbIn.nCores[indDbOrig]) != 0:
+		searchStr = "ncores <- NULL"
+		replaceStr = "ncores <- " + dbIn.nCores[indDbOrig]
+		el(pathIn,searchStr,replaceStr)
+	else:
+		searchStr = "ncores <- NULL"
+		replaceStr = "ncores <- 1"
+		el(pathIn,searchStr,replaceStr)
 
 	# Edit mask file.
 	if len(dbIn.mskFile[indDbOrig]) != 0:
@@ -613,10 +658,28 @@ def editNamelist(pathIn,args,dbIn):
                         el(pathIn,searchStr,replaceStr)
 		elif int(args.plot) == 3:
 			searchStr = "hydroTags2 <- NULL" 
-			replaceStr = "hydroTags2 <- " + tagStr
-			el(pathIn,searchStr,replaceStr)
+			#replaceStr = "hydroTags2 <- " + tagStr
+			#el(pathIn,searchStr,replaceStr)
 			searchStr = "hydroEnsPlot <- FALSE"
                         replaceStr = "hydroEnsPlot <- TRUE"
+                        el(pathIn,searchStr,replaceStr)
+			status = 0
+			for checkStr in ['_CHRTOUT_ALL.Rdata','_CHRTOUT_GAGES.Rdata','_FRXST.Rdata']:
+                                try:
+                                        ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
+                                        status = 1
+                                        break
+                                except:
+                                        continue
+                        if status == 0:
+                                print "ERROR: Failure to find input model file for ensemble hydrograph plotting."
+                                sys.exit(1)
+
+                        searchStr = "snowPointScatter <- FALSE"
+                        replaceStr = "snowPointScatter <- TRUE"
+                        el(pathIn,searchStr,replaceStr)
+                        searchStr = "snotelScatter <- FALSE"
+                        replaceStr = "snotelScatter <- TRUE"
                         el(pathIn,searchStr,replaceStr)
 		elif int(args.plot) == 4:
 			searchStr = "accprecipTags <- NULL"

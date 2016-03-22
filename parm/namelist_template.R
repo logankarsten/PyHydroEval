@@ -5,7 +5,7 @@
 ################## General Setup ##################
 
 ## Number of cores to use? Must have the doParallel package installed
-ncores <- 1
+ncores <- NULL 
 
 ## Specify the high-resolution routing domain file
 hydFile <- NULL 
@@ -167,7 +167,7 @@ readSnodas <- FALSE
         snodasAppend <- FALSE
 
         # Specify resolution in km
-        resMod = 1.0
+        resMod <- NULL 
 
         # Select what aggregations/imports to run:
 

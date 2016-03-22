@@ -194,13 +194,12 @@ PlotFlow <- function(n, modDfs, obs,
                 bg="white")
 }
 
-plotEnsFlow <- function(n, modDfs, obs,
-			labObs=NULL,
-			title="Ensemble Streamflow",
-			startDate=NULL,
-			endDate=NULL,
-		        outDir=NULL,
-			obsFlag=0) {
+plotEnsFlowWObs <- function(n, modDfs, obs,
+		            labObs=NULL,
+			    title="Ensemble Streamflow",
+			    startDate=NULL,
+			    endDate=NULL,
+		            outDir=NULL) {
 
 
 	#Spaghetti plots
@@ -216,7 +215,6 @@ plotEnsFlow <- function(n, modDfs, obs,
 	dfTmp3$POSIXct <- as.POSIXct('1900-01-01 00:00',format='%Y-%m-%d %H:%M')
 	countTmp1 <- 1
 	for (i in 1:nSteps){
-		print(dates[i])
 		for (j in 1:length(ensLab)){
 			ind <- which(modDfs$site_no == n & modDfs$enstag == ensLab[j] & modDfs$POSIXct == dates[i])
 			dfTmp3$POSIXct[countTmp1] <- modDfs$POSIXct[ind]
@@ -281,14 +279,12 @@ plotEnsFlow <- function(n, modDfs, obs,
 
 	spreadDf$Date <- as.Date(spreadDf$POSIXct)
 	dfTmp$Date <- as.Date(dfTmp$POSIXct)
-	dfTmpNLDAS <- subset(dfTmp,enstag == "NLDAS2")
-	dfTmp2 <- subset(dfTmp,enstag != "NLDAS2")
+	#dfTmpNLDAS <- subset(dfTmp,enstag == "NLDAS2")
+	#dfTmp2 <- subset(dfTmp,enstag != "NLDAS2")
 	colOut <- c('red','black')
-	#print(spreadDf)
 	gg <- ggplot() + 
 	      geom_smooth(data=spreadDf, aes(x=POSIXct,y=q50,ymin=q25,ymax=q75,color=site_no),stat="identity",alpha=1) +
 	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') +
-	      #scale_x_date(labels = date_format("%m/%d")) + ylim(0,250) + 
 	      scale_color_manual(name='Model Run',values = colOut,label=c('Mean Modeled','Observed')) +  
 	      ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,500)
 	fileOutPath <- paste0(outDir,'/streamflow_spread_',n,'_',strftime(startDate,"%Y%m%d%H"),
@@ -296,15 +292,19 @@ plotEnsFlow <- function(n, modDfs, obs,
 	ggsave(filename=fileOutPath, plot = gg)
 
 	#Spaghetti plots
-	numColor = length(unique(dfTmp2$enstag)) + 2
+	#numColor = length(unique(dfTmp2$enstag)) + 2
+	numColor = length(unique(dfTmp$enstag)) + 1
 	colOut <- rgb(runif(numColor),runif(numColor),runif(numColor))
 	colOut[length(colOut)] <- 'black'
-        gg <- ggplot(data=dfTmp2,aes(x=POSIXct,y=q_cfs,color=enstag)) + geom_line() +
-                ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,500) +  
-		geom_line(data=dfTmpNLDAS, aes(x=POSIXct,y=q_cfs,color='NLDAS2'), size=1.15) + 
-		geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') + 
-		#scale_x_date(labels = date_format("%d:%H")) + ylim(0,250) + 
-		scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp2$enstag),'NLDAS2','Observed'))  
+        #gg <- ggplot(data=dfTmp2,aes(x=POSIXct,y=q_cfs,color=enstag)) + geom_line() +
+        #        ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,500) +  
+	#	geom_line(data=dfTmpNLDAS, aes(x=POSIXct,y=q_cfs,color='NLDAS2'), size=1.15) + 
+	#	geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') + 
+	#	#scale_x_date(labels = date_format("%d:%H")) + ylim(0,250) + 
+	#	scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp2$enstag),'NLDAS2','Observed'))
+	gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=q_cfs,color=enstag)) + geom_line() + 
+	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') + 
+	      scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag),'Observed'))  
         fileOutPath <- paste0(outDir,'/streamflow_spaghetti_',n,'_',strftime(startDate,"%Y%m%d%H"),
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
         ggsave(filename = fileOutPath, plot = gg)
@@ -319,6 +319,86 @@ plotEnsFlow <- function(n, modDfs, obs,
 	ggsave(filename=fileOutPath, plot=gg)
 
 
+}
+
+plotEnsFlow <- function(n, modDfs,
+                        title="Ensemble Streamflow",
+                        startDate=NULL,
+                        endDate=NULL,
+                        outDir=NULL) {
+
+
+        #Spaghetti plots
+        #Subset data based on gage, date range
+        dfTmp <- subset(modDfs,site_no==n & POSIXct >= startDate & POSIXct <= endDate)
+        dates <- unique(dfTmp$POSIXct)
+        nSteps <- length(dates)
+        ensLab <- unique(modDfs$enstag)
+
+	# Spread plots
+        spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=12))
+        names(spreadDf) <- c('st_id','st_lon','st_lat','POSIXct','site_no','tag',
+                             'q25','q50','q75','q0','q100','mean')
+        spreadDf$st_id <- NA
+        spreadDf$st_lon <- NA
+        spreadDf$st_lat <- NA
+        spreadDf$POSIXct <- as.POSIXct('1900-01-01 00:00',format='%Y-%m-%d %H:%M')
+        spreadDf$site_no <- NA
+        spreadDf$tag <- NA
+        spreadDf$q25 <- NA
+        spreadDf$q50 <- NA
+        spreadDf$q75 <- NA
+        spreadDf$q0 <- NA
+        spreadDf$q100 <- NA
+        spreadDf$mean <- NA
+
+        print(n)
+        for (i in 1:nSteps) {
+                dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
+                qCalc <- quantile(dfTmp2$q_cfs, probs=seq(0,1,0.25), na.rm = TRUE)
+                spreadDf$site_id[i] <- dfTmp2$site_id[1]
+                spreadDf$st_lon[i] <- dfTmp2$st_lon[1]
+                spreadDf$st_lat[i] <- dfTmp2$st_lat[1]
+                spreadDf$POSIXct[i] <- dfTmp2$POSIXct[1]
+                spreadDf$site_no[i] <- dfTmp2$site_no[1]
+                spreadDf$tag[i] <- dfTmp2$tag[1]
+                spreadDf$q25[i] <- qCalc[[2]]
+                spreadDf$q50[i] <- qCalc[[3]]
+                spreadDf$q75[i] <- qCalc[[4]]
+                spreadDf$q0[i] <- qCalc[[1]]
+                spreadDf$q100[i] <- qCalc[[5]]
+                spreadDf$mean[i] <- mean(dfTmp2$q_cfs)
+        }
+
+        spreadDf$Date <- as.Date(spreadDf$POSIXct)
+        dfTmp$Date <- as.Date(dfTmp$POSIXct)
+        colOut <- c('red')
+        gg <- ggplot() +
+              geom_smooth(data=spreadDf, aes(x=POSIXct,y=q50,ymin=q25,ymax=q75,color=site_no),stat="identity",alpha=1) +
+              scale_color_manual(name='Model Run',values = colOut,label=c('Mean Modeled')) +
+              ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,500)
+        fileOutPath <- paste0(outDir,'/streamflow_spread_',n,'_',strftime(startDate,"%Y%m%d%H"),
+                        '_',strftime(endDate,"%Y%m%d%H"),'.png')
+        ggsave(filename=fileOutPath, plot = gg)
+
+	#Spaghetti plots
+        numColor = length(unique(dfTmp$enstag))
+        colOut <- rgb(runif(numColor),runif(numColor),runif(numColor))
+        colOut[length(colOut)] <- 'black'
+        gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=q_cfs,color=enstag)) + geom_line() +
+              scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag)))
+        fileOutPath <- paste0(outDir,'/streamflow_spaghetti_',n,'_',strftime(startDate,"%Y%m%d%H"),
+                        '_',strftime(endDate,"%Y%m%d%H"),'.png')
+        ggsave(filename = fileOutPath, plot = gg)
+
+        # Produce hydrograph raster
+        gg <- ggplot(dfTmp, aes(x=POSIXct, y=tag, fill=q_cfs)) + geom_raster() +
+              scale_fill_gradientn(colours = rainbow(10)) +
+              ggtitle(title) + xlab('Date') + ylab('Ensemble')
+              #scale_x_date(labels = date_format("%d:%H"))
+        fileOutPath <- paste0(outDir,'/streamflow_raster_hydrograph_',n,'_',strftime(startDate,"%Y%m%d%H"),
+                        '_',strftime(endDate,"%Y%m%d%H"),'.png')
+        ggsave(filename=fileOutPath, plot=gg)
 }
 
 PlotFlowSwe <- function(n, modDfs, lsmDfs, obs,

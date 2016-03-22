@@ -207,11 +207,6 @@ if (reachRting) {
 	modDfsOut <- modFrxstout
 }
 
-#LK TEMP
-obsFile <- '/glade/p/ral/RHAP/karsten/urg_analysis/09107000_tmp.Rdata'
-#obsFile <- '/glade/p/ral/RHAP/alyssah/USGS/stns_1402_daily.Rdata'
-load(obsFile)
-ObsStrData <- gageTmp
 # Loop over station gauges and create suite of ensemble plots
 for (i in 1:length(hydroTags2)) {
         modelTag <- hydroTags2[i]
@@ -222,7 +217,7 @@ for (i in 1:length(hydroTags2)) {
 		if (countTmp < 40) {
 			next
 		}
-                if (!is.null(STRfile)) { # Make ensemble plots with no observations
+                if (!is.null(STRfile)) { # Make ensemble plots with observations
         		if (idCol == "site_no") {
                                 siteId <- n
                                 plotTitle <- paste0("Streamflow: ", n, " Model: ", modelTag)
@@ -231,7 +226,7 @@ for (i in 1:length(hydroTags2)) {
                                 plotTitle <- paste0("Streamflow: ", subset(rtLinks$site_no, rtLinks$link==n),
                                         " (", obsStrMeta$site_name[obsStrMeta$site_no==subset(rtLinks$site_no, rtLinks$link==n)], ") ", "Model: ", modelTag)
                         }
-                        obsFlag <- 1	
+                        obsFlag <- 0 	
                 } else { # Make ensemble plots with observationis
         		if (idCol == "site_no") {
                                 siteId <- n
@@ -241,18 +236,26 @@ for (i in 1:length(hydroTags2)) {
                                 plotTitle <- paste0("Streamflow: ", subset(rtLinks$site_no, rtLinks$link==n),
                                         " (", n, ") ", "Model: ", modelTag)
                         }
-                        obsFlag <- 0
+                        obsFlag <- 1 
                 }
 		# Make suit of plots
-		plotEnsFlow(n, modDfs=modDfsOut,
-		      	    obs=ObsStrData,
-			    labObs="Observed",
-			    title=plotTitle,
-			    startDate=hydroEnsStartDate,
-			    endDate=hydroEnsEndDate,
-			    outDir=writePlotDir,
-			    obsFlag=obsFlag)
-		dev.off()
+		if (obsFlag == 1){
+			plotEnsFlowWObs(n, modDfs=modDfsOut,
+		      		        obs=ObsStrData,
+			    	        labObs="Observed",
+			    	        title=plotTitle,
+			    	        startDate=hydroEnsStartDate,
+			    	        endDate=hydroEnsEndDate,
+			    	        outDir=writePlotDir)
+				dev.off()
+		} else {
+			plotEnsFlow(n, modDfs=modDfsOut,
+                                    title=plotTitle,
+                                    startDate=hydroEnsStartDate,
+                                    endDate=hydroEnsEndDate,
+                                    outDir=writePlotDir)
+                        dev.off()
+		}
         }
 }
 #for (i in 1:length(hydroTags2)) {

@@ -816,6 +816,11 @@ if (readMod & readChrtout) {
         for (i in 1:length(modPathList)) {
                 modoutPath <- modPathList[i]
                 modoutTag <- modTagList[i]
+		if (numEns > 1) {
+                        ensoutTag <- ensTagList[i]
+                } else {
+                        ensoutTag <- ensTagList[i]
+                }
                 # Read STR
 		filesList <- list.files(path=modoutPath, pattern=glob2rx('*.CHRTOUT_DOMAIN*'), full.names=TRUE)
 		if (!is.null(readLink2gage)) {
@@ -860,16 +865,17 @@ if (readMod & readChrtout) {
 		modChrtout <- rbindlist(outList)
 		# Add model run tag and bind
                 modChrtout$tag <- modoutTag
+		modChrtout$enstag <- ensoutTag
                 modChrtout_tmp <- rbindlist(list(modChrtout_tmp, modChrtout))
                 rm(modChrtout)
                 gc()
 	}
 	# Add date for daily aggs
 	modChrtout_tmp$UTC_date <- CalcDateTrunc(modChrtout_tmp$POSIXct)
-   	setkey(modChrtout_tmp, tag, link, UTC_date)        
+   	setkey(modChrtout_tmp, tag, enstag, link, UTC_date)        
 	# Run daily aggs
         modChrtout_tmp.d <- modChrtout_tmp[, list(q_cms=mean(q_cms, na.rm=TRUE)), 
-                                         by = "tag,link,UTC_date"]
+                                         by = "tag,enstag,link,UTC_date"]
 	modChrtout_tmp.d$POSIXct <- as.POSIXct(paste0(modChrtout_tmp.d$UTC_date, " 00:00"), tz="UTC")
 
 	# Join in gage IDs
@@ -880,12 +886,14 @@ if (readMod & readChrtout) {
 	setkey(rtLinks_tmp, link)
 	modChrtout_tmp <- modChrtout_tmp[rtLinks_tmp,]
 	modChrtout_tmp <- modChrtout_tmp[!(tag==""),]
+	modChrtout_tmp <- modChrtout_tmp[!(enstag==""),]
 	modChrtout_tmp.d <- modChrtout_tmp.d[rtLinks_tmp,]
         modChrtout_tmp.d <- modChrtout_tmp.d[!(tag==""),]
+	modChrtout_tmp.d <- modChrtout_tmp.d[!(enstag==""),]
 
 	# Reset keys
-	setkey(modChrtout_tmp, tag, link, POSIXct)
-	setkey(modChrtout_tmp.d, tag, link, POSIXct)
+	setkey(modChrtout_tmp, tag, enstag, link, POSIXct)
+	setkey(modChrtout_tmp.d, tag, enstag, link, POSIXct)
 
 	saveList <- c(saveList, "modChrtout_tmp", "modChrtout_tmp.d")
         save(list=saveList, file=tmpRimg)
