@@ -63,7 +63,7 @@ readMod <- FALSE
 	modTagList <- NULL
 
 	# Specify ensemble information
-        readEnsemble <- FALSE-
+        readEnsemble <- FALSE
 
 	ensembleList <- NULL
 
