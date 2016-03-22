@@ -103,20 +103,6 @@ def main(argv):
 	        os.unlink(nameLink)	
 		sys.exit(1)	
 
-	sys.exit(1)	
-	# Create temporary symbolic links to R scripts based on current
-	# working directory.
-	#cmd1 = "for FILE in ./R/COMMON/*.R; do ln -s $FILE; done"
-	#cmd2 = "for FILE in ./R/OBS/*.R; do ln -s $FILE; done"
-	#cmd3 = "for FILE in ./R/UTILS/*.R; do ln -s $FILE; done"
-
-	#try:
-	#	subprocess.call(cmd1,shell=True)
-	#	subprocess.call(cmd2,shell=True)
-	#	subprocess.call(cmd3,shell=True)
-	#except:
-	#	print "ERROR: Failure to create symbolic links to R scripts."
-	#	sys.exit(1)
 
 	# Run Rscript command to perform analysis. Pipe stdout and stderr
 	# to text files for users to inspect after analysis job complete.
