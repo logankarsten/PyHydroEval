@@ -481,15 +481,15 @@ def addModelProject():
 
 	# Check for existence of files/directories
 	if not os.path.exists(db.modelInDir[numModels-1]):
-		print "ERROR: Model input directory: " + db.modelInDir[numModels] + " not found."
+		print "ERROR: Model input directory: " + db.modelInDir[numModels-1] + " not found."
 	if not os.path.exists(db.forceInDir[numModels-1]):
-		print "ERROR: Forcing input directory: " + db.forceInDir[numModels] + " not found."
+		print "ERROR: Forcing input directory: " + db.forceInDir[numModels-1] + " not found."
 	if not os.path.isfile(db.geoFile[numModels-1]):
-		print "ERROR: Geofile: " + db.geoFile[numModels] + db.geoFile[numModels] + " not found."
+		print "ERROR: Geofile: " + db.geoFile[numModels] + db.geoFile[numModels-1] + " not found."
 	if not os.path.isfile(db.fullDomFile[numModels-1]):
-		print "ERROR: High resolution geofile: " + db.fullDomFile[numModels] + " not found."
+		print "ERROR: High resolution geofile: " + db.fullDomFile[numModels-1] + " not found."
 	if not os.path.isfile(db.mskFile[numModels-1]):
-		print "ERROR: Mask file: " + db.mskFile[numModels] + " not found."
+		print "ERROR: Mask file: " + db.mskFile[numModels-1] + " not found."
 	# Won't check for existence of remaining files as they are optional.
 
 	# Save database, or updated database to pickle object to be read in next time.
