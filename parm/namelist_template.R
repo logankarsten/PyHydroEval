@@ -62,6 +62,13 @@ readMod <- FALSE
         # Specify tags to identify the model run or runs (should be 1:1 with number of model output directories)
 	modTagList <- NULL
 
+	# Specify ensemble information
+        readEnsemble <- FALSE-
+
+	ensembleList <- NULL
+
+	ensembleTagList <- NULL
+
         # Specify the output .Rdata file to create
 	modReadFileOut <- NULL
  

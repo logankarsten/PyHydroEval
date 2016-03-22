@@ -17,7 +17,10 @@ class modelDatabase:
 		self.topDir = []
 		self.forceInDir = []
 		self.tag = []
+		self.ensList = []
+		self.ensTag = []
 		self.geoFile = []
+		self.geoRes = []
 		self.fullDomFile = []
 		self.mskFile = []
 		self.link2GageFile = []
@@ -26,6 +29,7 @@ class modelDatabase:
 		self.amfObsFile = []
 		self.metObsFile = []
 		self.snodasPath = []
+		self.nCores = []
 	def readData(self,parser,readFlag):
 		filePathDb = "./parm/modelMeta_db.pkl"
 		if readFlag == 1:
@@ -38,8 +42,11 @@ class modelDatabase:
 				self.modelInDir.append(dbTmp.modelInDir[i])
 				self.alias.append(dbTmp.alias[i])
 				self.tag.append(dbTmp.tag[i])
+				self.ensList.append(dbTmp,ensList[i])
+				self.ensTag.append(dbTmp,ensTag[i])
 				self.forceInDir.append(dbTmp.forceInDir[i])
 				self.geoFile.append(dbTmp.geoFile[i])
+				self.geoRes.append(dbTmp.geoRes[i])
 				self.fullDomFile.append(dbTmp.fullDomFile[i])
 				self.mskFile.append(dbTmp.mskFile[i])
 				self.link2GageFile.append(dbTmp.link2GageFile[i])
@@ -48,14 +55,21 @@ class modelDatabase:
 				self.amfObsFile.append(dbTmp.amfObsFile[i])
 				self.metObsFile.append(dbTmp.metObsFile[i])
 				self.snodasPath.append(dbTmp.snodasPath[i])
+				self.nCores.append(dbTmp.nCores[i])
 
 		# Read in temporary data from config file
 		topOutTmp = parser.get('top_level','topOut')
 		modelInTmp = parser.get('model_specification','modelDir')
 		tagTmp = parser.get('model_specification','tag')
 		aliasTmp = parser.get('model_specification','alias')
+		ensListTmp = parser.get('ensemble_specification','ensembleList')
+		ensTagTmp = parser.get('ensemble_specification','ensembleTags')
+		# Convert strings to lists
+		ensListTmp = ensListTmp.split()
+		ensTagTmp = ensTagTmp.split()
 		forcingInTmp = parser.get('forcing_specification','forcingDir')
 		geoFileTmp = parser.get('geo_specification','geoFile')
+		geoResTmp = parser.get('geo','geoRes')
 		geoHydFileTmp = parser.get('geo_specification','geoHydFile')
 		mskFileTmp = parser.get('geo_specification','maskFile')
 		lnkFileTmp = parser.get('geo_specification','link2gageFile')
@@ -64,6 +78,7 @@ class modelDatabase:
 		amfObsFileTmp = parser.get('observations_specification','amfObsFile')
 		metObsFileTmp = parser.get('observations_specification','metObsFile')
 		snodasPathTmp = parser.get('observations_specification','snodasPath')
+		nCoresTmp = parser.get('run_options','nCores')
 
 		# Check to make sure information has not already been entered into databse
 		lenTmp = len(self.alias)
@@ -79,8 +94,11 @@ class modelDatabase:
 		self.modelInDir.append(modelInTmp)
 		self.alias.append(aliasTmp)
 		self.tag.append(tagTmp)
+		self.ensList.append(ensListTmp)
+		self.ensTag.append(ensTagTmp)
 		self.forceInDir.append(forcingInTmp)
 		self.geoFile.append(geoFileTmp)
+		self.geoRes.append(geoResTmp)
 		self.fullDomFile.append(geoHydFileTmp)
 		self.mskFile.append(mskFileTmp)
 		self.link2GageFile.append(lnkFileTmp)
@@ -89,6 +107,7 @@ class modelDatabase:
 		self.amfObsFile.append(amfObsFileTmp)
 		self.metObsFile.append(metObsFileTmp)
 		self.snodasPath.append(snodasPathTmp)
+		self.nCores.append(nCoresTmp)
 
 	def setupProject(self):
 		""" Function to create necessary subdirectories
@@ -176,7 +195,10 @@ class modelDatabase:
 		topDirTmp = []
 		forceInDirTmp = []
 		tagTmp = []
+		ensListTmp = []
+		ensTagTmp = []
 		geoFileTmp = []
+		geoResTmp = []
 		fullDomFileTmp = []
 		mskFileTmp = []
 		link2GageFileTmp = []
@@ -185,6 +207,7 @@ class modelDatabase:
 		amfObsFileTmp = []
 		metObsFileTmp = []
 		snodasPathTmp = []
+		nCoresTmp = []
 
 		with open(filePathDb,'rb') as input:
 	                dbTmp = pickle.load(input)
@@ -194,8 +217,11 @@ class modelDatabase:
                                 self.modelInDir.append(dbTmp.modelInDir[i])
                                 self.alias.append(dbTmp.alias[i])
                                 self.tag.append(dbTmp.tag[i])
+				self.ensList.append(dbTmp.ensList[i])
+				self.ensTag.append(dbTmp.ensTag[i])
                                 self.forceInDir.append(dbTmp.forceInDir[i])
                                 self.geoFile.append(dbTmp.geoFile[i])
+				self.geoRes.append(dbTmp.geoRes[i])
                                 self.fullDomFile.append(dbTmp.fullDomFile[i])
                                 self.mskFile.append(dbTmp.mskFile[i])
                                 self.link2GageFile.append(dbTmp.link2GageFile[i])
@@ -204,6 +230,7 @@ class modelDatabase:
                                 self.amfObsFile.append(dbTmp.amfObsFile[i])
                                 self.metObsFile.append(dbTmp.metObsFile[i])	
 				self.snodasPath.append(dbTmp.snodasPath[i])
+				self.nCores.append(dbTmp.nCores[i])
 
 		# Loop through projects in database, once found,
 		# remove project, and files. Return updated 
@@ -215,7 +242,10 @@ class modelDatabase:
 				topDirTmp.append(self.topDir[i])
 				forceInDirTmp.append(self.forceInDir[i])
 				tagTmp.append(self.tag[i])
+				ensListTmp.append(self.ensList[i])
+				ensTagTmp.append(self.ensTag[i])
 				geoFileTmp.append(self.geoFile[i])
+				geoResTmp.append(self.geoRes[i])
 				fullDomFileTmp.append(self.fullDomFile[i])
 				mskFileTmp.append(self.mskFile[i])
 				link2GageFileTmp.append(self.link2GageFile[i])
@@ -224,6 +254,7 @@ class modelDatabase:
 				amfObsFileTmp.append(self.amfObsFile[i])
 				metObsFileTmp.append(self.metObsFile[i])
 				snodasPathTmp.append(self.snodasPath[i])
+				nCoresTmp.append(self.nCores[i])
 			else: # Found project to delete
 				deleteDir = self.topDir[i] + "/" + self.alias[i]
 				shutil.rmtree(deleteDir, ignore_errors=True)
@@ -234,7 +265,10 @@ class modelDatabase:
                 self.topDir = []
                 self.forceInDir = []
                 self.tag = []
+		self.ensList = []
+		self.ensTag = []
                 self.geoFile = []
+		self.geoRes = []
                 self.fullDomFile = []
                 self.mskFile = []
                 self.link2GageFile = []
@@ -243,6 +277,7 @@ class modelDatabase:
                 self.amfObsFile = []
                 self.metObsFile = []
 		self.snodasPath = []
+		self.nCores = []
 
 		for i in range(0,len(aliasTmp)):
 			self.alias.append(aliasTmp[i])
@@ -250,7 +285,10 @@ class modelDatabase:
 			self.topDir.append(topDirTmp[i])
 			self.forceInDir.append(forceInDirTmp[i])
 			self.tag.append(tagTmp[i])
+			self.ensList.append(ensListTmp[i])
+			self.ensTag.append(ensTagTmp[i])
 			self.geoFile.append(geoFileTmp[i])
+			self.geoRes.append(geoResTmp[i])
 			self.fullDomFile.append(fullDomFileTmp[i])
 			self.mskFile.append(mskFileTmp[i])
 			self.link2GageFile.append(link2GageFileTmp[i])
@@ -259,6 +297,7 @@ class modelDatabase:
 			self.amfObsFile.append(amfObsFileTmp[i])
 			self.metObsFile.append(metObsFileTmp[i])
 			self.snodasPath.append(snodasPathTmp[i])
+			self.nCores.append(nCoresTmp[i])
 
 	def copyModel(self,dbPath,args,aliasIn,aliasNew):
 		""" Copy model database entry to
@@ -273,8 +312,11 @@ class modelDatabase:
                                 self.modelInDir.append(dbTmp.modelInDir[i])
                                 self.alias.append(dbTmp.alias[i])
                                 self.tag.append(dbTmp.tag[i])
+				self.ensList.append(dbTmp.ensList[i])
+				self.ensTag.append(dbTmp.ensTag[i])
                                 self.forceInDir.append(dbTmp.forceInDir[i])
                                 self.geoFile.append(dbTmp.geoFile[i])
+				self.geoRes.append(dbTmp.geoRes[i])
                                 self.fullDomFile.append(dbTmp.fullDomFile[i])
                                 self.mskFile.append(dbTmp.mskFile[i])
                                 self.link2GageFile.append(dbTmp.link2GageFile[i])
@@ -283,6 +325,7 @@ class modelDatabase:
                                 self.amfObsFile.append(dbTmp.amfObsFile[i])
                                 self.metObsFile.append(dbTmp.metObsFile[i])
                                 self.snodasPath.append(dbTmp.snodasPath[i])
+				self.nCores.append(dbTmp.nCores[i])
 
 		# Loop through projects in database, once the primary
 		# input alias has been found, calculate the index, which
@@ -327,6 +370,27 @@ class modelDatabase:
 		else:
 			self.tag.append(self.tag[aliasInd])
 
+		if args.ensList and not args.ensTag:
+			print "ERROR: Must supply both ensemble list and tags."
+			raise
+		if args.ensTag and not args.ensList:
+			print "ERROR: Must supply both ensemble list and tags."
+			raise
+
+		if len(args.ensTag.split()) != len(args.ensList.split()):
+			print "ERROR: Ensemble list and tags must be equal length."
+			raise
+
+		if args.ensList:
+			self.ensList.append(args.ensList.split())
+		else:
+			self.ensList.append(self.ensList[aliasInd])
+
+		if args.ensTag:
+			self.ensTag.append(args.ensTag.split())
+		else:
+			self.ensTag.append(self.ensTag[aliasInd])
+
 		if args.mskFile:
 			self.mskFile.append(args.mskFile)
 		else:
@@ -336,6 +400,11 @@ class modelDatabase:
 			self.geoFile.append(args.geoFile)
 		else:
 			self.geoFile.append(self.geoFile[aliasInd])
+
+		if args.geoRes:
+			self.geoRes.append(args.geoRes)
+		else:
+			self.geoRes.append(args.geoRes[aliasInd])
 
 		if args.hydFile:
 			self.fullDomFile.append(args.hydFile)
@@ -371,6 +440,11 @@ class modelDatabase:
 			self.amfObsFile.append(args.amfFile)
 		else:
 			self.amfObsFile.append(self.amfObsFile[aliasInd])
+	
+		if args.nCores:
+			self.nCores.append(args.nCores)
+		else:
+			self.nCores.append(self.nCores[aliasInd])
 
 def addModelProject():
 	""" Setup new model project, which will be added to the db

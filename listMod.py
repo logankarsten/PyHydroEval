@@ -19,7 +19,10 @@ class modelDatabase:
                 self.topDir = []
                 self.forceInDir = []
                 self.tag = []
+		self.ensList = []
+		self.ensTag = []
                 self.geoFile = []
+		self.geoRes = []
                 self.fullDomFile = []
                 self.mskFile = []
                 self.link2GageFile = []
@@ -28,6 +31,7 @@ class modelDatabase:
                 self.amfObsFile = []
                 self.metObsFile = []
 		self.snodasPath = []
+		self.nCores = []
         def printInfo(self):
                 filePathDb = "./parm/modelMeta_db.pkl"
                 # Read data in from pickle file
@@ -41,8 +45,11 @@ class modelDatabase:
 			print "*Source Directory:               " + dbTmp.modelInDir[i]
 			print "*Output Analaysis Directory:     " + dbTmp.topDir[i] + "/" + dbTmp.alias[i]
 			print "*Model Tag:                      " + dbTmp.tag[i]
+			print "*Ensemble List:                  " + ', '.join(dbTmp.ensList[i])
+			print "*Ensemble Tags:                  " + ', '.join(dbTmp.ensTag[i])
 			print "*Model Forcing Source Directory: " + dbTmp.forceInDir[i]
 			print "*Input Geo File:                 " + dbTmp.geoFile[i]
+			print "*Input LSM Resolution:           " + dbTmp.geoRes[i]
 			print "*Input FullDom File:             " + dbTmp.fullDomFile[i]
 			print "*Input Mask File:                " + dbTmp.mskFile[i]
 			print "*Streamflow Observations File:   " + dbTmp.strObsFile[i]
@@ -51,6 +58,7 @@ class modelDatabase:
 			print "*HydroMet Observations File:     " + dbTmp.metObsFile[i]
 			print "*Link2Gage File:                 " + dbTmp.link2GageFile[i]
 			print "*SNODAS Directory:               " + dbTmp.snodasPath[i]
+			print "*Number of Cores:                " + dbTmp.nCores[i]
 
 fileIn = "./parm/modelMeta_db.pkl"
 

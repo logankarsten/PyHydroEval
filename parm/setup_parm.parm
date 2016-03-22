@@ -27,6 +27,15 @@ modelDir = /d4/karsten/PyHydroEval_test/modelIn1
 tag = retrospective
 alias = test1
 
+[ensemble_specification] 
+# Specify ensembles if present. If not, leave as []
+ensembleList = blah1 blah2 blah3 blah4 
+ensembleTags = crap1 crap2 crap3 crap4
+
+[geo]
+# Specify LSM resolution in km
+geoRes = 1.0
+
 [forcing_specification]
 # Specify the directory containing model forcing data used for this specified
 # model run.
@@ -52,3 +61,7 @@ strObsFile =
 snotelObsFile = /d4/karsten/wrf_hydro_snow_analysis/rio_grande/data/obs/snotel_URG_BU.Rdata
 amfObsFile = 
 metObsFile = /d4/karsten/wrf_hydro_snow_analysis/rio_grande/data/obs/met_URG.Rdata
+
+[run_options]
+# Optional - specify number of cores to use for parallel. Default is 1.
+nCores = 1

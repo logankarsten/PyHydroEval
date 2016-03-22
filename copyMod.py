@@ -26,9 +26,12 @@ def main(argv):
 	parser.add_argument('--topOut', nargs='?', help='New top output directory for new project')
 	parser.add_argument('--modelIn', nargs='?', help='New model input directory for new project')
 	parser.add_argument('--tag', nargs='?', help='New model project tag')
+	parser.add_argument('--ensList', nargs='?', help='New model project ensembles')
+	parser.add_argument('--ensTag', nargs='?', help='New model project ensemble tags')
 	parser.add_argument('--forcingDir', nargs='?', help='New model project forcing directory')
 	parser.add_argument('--mskFile', nargs='?', help='New model project mask file.')
 	parser.add_argument('--geoFile', nargs='?', help='New model project mask file.')
+	parser.add_argument('--geoRes', nargs='?', help='New model project LSM resolution.')
 	parser.add_argument('--hydFile', nargs='?', help='New model project hydro geo file.')
 	parser.add_argument('--link2gage', nargs='?', help='New model project link2gage file.')
 	parser.add_argument('--snPath', nargs='?', help='New SNODAS directory.')
@@ -36,6 +39,7 @@ def main(argv):
 	parser.add_argument('--snotelFile', nargs='?', help='New SNOTEL observation file.')
 	parser.add_argument('--metFile', nargs='?', help='New HydroMet observation file.')
 	parser.add_argument('--amfFile', nargs='?', help='New AMF observation file.')
+	parser.add_argument('--nCores', nargs='?', help='New model project number of cores to use.')
 
         args = parser.parse_args()
 
