@@ -495,7 +495,7 @@ def editNamelist(pathIn,args,dbIn):
 			modFileOut = begAStr1 + "_" + endAStr1 + "_" + strTmp + "_FRXST.Rdata"
 			searchStr = "readFrxstout <- FALSE"
 			replaceStr = "readFrxstout <- TRUE"
-			el(pathIn.searchStr,replaceStr)
+			el(pathIn,searchStr,replaceStr)
 		modPathOut = "'" + dbIn.topDir[indDbOrig] + "/" + dbIn.alias[indDbOrig] + \
                              "/analysis_out/read_datasets/" + modFileOut + "'"
 		searchStr = "modReadFileOut <- NULL"
@@ -510,12 +510,12 @@ def editNamelist(pathIn,args,dbIn):
 			modFileOut = begAStr1 + "_" + endAStr1 + "_" + strTmp + "_CHRTOUT_ALL.Rdata"
 			searchStr = "readChrtout <- FALSE"
 			replaceStr = "readChrtout <- TRUE"
-			el(pathIn.searchStr,replaceStr)
+			el(pathIn,searchStr,replaceStr)
 		elif int(args.chRead) == 2:
 			modFileOut = begAStr1 + "_" + endAStr1 + "_" + strTmp + "_CHRTOUT_GAGES.Rdata"
 			searchStr = "readChrtout <- FALSE"
                         replaceStr = "readChrtout <- TRUE"
-                        el(pathIn.searchStr,replaceStr)
+                        el(pathIn,searchStr,replaceStr)
 			if len(dbIn.link2GageFile[indDbOrig]) == 0:
 				print "ERROR: A CHRTOUT read option was selected without the"
 				print "       necessary link2gages table."
