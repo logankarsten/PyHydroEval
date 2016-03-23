@@ -191,11 +191,11 @@ def findInFile(bDate,eDate,str1,str2):
 			if split1[1] != 'Rdata':
 				continue
 			split2 = string.split(split1[0],"_")
-			print split2
 			if len(split2) != (len(tags)+2):
 				continue
 			if split2[2:len(split2)] != tags:
 				continue
+			print split2
 			# Found expected type of file. Check dates.
 			d1Str = split2[0]
 			d2Str = split2[1]		
