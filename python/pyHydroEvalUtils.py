@@ -185,13 +185,13 @@ def findInFile(bDate,eDate,str1,str2):
 	for listing in os.walk(str1):
 		files = listing[2]
 		for file in files:
-			print file
 			split1 = string.split(file,'.')
 			if len(split1) != 2:
 				continue
 			if split1[1] != 'Rdata':
 				continue
 			split2 = string.split(split1[0],"_")
+			print split2
 			if len(split2) != (len(tags)+2):
 				continue
 			if split2[2:len(split2)] != tags:
