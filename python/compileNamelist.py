@@ -117,7 +117,8 @@ def editNamelist(pathIn,args,dbIn):
 
 	# Edit tmp directory.
 	searchStr = "tmpDir <- NULL"
-	replaceStr = "tmpDir <- " + "'" + dbIn.topDir[indDbOrig] + "/tmp" + "'"
+	replaceStr = "tmpDir <- " + "'" + dbIn.topDir[indDbOrig] + \
+		     "/" + dbIn.alias[indDbOrig] + "/tmp" + "'"
 	el(pathIn,searchStr,replaceStr)
 
 	# Place model directories and tag listings into namelist file
