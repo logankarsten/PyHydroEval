@@ -185,6 +185,7 @@ def findInFile(bDate,eDate,str1,str2):
 	for listing in os.walk(str1):
 		files = listing[2]
 		for file in files:
+			print file
 			split1 = string.split(file,'.')
 			if len(split1) != 2:
 				continue
