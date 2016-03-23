@@ -177,7 +177,7 @@ def findInFile(bDate,eDate,str1,str2):
 	tags = []
 	splitTmp = string.split(str2,'.')
 	splitTmp2 = string.split(splitTmp[0],'_')
-	if len(splitTmp2) <= 3:
+	if len(splitTmp2) <= 2:
 		print "ERROR: Unexpected model string: " + splitTmp[0] + " passed to findInFile."
 		raise
 	for i in range(0, len(splitTmp2)):
