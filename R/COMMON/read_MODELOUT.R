@@ -203,7 +203,7 @@ if (readMod & readBasinRtout) {
 		if (numEns > 1) {
 			ensoutTag <- ensTagList[i]
 		} else {
-			ensoutTag <- ensTagList[i]
+			ensoutTag <- modoutTag 
 		}
          	# Setup RTOUT files
          	filesList <- list.files(path=modoutPath, pattern=glob2rx('*.RTOUT_DOMAIN*'), full.names=TRUE)
@@ -739,7 +739,7 @@ if (readMod & readFrxstout) {
 		if (numEns > 1) {
                         ensoutTag <- ensTagList[i]
                 } else {
-                        ensoutTag <- ensTagList[i]
+                        ensoutTag <- modoutTag 
                 }
                 # Read STR
 		if (reachRting) {
