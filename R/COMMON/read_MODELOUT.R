@@ -1168,14 +1168,14 @@ if (readForc) {
 saveListMod <- unique(saveListMod)
 saveListForc <- unique(saveListForc)
 
-if ( (modReadFileOut == forcReadFileOut) & readMod & readForc ) {
-		saveListMod <- c(saveListMod, saveListForc)
-		save(list=saveListMod, file=modReadFileOut)
-} else {
+#if ( (modReadFileOut == forcReadFileOut) & readMod & readForc ) {
+#		saveListMod <- c(saveListMod, saveListForc)
+#		save(list=saveListMod, file=modReadFileOut)
+#} else {
 	if (readMod) save(list=saveListMod, file=modReadFileOut)
 	if (readForc) save(list=saveListForc, file=forcReadFileOut)
-}
-#file.remove(tmpRimg)
+#}
+file.remove(tmpRimg)
 
 stopCluster(cl)
 proc.time()
