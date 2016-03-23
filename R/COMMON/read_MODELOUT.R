@@ -1177,6 +1177,6 @@ saveListForc <- unique(saveListForc)
 #}
 file.remove(tmpRimg)
 
-stopCluster(cl)
+#stopCluster(cl)
 proc.time()
 
