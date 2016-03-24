@@ -221,6 +221,15 @@ def editNamelist(pathIn,args,dbIn):
 
 		searchStr = "hydroEndDate <- NULL"
 		replaceStr = "hydroEndDate <- as.POSIXct('" + endPStr1 + str2
+		el(pathIn,searchStr,replaceStr)
+
+		searchStr = "hydroEnsStartDate <- NULL"
+                replaceStr = "hydroEnsStartDate <- as.POSIXct('" + begPStr1 + str2
+                el(pathIn,searchStr,replaceStr)
+
+                searchStr = "hydroEnsEndDate <- NULL"
+                replaceStr = "hydroEnsEndDate <- as.POSIXct('" + endPStr1 + str2
+                el(pathIn,searchStr,replaceStr)
 
 		searchStr = "accprecipStartDate <- NULL"
 		replaceStr = "accprecipStartDate <- as.POSIXct('" + begPStr1 + str2
