@@ -209,6 +209,8 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
         nSteps <- length(dates)
 	ensLab <- unique(modDfs$enstag)
 
+	yMax <- 1.2*max(dfTmp$q_cfs)
+
 	# Create df with observations and modeled values for raster hydrograph
 	dfTmp3 = data.frame(matrix(NA,nrow=nSteps*(length(ensLab)+1),ncol=3))
 	names(dfTmp3) <- c('POSIXct','tag','q_cfs')
@@ -286,7 +288,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	      geom_smooth(data=spreadDf, aes(x=POSIXct,y=q50,ymin=q25,ymax=q75,color=site_no),stat="identity",alpha=1) +
 	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') +
 	      scale_color_manual(name='Model Run',values = colOut,label=c('Mean Modeled','Observed')) +  
-	      ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,500)
+	      ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,yMax)
 	fileOutPath <- paste0(outDir,'/streamflow_spread_',n,'_',strftime(startDate,"%Y%m%d%H"),
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
 	ggsave(filename=fileOutPath, plot = gg)
@@ -304,13 +306,14 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	#	scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp2$enstag),'NLDAS2','Observed'))
 	gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=q_cfs,color=enstag)) + geom_line() + 
 	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') + 
-	      scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag),'Observed'))  
+	      scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag),'Observed')) + 
+	      ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,yMax  
         fileOutPath <- paste0(outDir,'/streamflow_spaghetti_',n,'_',strftime(startDate,"%Y%m%d%H"),
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
         ggsave(filename = fileOutPath, plot = gg)
 
 	# Produce hydrograph raster
-	gg <- ggplot(dfTmp3, aes(x=POSIXct, y=tag, fill=q_cfs)) + geom_raster() +
+	gg <- ggplot(dfTmp3, aes(x=POSIXct, y=enstag, fill=q_cfs)) + geom_raster() +
 	      scale_fill_gradientn(colours = rainbow(10)) + 
 	      ggtitle(title) + xlab('Date') + ylab('Ensemble')  
 	      #scale_x_date(labels = date_format("%d:%H")) 
@@ -334,6 +337,8 @@ plotEnsFlow <- function(n, modDfs,
         dates <- unique(dfTmp$POSIXct)
         nSteps <- length(dates)
         ensLab <- unique(modDfs$enstag)
+
+	yMax <- 1.2*max(dfTmp$q_cfs)
 
 	# Spread plots
         spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=12))
@@ -375,7 +380,7 @@ plotEnsFlow <- function(n, modDfs,
         gg <- ggplot() +
               geom_smooth(data=spreadDf, aes(x=POSIXct,y=q50,ymin=q25,ymax=q75,color=site_no),stat="identity",alpha=1) +
               scale_color_manual(name='Model Run',values = colOut,label=c('Mean Modeled')) +
-              ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,500)
+              ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,yMax)
         fileOutPath <- paste0(outDir,'/streamflow_spread_',n,'_',strftime(startDate,"%Y%m%d%H"),
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
         ggsave(filename=fileOutPath, plot = gg)
@@ -385,16 +390,16 @@ plotEnsFlow <- function(n, modDfs,
         colOut <- rgb(runif(numColor),runif(numColor),runif(numColor))
         colOut[length(colOut)] <- 'black'
         gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=q_cfs,color=enstag)) + geom_line() +
-              scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag)))
+              scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag))) +
+              ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,yMax)
         fileOutPath <- paste0(outDir,'/streamflow_spaghetti_',n,'_',strftime(startDate,"%Y%m%d%H"),
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
         ggsave(filename = fileOutPath, plot = gg)
 
         # Produce hydrograph raster
-        gg <- ggplot(dfTmp, aes(x=POSIXct, y=tag, fill=q_cfs)) + geom_raster() +
+        gg <- ggplot(dfTmp, aes(x=POSIXct, y=enstag, fill=q_cfs)) + geom_raster() +
               scale_fill_gradientn(colours = rainbow(10)) +
               ggtitle(title) + xlab('Date') + ylab('Ensemble')
-              #scale_x_date(labels = date_format("%d:%H"))
         fileOutPath <- paste0(outDir,'/streamflow_raster_hydrograph_',n,'_',strftime(startDate,"%Y%m%d%H"),
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
         ggsave(filename=fileOutPath, plot=gg)
