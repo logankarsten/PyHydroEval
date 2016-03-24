@@ -338,12 +338,18 @@ plotEnsFlow <- function(n, modDfs,
         nSteps <- length(dates)
         ensLab <- unique(modDfs$enstag)
 
+	# Set accumulated acre-feet to thousands of acre-feet
+	dfTmp$ACCFLOW_af <- dfTmp$ACCFLOW_af/1000.0
+
+	# Establish max values
 	yMax <- 1.2*max(dfTmp$q_cfs)
+	yMaxAF <- 1.2*max(dfTmp$ACCFLOW_af)
 
 	# Spread plots
-        spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=12))
+        spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=18))
         names(spreadDf) <- c('st_id','st_lon','st_lat','POSIXct','site_no','tag',
-                             'q25','q50','q75','q0','q100','mean')
+                             'q25','q50','q75','q0','q100','mean',
+			     'af25','af50','af75','af0','af100','mean_af')
         spreadDf$st_id <- NA
         spreadDf$st_lon <- NA
         spreadDf$st_lat <- NA
@@ -356,10 +362,17 @@ plotEnsFlow <- function(n, modDfs,
         spreadDf$q0 <- NA
         spreadDf$q100 <- NA
         spreadDf$mean <- NA
+	spreadDf$af25 <- NA
+	spreadDf$af50 <- NA
+	spreadDf$af75 <- NA
+	spreadDf$af0 <- NA
+	spreadDf$af100 <- NA
+	spreadDf$mean_af <- NA
 
         for (i in 1:nSteps) {
                 dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
                 qCalc <- quantile(dfTmp2$q_cfs, probs=seq(0,1,0.25), na.rm = TRUE)
+		afCalc <- quantile(dfTmp2$ACCFLOW_af, probs=seq(0,1,0.25), na.rm = TRUE)
                 spreadDf$site_id[i] <- dfTmp2$site_id[1]
                 spreadDf$st_lon[i] <- dfTmp2$st_lon[1]
                 spreadDf$st_lat[i] <- dfTmp2$st_lat[1]
@@ -372,6 +385,12 @@ plotEnsFlow <- function(n, modDfs,
                 spreadDf$q0[i] <- qCalc[[1]]
                 spreadDf$q100[i] <- qCalc[[5]]
                 spreadDf$mean[i] <- mean(dfTmp2$q_cfs)
+		spreadDf$af25[i] <- afCalc[[2]]
+		spreadDf$af50[i] <- afCalc[[3]]
+		spreadDf$af75[i] <- afCalc[[4]]
+		spreadDf$af0[i] <- afCalc[[1]]
+		spreadDf$af100[i] <- afCalc[[5]]
+		spreadDf$mean_af[i] <- mean(dfTmp2$ACCFLOW_af)
         }
 
         spreadDf$Date <- as.Date(spreadDf$POSIXct)
@@ -382,6 +401,14 @@ plotEnsFlow <- function(n, modDfs,
               scale_color_manual(name='Model Run',values = colOut,label=c('Mean Modeled')) +
               ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,yMax)
         fileOutPath <- paste0(outDir,'/streamflow_spread_',n,'_',strftime(startDate,"%Y%m%d%H"),
+                        '_',strftime(endDate,"%Y%m%d%H"),'.png')
+        ggsave(filename=fileOutPath, plot = gg)
+
+	gg <- ggplot() +
+              geom_smooth(data=spreadDf, aes(x=POSIXct,y=af50,ymin=af25,ymax=af75,color=site_no),stat="identity",alpha=1) +
+              scale_color_manual(name='Model Run',values = colOut,label=c('Mean Modeled')) +
+              ggtitle(title) + xlab('Date') + ylab('Accumulated Runoff (thousands acre-feet)') + ylim(0,yMaxAF)
+        fileOutPath <- paste0(outDir,'/acc_runoff_af_spread_',n,'_',strftime(startDate,"%Y%m%d%H"),
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
         ggsave(filename=fileOutPath, plot = gg)
 
@@ -396,11 +423,25 @@ plotEnsFlow <- function(n, modDfs,
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
         ggsave(filename = fileOutPath, plot = gg)
 
+	gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=ACCFLOW_af,color=enstag)) + geom_line() +
+              scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag))) +
+              ggtitle(title) + xlab('Date') + ylab('Accumulated Runoff (thousands acre-feet') + ylim(0,yMaxAF)
+        fileOutPath <- paste0(outDir,'/acc_runoff_af_spaghetti_',n,'_',strftime(startDate,"%Y%m%d%H"),
+                        '_',strftime(endDate,"%Y%m%d%H"),'.png')
+        ggsave(filename = fileOutPath, plot = gg)
+
         # Produce hydrograph raster
         gg <- ggplot(dfTmp, aes(x=POSIXct, y=enstag, fill=q_cfs)) + geom_raster() +
               scale_fill_gradientn(colours = rainbow(10)) +
               ggtitle(title) + xlab('Date') + ylab('Ensemble')
         fileOutPath <- paste0(outDir,'/streamflow_raster_hydrograph_',n,'_',strftime(startDate,"%Y%m%d%H"),
+                        '_',strftime(endDate,"%Y%m%d%H"),'.png')
+        ggsave(filename=fileOutPath, plot=gg)
+
+	gg <- ggplot(dfTmp, aes(x=POSIXct, y=enstag, fill=ACCFLOW_af)) + geom_raster() +
+              scale_fill_gradientn(colours = rainbow(10)) +
+              ggtitle(title) + xlab('Date') + ylab('Ensemble')
+        fileOutPath <- paste0(outDir,'/acc_flow_af_raster_hydrograph_',n,'_',strftime(startDate,"%Y%m%d%H"),
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
         ggsave(filename=fileOutPath, plot=gg)
 }
