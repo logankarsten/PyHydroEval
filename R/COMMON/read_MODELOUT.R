@@ -742,7 +742,7 @@ if (readMod & readFrxstout) {
                         ensoutTag <- modoutTag 
                 }
                 # Read STR
-		if (reachRting | exists(stid2gageList)){ 
+		if (reachRting | exists("stid2gageList")){ 
 			modFrxstout <- ReadFrxstPts(paste0(modoutPath, '/frxst_pts_out.txt'))
 		} else {
         		modFrxstout <- ReadFrxstPts(paste0(modoutPath, '/frxst_pts_out.txt'), stIdType='integer')
