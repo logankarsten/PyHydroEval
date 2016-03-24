@@ -496,7 +496,7 @@ plotEnsSWE <- function(n, modDfs,
               geom_smooth(data=spreadDf, aes(x=POSIXct,y=q50,ymin=q25,ymax=q75,color=basin),stat="identity",alpha=1) +
               scale_color_manual(name='Model Run',values = colOut,label=c('Mean Modeled')) +
               ggtitle(title) + xlab('Date') + ylab('SWE Volume (thousands acre-feet)') + ylim(0,yMax)
-        fileOutPath <- paste0(outDir,'/Basin_SWE_spread_',n,'_',strftime(startDate,"%Y%m%d%H"),
+        fileOutPath <- paste0(outDir,'/Basin_SWE_spread_',n,'_',strftime(stDate,"%Y%m%d%H"),
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
         ggsave(filename=fileOutPath, plot = gg)
 
@@ -506,7 +506,7 @@ plotEnsSWE <- function(n, modDfs,
 	gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=SNEQV_SUM,color=enstag)) + geom_line() + 
 	      scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag))) +
 	      ggtitle(title) + xlab('Date') + ylab('SWE Volume (thousands acre-feet)') + ylim(0,yMax)
-	fileOutPath <- paste0(outDir,'/SWE_Volume_spaghetti_',n,'_',strftime(startDate,"%Y%m%d%H"),
+	fileOutPath <- paste0(outDir,'/SWE_Volume_spaghetti_',n,'_',strftime(stDate,"%Y%m%d%H"),
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
         ggsave(filename = fileOutPath, plot = gg)
 
@@ -514,7 +514,7 @@ plotEnsSWE <- function(n, modDfs,
 	gg <- ggplot(dfTmp, aes(x=POSIXct, y=enstag, fill=SNEQV_SUM)) + geom_raster() +
               scale_fill_gradientn(colours = rainbow(10)) +
               ggtitle(title) + xlab('Date') + ylab('Ensemble')
-        fileOutPath <- paste0(outDir,'/Basin_SWE_Volume_raster_hydrograph_',n,'_',strftime(startDate,"%Y%m%d%H"),
+        fileOutPath <- paste0(outDir,'/Basin_SWE_Volume_raster_hydrograph_',n,'_',strftime(stDate,"%Y%m%d%H"),
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
         ggsave(filename=fileOutPath, plot=gg)
 
