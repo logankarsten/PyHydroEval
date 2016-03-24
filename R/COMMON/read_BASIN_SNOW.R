@@ -15,9 +15,23 @@ diff1 <- difftime(readSnodasEnd,readSnodasStart,units=dUnits)
 nSteps <- diff1 <- as.numeric(diff1)
 dt <- 24*3600
 
+if (readEnsemble) {
+        numEns <- length(ensembleList)
+        print(numEns)
+        # Expand modPathList to number of ensembles
+        modPathList <- expandModPathList(numEns,ensembleList,length(modPathList),modPathList)
+        print(modPathList)
+        modTagList <- expandModTagList(numEns,length(modPathList),modTagList)
+        print(modTagList)
+        ensTagList <- expandEnsTagList(numEns,length(modPathList),modPathList,ensembleList)
+        print(ensTagList)
+} else {
+        numEns <- 1
+}
+
 # Create output data frames that will hold data
-snowBasinData <- data.frame(matrix(NA,ncol=19,nrow=(nSteps*length(mskgeo.nameList)*(length(modPathList)+1))))
-names(snowBasinData) <- c("Basin","Date","basin_area_km","product","snow_area_km","snow_cover_fraction",
+snowBasinData <- data.frame(matrix(NA,ncol=20,nrow=(nSteps*length(mskgeo.nameList)*(length(modPathList)+1))))
+names(snowBasinData) <- c("Basin","Date","basin_area_km","product","ens","snow_area_km","snow_cover_fraction",
                         "mean_snow_line_meters","mean_snow_line_feet","snow_volume_cub_meters",
                         "snow_volume_acre_feet","mean_swe_mm","mean_depth_mm","max_depth_mm",
                         "max_swe_mm","min_rho_kgm3","max_rho_kgm3","mean_rho_kgm3","acc_runoff_cub_meters",
@@ -26,6 +40,7 @@ snowBasinData$Basin <- NA
 snowBasinData$Date <- as.Date(as.POSIXct('1900-01-01'),'GMT')
 snowBasinData$basin_area_km <- NA
 snowBasinData$product <- NA
+snowBasinData$ens <- NA
 snowBasinData$snow_area_km <- NA
 snowBasinData$snow_cover_fraction <- NA
 snowBasinData$mean_snow_line_meters <- NA
@@ -87,6 +102,12 @@ for (i in 1:length(mskgeo.nameList)) {
 		count = count + 1
                 # Model data
 		for(k in 1:length(modPathList)) {
+			modoutTag <- modTagList[k]
+			if (numEns > 1) {
+                        	ensoutTag <- ensTagList[k]
+                	} else {
+                        	ensoutTag <- modoutTag 
+                	}
 			tmpPath = modPathList[[k]]
 			snowPath <- paste0(modPathList[[k]],"/",strftime(dCurrent,"%Y%m%d"),
 			  "00.LDASOUT_DOMAIN1")
@@ -98,7 +119,8 @@ for (i in 1:length(mskgeo.nameList)) {
 			statsTemp <- basSnowMetrics(sweModel,mskVar,basElev,runoffModel,res=resMod,runoffFlag=0)
 			snowBasinData$Basin[count] <- bName
 	                snowBasinData$Date[count] <- dCurrent
-                        snowBasinData$product[count] <- paste0(modTagList[[k]])
+                        snowBasinData$product[count] <- modoutTag
+			snowBasinData$ens[count] <- ensoutTag 
                 	snowBasinData$basin_area_km[count] <- statsTemp$totArea
     	                snowBasinData$snow_area_km[count] <- statsTemp$totSnoArea
         	        snowBasinData$snow_cover_fraction[count] <- statsTemp$snoFrac

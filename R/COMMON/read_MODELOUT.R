@@ -510,6 +510,11 @@ if (readMod & (readBasinLdasout | readAmfLdasout | readSnoLdasout | readMetLdaso
         for (i in 1:length(modPathList)) {
         	modoutPath <- modPathList[i]
                 modoutTag <- modTagList[i]
+		if (numEns > 1) {
+                        ensoutTag <- ensTagList[i]
+                } else {
+                        ensoutTag <- modoutTag
+                }
                 # Setup LDASOUT files
                 filesList <- list.files(path=modoutPath, pattern=glob2rx('*.LDASOUT_DOMAIN*'), full.names=TRUE)
 		if (!is.null(readModStart) | !is.null(readModEnd)) {
@@ -526,15 +531,12 @@ if (readMod & (readBasinLdasout | readAmfLdasout | readSnoLdasout | readMetLdaso
                                            variableList=ldasoutVariableList,
                                            filesList=ldasoutFilesList,
                                            parallel=parallelFlag )
-		print('b')
 		print(ldasoutDF$POSIXct)
                 modLdasout_ALL <- ReshapeMultiNcdf(ldasoutDF)
 		fileGroups <- unique(ldasoutDF$fileGroup)
 		#if (!(is.list(modLdasout_ALL))) { modLdasout_ALL <- list(fileGroups = modLdasout_ALL) }
 		modLdasoutList <- list()
-		print('c')
 		for (j in fileGroups) {
-			print(j)
 			if (length(fileGroups)==1) { modLdasout <- modLdasout_ALL } else { modLdasout <- modLdasout_ALL[[j]] }
                         modLdasout <- CalcNoahmpFluxes(modLdasout, "statArg")
 			# Add derived variables
@@ -548,9 +550,10 @@ if (readMod & (readBasinLdasout | readAmfLdasout | readSnoLdasout | readMetLdaso
 				modLdasout$TurbNet <- with(modLdasout, LH+HFX) }
 			# Data mgmt
                         modLdasout$tag <- modoutTag
+			modLdasout$enstag <- ensoutTag
 			modLdasout$fileGroup <- j
 			modLdasout <- data.table(modLdasout)
-			setkey(modLdasout, tag, fileGroup, statArg, POSIXct)
+			setkey(modLdasout, tag, enstag, fileGroup, statArg, POSIXct)
 			message("LDASOUT: Starting daily aggregations")
                         ## ------------------------------------------------------------------------
                         # Calculate daily values
@@ -660,6 +663,9 @@ if (readMod & (readBasinLdasout | readAmfLdasout | readSnoLdasout | readMetLdaso
 			modLdasout.snoday$tag <- modoutTag
 			modLdasout.utcday$tag <- modoutTag
 			modLdasout.utcmonth$tag <- modoutTag
+			modLdasout.snoday$enstag <- ensoutTag
+			modLdasout.utcday$enstag <- ensoutTag
+			modLdasout.utcmonth$enstag <- ensoutTag
 			modLdasout.snoday$fileGroup <- j
 			modLdasout.utcday$fileGroup <- j
 			modLdasout.utcmonth$fileGroup <- j
