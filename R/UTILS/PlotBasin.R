@@ -328,7 +328,7 @@ plotEnsFlow <- function(n, modDfs,
                         outDir=NULL) {
 
 
-	print('blah')
+	print(names(modDfs))
         #Spaghetti plots
         #Subset data based on gage, date range
         dfTmp <- subset(modDfs,site_no==n & POSIXct >= startDate & POSIXct <= endDate)
@@ -336,6 +336,7 @@ plotEnsFlow <- function(n, modDfs,
         nSteps <- length(dates)
         ensLab <- unique(modDfs$enstag)
 
+	print('you')
 	# Spread plots
         spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=12))
         names(spreadDf) <- c('st_id','st_lon','st_lat','POSIXct','site_no','tag',

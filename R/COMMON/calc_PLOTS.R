@@ -244,7 +244,6 @@ for (i in 1:length(hydroTags2)) {
 			    	        outDir=writePlotDir)
 				dev.off()
 		} else {
-			print('alksdf')
 			plotEnsFlow(n, modDfs=modDfsOut,
                                     title=plotTitle,
                                     startDate=hydroEnsStartDate,
