@@ -233,6 +233,7 @@ for (i in 1:length(hydroTags2)) {
                         obsFlag <- 0 
                 }
 		print(n)
+		print(obsFlag)
 		# Make suit of plots
 		if (obsFlag == 1){
 			plotEnsFlowWObs(n, modDfs=modDfsOut,
