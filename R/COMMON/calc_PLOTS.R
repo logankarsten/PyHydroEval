@@ -210,13 +210,7 @@ if (reachRting) {
 # Loop over station gauges and create suite of ensemble plots
 for (i in 1:length(hydroTags2)) {
         modelTag <- hydroTags2[i]
-	countTmp = 1
         for (n in gageNames) {
-		countTmp = countTmp + 1
-		print(countTmp)
-		if (countTmp < 40) {
-			next
-		}
                 if (!is.null(STRfile)) { # Make ensemble plots with observations
         		if (idCol == "site_no") {
                                 siteId <- n
@@ -238,6 +232,8 @@ for (i in 1:length(hydroTags2)) {
                         }
                         obsFlag <- 1 
                 }
+		print(n)
+		print(obsFlag)
 		# Make suit of plots
 		if (obsFlag == 1){
 			plotEnsFlowWObs(n, modDfs=modDfsOut,
