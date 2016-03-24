@@ -463,7 +463,7 @@ plotEnsSWE <- function(n, modDfs,
 	dates <- unique(dfTmp$POSIXct)
 	nSteps <- length(dates)
 
-	print(nSteps)
+	print(dfTmp)
 	# Spread plots
         spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=18))
         names(spreadDf) <- c('POSIXct','basin',
