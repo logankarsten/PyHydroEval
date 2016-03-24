@@ -208,7 +208,7 @@ if (createPlots) {
 		}
 
 		# Load necessary files for SNOTEL analysis
-		if (snotelScatter) {
+		if (!is.null(SNOfile) & snotelScatter) {
 			if (file.exists(SNOfile)){
 				load(SNOfile)
 			}
@@ -228,7 +228,7 @@ if (createPlots) {
 		}
 
 		# Load necessary files for basin-agreggation analysis
-		if (basinScatter){
+		if (!is.null(SNOfile) & basinScatter){
 			if (file.exists(SNOfile)){
 				load(SNOfile)
 			}
