@@ -285,6 +285,15 @@ writePlotDir <- NULL
                 # Specify end date
                 hydroEnsEndDate <- NULL 
 
+	## Generate ensemble model basin snow plots?
+	basSnoEnsPlot <- FALSE
+
+		# Specify beginning date
+		basSnowEnsStartDate <- NULL
+
+		# Specify ending date
+		basSnowEnsEndDate <- NULL
+
 	## Generate accumulated precip plots?
 	accprecipPlot <- FALSE
 
@@ -345,7 +354,7 @@ writePlotDir <- NULL
                 # Specify end date
                 metEndDate <- NULL
 
-	## Generate Basin Snow Metric Plots?
+	## Generate Basin Snow/SNODAS Metric Plots?
         snowBasinPlot <- FALSE
 
 		# Specify basin snow data file

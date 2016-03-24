@@ -131,4 +131,4 @@ statsFlag = []
 # 16 - Individual SNOTEL scatter plots.
 # 17 - Individual HydroMet scatter plots.
 # 18 - Basin-aggregated SNOTEL scatter plots.
-
+# 19 - Basin-aggregated model ensemble SWE plots.

@@ -446,6 +446,78 @@ plotEnsFlow <- function(n, modDfs,
         ggsave(filename=fileOutPath, plot=gg)
 }
 
+plotEnsSWE <- function(n, modDfs,
+		       title='Basin SWE',
+		       stDate=NULL,
+		       endDate=NULL,
+		       outDir='./') {
+
+	# Subset data based on dates and basin
+	dfTmp <- subset(modDfs,statArg==n & POSIXct >= stDate & POSIXct <= endDate)
+	
+	# Convert SWE volume from cubic meters to thousands of acre-feet
+	dfTmp$SNEQV_SUM <- (dfTmp$SNEQV_SUM/1233.48)/1000.0
+
+	yMax <- max(dfTmp$SNEQV_SUM)
+
+	dates <- unique(dfTmp$POSIXct)
+
+	# Spread plots
+        spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=18))
+        names(spreadDf) <- c('POSIXct','basin',
+                             'q25','q50','q75','q0','q100','mean')
+        spreadDf$POSIXct <- as.POSIXct('1900-01-01 00:00',format='%Y-%m-%d %H:%M')
+        spreadDf$basin <- NA
+        spreadDf$q25 <- NA
+        spreadDf$q50 <- NA
+        spreadDf$q75 <- NA
+        spreadDf$q0 <- NA
+        spreadDf$q100 <- NA
+        spreadDf$mean <- NA
+
+        for (i in 1:nSteps) {
+                dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
+                qCalc <- quantile(dfTmp2$SNEQV_SUM, probs=seq(0,1,0.25), na.rm = TRUE)
+                spreadDf$POSIXct[i] <- dfTmp2$POSIXct[1]
+                spreadDf$basin[i] <- dfTmp2$statArg[1]
+                spreadDf$q25[i] <- qCalc[[2]]
+                spreadDf$q50[i] <- qCalc[[3]]
+                spreadDf$q75[i] <- qCalc[[4]]
+                spreadDf$q0[i] <- qCalc[[1]]
+                spreadDf$q100[i] <- qCalc[[5]]
+                spreadDf$mean[i] <- mean(dfTmp2$SNEQV_SUM)
+        }
+
+        spreadDf$Date <- as.Date(spreadDf$POSIXct)
+        dfTmp$Date <- as.Date(dfTmp$POSIXct)
+        colOut <- c('red')
+	gg <- ggplot() +
+              geom_smooth(data=spreadDf, aes(x=POSIXct,y=q50,ymin=q25,ymax=q75,color=basin),stat="identity",alpha=1) +
+              scale_color_manual(name='Model Run',values = colOut,label=c('Mean Modeled')) +
+              ggtitle(title) + xlab('Date') + ylab('SWE Volume (thousands acre-feet)') + ylim(0,yMax)
+        fileOutPath <- paste0(outDir,'/Basin_SWE_spread_',n,'_',strftime(startDate,"%Y%m%d%H"),
+                        '_',strftime(endDate,"%Y%m%d%H"),'.png')
+        ggsave(filename=fileOutPath, plot = gg)
+
+	# Product spaghetti plots
+	numColor <- length(unique(dfTmp$enstag))
+	colOut <- rgb(runif(numColor),runif(numColor),runif(numColor))
+	gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=SNEQV_SUM,color=enstag)) + geom_line() + 
+	      scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag))) +
+	      ggtitle(title) + xlab('Date') + ylab('SWE Volume (thousands acre-feet)') + ylim(0,yMax)
+	fileOutPath <- paste0(outDir,'/SWE_Volume_spaghetti_',n,'_',strftime(startDate,"%Y%m%d%H"),
+                        '_',strftime(endDate,"%Y%m%d%H"),'.png')
+        ggsave(filename = fileOutPath, plot = gg)
+
+	# Produce raster
+	gg <- ggplot(dfTmp, aes(x=POSIXct, y=enstag, fill=SNEQV_SUM)) + geom_raster() +
+              scale_fill_gradientn(colours = rainbow(10)) +
+              ggtitle(title) + xlab('Date') + ylab('Ensemble')
+        fileOutPath <- paste0(outDir,'/Basin_SWE_Volume_raster_hydrograph_',n,'_',strftime(startDate,"%Y%m%d%H"),
+                        '_',strftime(endDate,"%Y%m%d%H"),'.png')
+        ggsave(filename=fileOutPath, plot=gg)
+
+}
 PlotFlowSwe <- function(n, modDfs, lsmDfs, obs,
                         labMods=NULL,
                         labObs="Observed",

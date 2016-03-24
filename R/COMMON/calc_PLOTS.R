@@ -253,84 +253,27 @@ for (i in 1:length(hydroTags2)) {
 		}
         }
 }
-#for (i in 1:length(hydroTags2)) {
-#	ensList <- list()
-#	tmpList <- list()
-#	tmpList[[1]] <- subset(modFrxstout, modFrxstout$tag==hydroTags2[i])
-#	for (j in 1:length(hydroEnsTags)) {
-#        	if (!reachRting) {
-#                	ensList[[j]] <- subset(tmpList[[1]], tmpList[[1]]$enstag==hydroEnsTags[j])
-#        	} else {
-#                	ensList[[j]] <- subset(tmpList[[1]], tmpList[[1]]$enstag==hydroEnsTags[j])
-#        	}
-#	}
-#	hydroList[[i]] <- ensList
-#}
-#hydroColors <- lineColors[1:length(hydroList[[1]]$ensList)]
-#hydroTypes <- rep(lineTyp, length(hydroList[[1]]$ensList))
-#hydroWidths <- rep(lineWd, length(hydroList[[1]]$ensList))
-# Loop plots
-#for (i in 1:length(hydroTags2)) {
-#	for (n in gageNames) {
-#		modelTag <- hydroTags2[i]
-#		if (!is.null(STRfile)) {
-#        		if (idCol == "site_no") {
-#                		siteId <- n
-#                		plotTitle <- paste0("Streamflow: ", n, " (", obsStrMeta$site_name[obsStrMeta$site_no==n], ") ", "Model: ", modelTag)
-#        		} else if (idCol =="link") {
-#                		siteId <- subset(rtLinks$site_no, rtLinks$link==n)
-#                		plotTitle <- paste0("Streamflow: ", subset(rtLinks$site_no, rtLinks$link==n),
-#                	       	 	" (", obsStrMeta$site_name[obsStrMeta$site_no==subset(rtLinks$site_no, rtLinks$link==n)], ") ", "Model: ", modelTag)
-#        		}
-#			obsFlag <- 1
-#		} else {
-#		        if (idCol == "site_no") {
-#                                siteId <- n
-#                                plotTitle <- paste0("Streamflow: ", n, " (", n, ") ", "Model: ", modelTag)
-#                        } else if (idCol =="link") {
-#                                siteId <- subset(rtLinks$site_no, rtLinks$link==n)
-#                                plotTitle <- paste0("Streamflow: ", subset(rtLinks$site_no, rtLinks$link==n),
-#                                        " (", n, ") ", "Model: ", modelTag)
-#                        }
-#			obsFlag <- 0
-#		}
-#        	png(paste0(writePlotDir, "/hydrogr_", siteId, "_", modelTag, "_.png"), width=2100, height=1350, res=225)
-#        	PlotFlow(n, modDfs=hydroList[[i]],
-#                	        obs=obsStrData,
-#               	        	labMods=hydroEnsTags,
-#                        	labObs="Observed",
-#                        	lnCols=hydroColors,
-#                        	lnWds=hydroWidths,
-#                        	labTitle=plotTitle,
-#                        	stdate=hydroEnsStartDate, enddate=hydroEnsEndDate, obsCol="q_cms", idCol=idCol,
-#				ensFlag=1,
-#				obsFlag=obsFlag)
-#        	dev.off()
-#	}
-#}
-#if (writeHtml) {
-#	for (i in 1:length(hydroTags2)) {
-#        	cat('## Hydrographs\n', file=paste0(writePlotDir,"/plots_hydro.Rmd"), append=TRUE)
-#        	for (n in gageNames) {
-#                	cat(paste0("```{r hydro_", n, ", fig.width = 12, fig.height = 6, out.width='700', out.height='350', echo=FALSE}\n"),
-#                        	file=paste0(writePlotDir,"/plots_hydro.Rmd"), append=TRUE)
-#                	plottxt <- knitr::knit_expand(text='plotTitle <- paste0("Streamflow: ", subset(rtLinks$site_no, rtLinks$link=={{n}}),   
-#                	        " (", obsStrMeta$site_name[obsStrMeta$site_no==subset(rtLinks$site_no, rtLinks$link=={{n}})], ") ", "Model: ", modelTag);
-#                        	PlotFlow("{{n}}", modDfs=hydroList[[i]],
-#                        	obs=obsStrData,
-#                        	labMods=hydroEnsTags,
-#                        	labObs="Observed",
-#                        	lnCols=hydroColors,
-#                        	lnWds=hydroWidths,
-#                        	labTitle=plotTitle,
-#                        	stdate=hydroEnsStartDate, enddate=hydroEnsEndDate, obsCol="q_cms", idCol=idCol),
-#				ensFlag=1,
-#				obsFlag=obsFlag\n')
-#                	cat(plottxt, file=paste0(writePlotDir,"/plots_hydro.Rmd"), append=TRUE)
-#                	cat('```\n', file=paste0(writePlotDir,"/plots_hydro.Rmd"), append=TRUE)
-#        	}
-#	}
-#}
+}
+
+# Ensemble basin SWE volume plots
+if (basSnoEnsPlot) {
+message("Generating basin SWE volume ensemble plots...")
+modTags <- unique(modLdasout$native$tag)
+basins <- unique(modLdasout$statArg)
+for (i in 1:length(modTags)) {
+	modelTag <- modTags[i]
+	for (n in basins) {
+		print(n)
+		# Make plots
+		plotTitle <- paste0("Basin: ",n," Model: ",modelTag)
+		plotEnsSWE(n, modDfs=modLdasout$native,
+			   title=plotTitle,
+			   startDate=basSnowEnsStartDate,
+			   endDate=basSnowEnsEndDate,
+			   outDir=writePlotDir)
+		dev.off()
+	}   
+}
 }
 
 # Accumulated Precip

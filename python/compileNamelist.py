@@ -231,6 +231,14 @@ def editNamelist(pathIn,args,dbIn):
                 replaceStr = "hydroEnsEndDate <- as.POSIXct('" + endPStr1 + str2
                 el(pathIn,searchStr,replaceStr)
 
+		searchStr = "basSnowEnsStartDate <- NULL"
+		replaceStr = "basSnowEnsStartDate <- as.POSIXct('" + endPStr1 + str2
+                el(pathIn,searchStr,replaceStr)
+
+		searchStr = "basSnowEnsEndDate <- NULL"
+		replaceStr = "basSnowEnsEndDate <- as.POSIXct('" + endPStr1 + str2
+                el(pathIn,searchStr,replaceStr)
+
 		searchStr = "accprecipStartDate <- NULL"
 		replaceStr = "accprecipStartDate <- as.POSIXct('" + begPStr1 + str2
 		el(pathIn,searchStr,replaceStr)
@@ -820,4 +828,21 @@ def editNamelist(pathIn,args,dbIn):
                         el(pathIn,searchStr,replaceStr)
 			searchStr = "basinScatter <- FALSE"
 			replaceStr = "basinScatter <- TRUE"
+			el(pathIn,searchStr,replaceStr)
+		elif int(args.plot) == 19:
+			status = 0
+			for checkStr in ['_LSMBAS_ALL.Rdata','_LSMBAS_SUB.Rdata','_LSMBAS_NFIE.Rdata','_LSMBAS_IOC.Rdata',\
+				         '_LSMBAS_SNOW.Rdata']:
+				try:
+					ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
+                                        status = 1
+                                        break
+                                except:
+                                        continue
+                        if status == 0:
+                                print "ERROR: Failure to find input model file for ensemble SWE volume plots."
+                                sys.exit(1)
+
+			searchStr = "basSnoEnsPlot <- FALSE"
+			replaceStr = "basSnoEnsPlot <- TRUE"
 			el(pathIn,searchStr,replaceStr)
