@@ -742,7 +742,7 @@ if (readMod & readFrxstout) {
                         ensoutTag <- modoutTag 
                 }
                 # Read STR
-		if (reachRting | exists("stid2gageList")){ 
+		if (reachRting){ 
 			modFrxstout <- ReadFrxstPts(paste0(modoutPath, '/frxst_pts_out.txt'))
 		} else {
         		modFrxstout <- ReadFrxstPts(paste0(modoutPath, '/frxst_pts_out.txt'), stIdType='integer')
@@ -779,7 +779,6 @@ if (readMod & readFrxstout) {
   		for (j in unique(modFrxstout$site_no)[!is.na(unique(modFrxstout$site_no))]) {
     			tmp <- subset(modFrxstout, modFrxstout$site_no==j)
 			tmp$q_mm <- NA
-			print(j)
 			for (k in 1:nrow(tmp)) {
 				ts <- ifelse(k==1, as.integer(difftime(tmp$POSIXct[k+1],tmp$POSIXct[k], units="secs")), 
 						as.integer(difftime(tmp$POSIXct[k],tmp$POSIXct[k-1], units="secs")))
