@@ -259,9 +259,7 @@ for (i in 1:length(hydroTags2)) {
 if (basSnoEnsPlot) {
 message("Generating basin SWE volume ensemble plots...")
 modTags <- unique(modLdasout$native$tag)
-basins <- unique(modLdasout$statArg)
-print(modTags)
-print(basins)
+basins <- unique(modLdasout$native$statArg)
 for (i in 1:length(modTags)) {
 	modelTag <- modTags[i]
 	for (n in basins) {
