@@ -381,6 +381,7 @@ plotEnsFlow <- function(n, modDfs,
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
         ggsave(filename=fileOutPath, plot = gg)
 
+	print(fileOutPath)
 	#Spaghetti plots
         numColor = length(unique(dfTmp$enstag))
         colOut <- rgb(runif(numColor),runif(numColor),runif(numColor))
