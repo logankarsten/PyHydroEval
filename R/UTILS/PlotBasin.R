@@ -463,7 +463,7 @@ plotEnsSWE <- function(n, modDfs,
 	dates <- unique(dfTmp$POSIXct)
 	nSteps <- length(dates)
 
-	print(dfTmp)
+	print(modDfs)
 	# Spread plots
         spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=18))
         names(spreadDf) <- c('POSIXct','basin',
@@ -490,7 +490,6 @@ plotEnsSWE <- function(n, modDfs,
                 spreadDf$mean[i] <- mean(dfTmp2$SNEQV_SUM)
         }
 
-	print(spreadDf)
         spreadDf$Date <- as.Date(spreadDf$POSIXct)
         dfTmp$Date <- as.Date(dfTmp$POSIXct)
         colOut <- c('red')
