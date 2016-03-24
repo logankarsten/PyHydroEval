@@ -268,7 +268,7 @@ for (i in 1:length(modTags)) {
 		plotTitle <- paste0("Basin: ",n," Model: ",modelTag)
 		plotEnsSWE(n, modDfs=modLdasout$native,
 			   title=plotTitle,
-			   startDate=basSnowEnsStartDate,
+			   stDate=basSnowEnsStartDate,
 			   endDate=basSnowEnsEndDate,
 			   outDir=writePlotDir)
 		dev.off()
