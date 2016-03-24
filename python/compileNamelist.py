@@ -98,6 +98,11 @@ def editNamelist(pathIn,args,dbIn):
 	replaceStr = "resMod <- " + dbIn.geoRes[indDbOrig]
 	el(pathIn,searchStr,replaceStr)
 
+	# Edit the aggregation factor information
+	searchStr = "aggfact <- NULL"
+	replaceStr = "aggfact <- " + dbIn.agg[indDbOrig]
+	el(pathIn,searchStr,replaceStr)
+
 	# Edit number of cores information
 	searchStr = "ncores <- NULL"
 	if len(dbIn.nCores[indDbOrig]) != 0:

@@ -21,6 +21,7 @@ class modelDatabase:
 		self.ensTag = []
 		self.geoFile = []
 		self.geoRes = []
+		self.agg = []
 		self.fullDomFile = []
 		self.mskFile = []
 		self.link2GageFile = []
@@ -47,6 +48,7 @@ class modelDatabase:
 				self.forceInDir.append(dbTmp.forceInDir[i])
 				self.geoFile.append(dbTmp.geoFile[i])
 				self.geoRes.append(dbTmp.geoRes[i])
+				self.agg.append(dbTmp.agg[i])
 				self.fullDomFile.append(dbTmp.fullDomFile[i])
 				self.mskFile.append(dbTmp.mskFile[i])
 				self.link2GageFile.append(dbTmp.link2GageFile[i])
@@ -70,6 +72,7 @@ class modelDatabase:
 		forcingInTmp = parser.get('forcing_specification','forcingDir')
 		geoFileTmp = parser.get('geo_specification','geoFile')
 		geoResTmp = parser.get('geo','geoRes')
+		aggTmp = parser.get('geo','aggFactor')
 		geoHydFileTmp = parser.get('geo_specification','geoHydFile')
 		mskFileTmp = parser.get('geo_specification','maskFile')
 		lnkFileTmp = parser.get('geo_specification','link2gageFile')
@@ -99,6 +102,7 @@ class modelDatabase:
 		self.forceInDir.append(forcingInTmp)
 		self.geoFile.append(geoFileTmp)
 		self.geoRes.append(geoResTmp)
+		self.agg.append(aggTmp)
 		self.fullDomFile.append(geoHydFileTmp)
 		self.mskFile.append(mskFileTmp)
 		self.link2GageFile.append(lnkFileTmp)
@@ -199,6 +203,7 @@ class modelDatabase:
 		ensTagTmp = []
 		geoFileTmp = []
 		geoResTmp = []
+		aggTmp = []
 		fullDomFileTmp = []
 		mskFileTmp = []
 		link2GageFileTmp = []
@@ -222,6 +227,7 @@ class modelDatabase:
                                 self.forceInDir.append(dbTmp.forceInDir[i])
                                 self.geoFile.append(dbTmp.geoFile[i])
 				self.geoRes.append(dbTmp.geoRes[i])
+				self.agg.append(dbTmp.agg[i])
                                 self.fullDomFile.append(dbTmp.fullDomFile[i])
                                 self.mskFile.append(dbTmp.mskFile[i])
                                 self.link2GageFile.append(dbTmp.link2GageFile[i])
@@ -246,6 +252,7 @@ class modelDatabase:
 				ensTagTmp.append(self.ensTag[i])
 				geoFileTmp.append(self.geoFile[i])
 				geoResTmp.append(self.geoRes[i])
+				aggTmp.append(self.agg[i])
 				fullDomFileTmp.append(self.fullDomFile[i])
 				mskFileTmp.append(self.mskFile[i])
 				link2GageFileTmp.append(self.link2GageFile[i])
@@ -269,6 +276,7 @@ class modelDatabase:
 		self.ensTag = []
                 self.geoFile = []
 		self.geoRes = []
+		self.agg = []
                 self.fullDomFile = []
                 self.mskFile = []
                 self.link2GageFile = []
@@ -289,6 +297,7 @@ class modelDatabase:
 			self.ensTag.append(ensTagTmp[i])
 			self.geoFile.append(geoFileTmp[i])
 			self.geoRes.append(geoResTmp[i])
+			self.agg.append(aggTmp[i])
 			self.fullDomFile.append(fullDomFileTmp[i])
 			self.mskFile.append(mskFileTmp[i])
 			self.link2GageFile.append(link2GageFileTmp[i])
@@ -317,6 +326,7 @@ class modelDatabase:
                                 self.forceInDir.append(dbTmp.forceInDir[i])
                                 self.geoFile.append(dbTmp.geoFile[i])
 				self.geoRes.append(dbTmp.geoRes[i])
+				self.agg.append(dbTmp.agg[i])
                                 self.fullDomFile.append(dbTmp.fullDomFile[i])
                                 self.mskFile.append(dbTmp.mskFile[i])
                                 self.link2GageFile.append(dbTmp.link2GageFile[i])
@@ -404,7 +414,12 @@ class modelDatabase:
 		if args.geoRes:
 			self.geoRes.append(args.geoRes)
 		else:
-			self.geoRes.append(args.geoRes[aliasInd])
+			self.geoRes.append(self.geoRes[aliasInd])
+
+		if args.agg:
+			self.agg.append(args.agg)
+		else:
+			self.agg.append(self.agg[aliasInd])
 
 		if args.hydFile:
 			self.fullDomFile.append(args.hydFile)

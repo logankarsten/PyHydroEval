@@ -35,6 +35,8 @@ ensembleTags = crap1 crap2 crap3 crap4
 [geo]
 # Specify LSM resolution in km
 geoRes = 1.0
+# Specify aggregation factor between high res routing grid and LSM grid.
+aggFactor = 4.0
 
 [forcing_specification]
 # Specify the directory containing model forcing data used for this specified

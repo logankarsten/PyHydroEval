@@ -14,7 +14,7 @@ hydFile <- NULL
 geoFile <- NULL 
 
 ## Specify the aggregation factor between hydrogrid and geogrid
-aggfact <- 1
+aggfact <- NULL 
 
 ## Specify location of .Rdata file containing pre-processed mask objects
 maskFile <- NULL 
