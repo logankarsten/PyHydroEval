@@ -489,6 +489,7 @@ plotEnsSWE <- function(n, modDfs,
                 spreadDf$mean[i] <- mean(dfTmp2$SNEQV_SUM)
         }
 
+	print(dfTmp2)
         spreadDf$Date <- as.Date(spreadDf$POSIXct)
         dfTmp$Date <- as.Date(dfTmp$POSIXct)
         colOut <- c('red')
