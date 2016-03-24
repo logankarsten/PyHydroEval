@@ -685,12 +685,6 @@ def editNamelist(pathIn,args,dbIn):
                                 print "ERROR: Failure to find input model file for ensemble hydrograph plotting."
                                 sys.exit(1)
 
-                        searchStr = "snowPointScatter <- FALSE"
-                        replaceStr = "snowPointScatter <- TRUE"
-                        el(pathIn,searchStr,replaceStr)
-                        searchStr = "snotelScatter <- FALSE"
-                        replaceStr = "snotelScatter <- TRUE"
-                        el(pathIn,searchStr,replaceStr)
 		elif int(args.plot) == 4:
 			searchStr = "accprecipTags <- NULL"
 			replaceStr = "accprecipTags <- " + tagStr
