@@ -293,7 +293,7 @@ if (readMod & (readBasinLdasout | readAmfLdasout | readSnoLdasout | readMetLdaso
  			rep('SNOW_T', 3),
 			rep('SOILICE', 4),
 			'SOILSAT1', 'SOILSAT',
- 			'FSNO', 'SNOWH', 'SNEQV')
+ 			'FSNO', 'SNOWH', 'SNEQV','SNEQV')
  		varLabels <- c('ALBEDO', 'GRDFLX', 'LH', 'HFX',            
                         'FIRA', 'FSA', 'TRAD', 'UGDRNOFF',
                         'SFCRNOFF','CANLIQ', 'CANICE', 'ACCPRCP',
@@ -306,7 +306,7 @@ if (readMod & (readBasinLdasout | readAmfLdasout | readSnoLdasout | readMetLdaso
                         paste0('SNOW_T', 1:3),
 			paste0('SOILICE', 1:4),
 			'SOILSAT1', 'SOILSAT',
-                        'FSNO', 'SNOWH', 'SNEQV')
+                        'FSNO', 'SNOWH', 'SNEQV','SNEQV_SUM')
  		ldasoutVars <- as.list( varNames )
  		names(ldasoutVars) <- varLabels
  		#ldasoutVariableList <- list( ldasout = ldasoutVars )
@@ -317,6 +317,7 @@ if (readMod & (readBasinLdasout | readAmfLdasout | readSnoLdasout | readMetLdaso
 			level2 <- get(paste0(pref, "Index_Lev2"))
 			level3 <- get(paste0(pref, "Index_Lev3"))
 			level4 <- get(paste0(pref, "Index_Lev4"))
+			levelSum <- get(paste0(pref,"Index_sweSum"))
 			ldasoutInd <- list( level0, level0, level0, level0,
                                         level0, level0, level0, level0,
                                         level0, level0, level0, level0,
@@ -329,15 +330,15 @@ if (readMod & (readBasinLdasout | readAmfLdasout | readSnoLdasout | readMetLdaso
 					level1, level2, level3,
 					level1, level2, level3, level4,
 					level0, level0, 
-                                        level0, level0, level0 )
+                                        level0, level0, level0, levelSum )
                         names(ldasoutInd) <- names(ldasoutVars.)
                         #ldasoutIndexList <- list( ldasout = ldasoutInd )
 			ldasoutInd
 		}
 
 	} else if (varsLdasoutSNOW) {
-		varNames <- c('SNEQV','SNOWH')
-		varLabels <- c('SNEQV','SNOWH')
+		varNames <- c('SNEQV','SNOWH','SNEQV')
+		varLabels <- c('SNEQV','SNOWH','SNEQV_SUM')
 		ldasoutVars <- as.list( varNames )
 		names(ldasoutVars) <- varLabels
 		genIndex_Ldasout <- function(pref, ldasoutVars.=ldasoutVars) {
@@ -346,7 +347,8 @@ if (readMod & (readBasinLdasout | readAmfLdasout | readSnoLdasout | readMetLdaso
                         level2 <- get(paste0(pref, "Index_Lev2"))
                         level3 <- get(paste0(pref, "Index_Lev3"))
                         level4 <- get(paste0(pref, "Index_Lev4"))
-                        ldasoutInd <- list( level0, level0)
+			levelSum <- get(paste0(pref,"Index_sweSum"))
+                        ldasoutInd <- list( level0, level0, levelSum)
 		names(ldasoutInd) <- names(ldasoutVars.)
                 #ldasoutIndexList <- list( ldasout = ldasoutInd )
                 ldasoutInd
