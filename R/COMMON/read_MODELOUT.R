@@ -774,21 +774,28 @@ if (readMod & readFrxstout) {
 		names(modFrxstout)[names(modFrxstout)=="STAID"] <- "site_no"
   		# Calculate accumulated flow
   		modFrxstout$q_mm <- NA
+		modFrxstout$q_af <- NA
   		modFrxstout <- modFrxstout[order(modFrxstout$st_id, modFrxstout$POSIXct),]
   		modFrxstout$ACCFLOW <- NA
+		modFrxstout$ACCFLOW_af <- NA
   		for (j in unique(modFrxstout$site_no)[!is.na(unique(modFrxstout$site_no))]) {
     			tmp <- subset(modFrxstout, modFrxstout$site_no==j)
 			tmp$q_mm <- NA
+			tmp$q_af <- NA
 			for (k in 1:nrow(tmp)) {
 				ts <- ifelse(k==1, as.integer(difftime(tmp$POSIXct[k+1],tmp$POSIXct[k], units="secs")), 
 						as.integer(difftime(tmp$POSIXct[k],tmp$POSIXct[k-1], units="secs")))
                         	tmp$q_mm[k] <- tmp$q_cms[k]/
                                         (mskhyd.areaList[[j]]
                                         *hydDX*hydDX)*1000*ts
+				tmp$q_af[k] <- (tmp$q_cms[k]*ts)/1233.48
 			}
 			modFrxstout$q_mm[modFrxstout$site_no==j & !is.na(modFrxstout$site_no)] <- tmp$q_mm
+			modFrxstout$q_af[modFrxstout$site_no==j & !is.na(modFrxstout$site_no)] <- tmp$q_af
     			qaccum <- cumsum(tmp$q_mm)
+			qaccum_af <- cumsum(tmp$q_af)
     			modFrxstout$ACCFLOW[modFrxstout$site_no==j & !is.na(modFrxstout$site_no)] <- qaccum
+			modFrxstout$ACCFLOW_af[modFrxstout$site_no==j & !is.na(modFrxstout$site_no)] <- qaccum_af
   		}
 		# Add model run tag and bind
                 modFrxstout$tag <- modoutTag
