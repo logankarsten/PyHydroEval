@@ -232,7 +232,7 @@ def editNamelist(pathIn,args,dbIn):
                 el(pathIn,searchStr,replaceStr)
 
 		searchStr = "basSnowEnsStartDate <- NULL"
-		replaceStr = "basSnowEnsStartDate <- as.POSIXct('" + endPStr1 + str2
+		replaceStr = "basSnowEnsStartDate <- as.POSIXct('" + begPStr1 + str2
                 el(pathIn,searchStr,replaceStr)
 
 		searchStr = "basSnowEnsEndDate <- NULL"
