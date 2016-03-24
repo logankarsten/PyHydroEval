@@ -453,7 +453,8 @@ plotEnsSWE <- function(n, modDfs,
 		       outDir='./') {
 
 	# Subset data based on dates and basin
-	dfTmp <- subset(modDfs,statArg==n & POSIXct >= stDate & POSIXct <= endDate)
+	#dfTmp <- subset(modDfs,statArg==n & POSIXct >= stDate & POSIXct <= endDate)
+	dfTmp <- subset(modDfs,statArg==n)
 	
 	# Convert SWE volume from cubic meters to thousands of acre-feet
 	dfTmp$SNEQV_SUM <- (dfTmp$SNEQV_SUM/1233.48)/1000.0
@@ -463,7 +464,7 @@ plotEnsSWE <- function(n, modDfs,
 	dates <- unique(dfTmp$POSIXct)
 	nSteps <- length(dates)
 
-	print(modDfs)
+	print(dfTmp)
 	# Spread plots
         spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=18))
         names(spreadDf) <- c('POSIXct','basin',
