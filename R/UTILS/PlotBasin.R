@@ -336,7 +336,7 @@ plotEnsFlow <- function(n, modDfs,
         nSteps <- length(dates)
         ensLab <- unique(modDfs$enstag)
 
-	print('you')
+	print(nSteps)
 	# Spread plots
         spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=12))
         names(spreadDf) <- c('st_id','st_lon','st_lat','POSIXct','site_no','tag',
