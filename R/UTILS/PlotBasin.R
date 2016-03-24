@@ -328,10 +328,13 @@ plotEnsFlow <- function(n, modDfs,
                         outDir=NULL) {
 
 
-	print(n)
         #Spaghetti plots
         #Subset data based on gage, date range
         dfTmp <- subset(modDfs,site_no==n & POSIXct >= startDate & POSIXct <= endDate)
+	print(startDate)
+	print(endDate)
+	print(n)
+	print(dfTmp)
         dates <- unique(dfTmp$POSIXct)
         nSteps <- length(dates)
         ensLab <- unique(modDfs$enstag)
