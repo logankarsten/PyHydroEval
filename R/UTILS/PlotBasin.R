@@ -335,7 +335,6 @@ plotEnsFlow <- function(n, modDfs,
         nSteps <- length(dates)
         ensLab <- unique(modDfs$enstag)
 
-	print(nSteps)
 	# Spread plots
         spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=12))
         names(spreadDf) <- c('st_id','st_lon','st_lat','POSIXct','site_no','tag',
@@ -353,7 +352,6 @@ plotEnsFlow <- function(n, modDfs,
         spreadDf$q100 <- NA
         spreadDf$mean <- NA
 
-        print(n)
         for (i in 1:nSteps) {
                 dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
                 qCalc <- quantile(dfTmp2$q_cfs, probs=seq(0,1,0.25), na.rm = TRUE)
@@ -382,7 +380,6 @@ plotEnsFlow <- function(n, modDfs,
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
         ggsave(filename=fileOutPath, plot = gg)
 
-	print(fileOutPath)
 	#Spaghetti plots
         numColor = length(unique(dfTmp$enstag))
         colOut <- rgb(runif(numColor),runif(numColor),runif(numColor))
