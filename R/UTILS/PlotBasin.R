@@ -461,6 +461,7 @@ plotEnsSWE <- function(n, modDfs,
 	yMax <- max(dfTmp$SNEQV_SUM)
 
 	dates <- unique(dfTmp$POSIXct)
+	nSteps <- length(dates)
 
 	# Spread plots
         spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=18))
