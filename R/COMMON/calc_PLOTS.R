@@ -220,7 +220,7 @@ for (i in 1:length(hydroTags2)) {
                                 plotTitle <- paste0("Streamflow: ", subset(rtLinks$site_no, rtLinks$link==n),
                                         " (", obsStrMeta$site_name[obsStrMeta$site_no==subset(rtLinks$site_no, rtLinks$link==n)], ") ", "Model: ", modelTag)
                         }
-                        obsFlag <- 0 	
+                        obsFlag <- 1 	
                 } else { # Make ensemble plots with observationis
         		if (idCol == "site_no") {
                                 siteId <- n
@@ -230,10 +230,9 @@ for (i in 1:length(hydroTags2)) {
                                 plotTitle <- paste0("Streamflow: ", subset(rtLinks$site_no, rtLinks$link==n),
                                         " (", n, ") ", "Model: ", modelTag)
                         }
-                        obsFlag <- 1 
+                        obsFlag <- 0 
                 }
 		print(n)
-		print(obsFlag)
 		# Make suit of plots
 		if (obsFlag == 1){
 			plotEnsFlowWObs(n, modDfs=modDfsOut,
