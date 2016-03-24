@@ -179,6 +179,11 @@ if (createPlots) {
                 	}
         	}
 	}
+	if (basSnoEnsPlot) {
+		if (file.exists(modReadFileIn)) {
+			load(modReadFileIn)
+		}
+	}
 	if (metPlot) {
                 if (is.null(forcReadFileOut)) {
                         if (file.exists(forcReadFileIn)) {
