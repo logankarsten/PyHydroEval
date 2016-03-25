@@ -32,6 +32,7 @@ def main(argv):
 	parser.add_argument('--mskFile', nargs='?', help='New model project mask file.')
 	parser.add_argument('--geoFile', nargs='?', help='New model project mask file.')
 	parser.add_argument('--geoRes', nargs='?', help='New model project LSM resolution.')
+	parser.add_argument('--agg', nargs='?', help='New model project aggregation factor.')
 	parser.add_argument('--hydFile', nargs='?', help='New model project hydro geo file.')
 	parser.add_argument('--link2gage', nargs='?', help='New model project link2gage file.')
 	parser.add_argument('--snPath', nargs='?', help='New SNODAS directory.')
