@@ -387,9 +387,10 @@ class modelDatabase:
 			print "ERROR: Must supply both ensemble list and tags."
 			raise
 
-		if len(args.ensTag.split()) != len(args.ensList.split()):
-			print "ERROR: Ensemble list and tags must be equal length."
-			raise
+		if args.ensTag and args.ensList:
+			if len(args.ensTag.split()) != len(args.ensList.split()):
+				print "ERROR: Ensemble list and tags must be equal length."
+				raise
 
 		if args.ensList:
 			self.ensList.append(args.ensList.split())
