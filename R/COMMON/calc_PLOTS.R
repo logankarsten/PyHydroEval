@@ -232,7 +232,6 @@ for (i in 1:length(hydroTags2)) {
                         }
                         obsFlag <- 0 
                 }
-		print(n)
 		# Make suit of plots
 		if (obsFlag == 1){
 			plotEnsFlowWObs(n, modDfs=modDfsOut,
@@ -263,7 +262,6 @@ basins <- unique(modLdasout$native$statArg)
 for (i in 1:length(modTags)) {
 	modelTag <- modTags[i]
 	for (n in basins) {
-		print(n)
 		# Make plots
 		plotTitle <- paste0("Basin: ",n," Model: ",modelTag)
 		plotEnsSWE(n, modDfs=modLdasout$native,
@@ -1022,7 +1020,6 @@ if (snowPointScatter) {
 		for (i in 1:numPoints){
 			pointId <- ptgeo.sno$id[i]
 
-			print(pointId)
 			# Set a default maximum value for plotting purposes
 			maxSnow <- 500.0
 			for (j in 1:numTags){
@@ -1493,29 +1490,25 @@ if (snowPointScatter) {
 	if (basinScatter) {
 		numBas <- length(mskgeo.nameList)
 
-		# DEFAULT TO ONLY SNOTEL FOR NOW
-		#if (snotelScatter) {
+		if (snotelScatter) {
 			numPoints <- length(ptgeo.sno$id)
-                #}
-		#if (metScatter) {
-		#	numPoints <- length(ptgeo.met$id)
-		#}
+                }
+		if (metScatter) {
+			numPoints <- length(ptgeo.met$id)
+		}
 
 		modData <- modLdasout$utcday
                 # Determine number of model tags to analyze
                 tags <- unique(modData$tag)
                 numTags <- length(tags)
 
-		print(tags)
 		for (i in 1:numBas) {
 			basId <- mskgeo.nameList[[i]]
 			maxSnow <- 500.0
 
-			print(basId)
 			for (j in 1:numTags){
 				tag <- tags[j]
 
-				print(tag)
 				# Establish temporary arrays to hold data
 				obsTmp <- c()
 				modTmp <- c()
@@ -1524,60 +1517,53 @@ if (snowPointScatter) {
 				# Loop through observation points
 				# If region tag is true, calculate aggregate statistics
 				for (k in 1:numPoints) {
-					# DEFAULT TO SNOTEL FOR NOW
-					#if (snotelScatter) {
+					if (snotelScatter) {
 						pointId <- ptgeo.sno$id[k]
 						regionTagList <- ptgeo.sno$region[[k]]
-					#}
-					#if (metScatter) {
-					#	pointId <- ptgeo.met$id[k]
-					#	regionTagList <- ptgeo.met$region[[k]]
-					#}
+					}
+					if (metScatter) {
+						pointId <- ptgeo.met$id[k]
+						regionTagList <- ptgeo.met$region[[k]]
+					}
 
 					print(pointId)
 					indTmp <- which(names(regionTagList) == basId)
 					if (regionTagList[[indTmp]]) { # Observation data is within this region
-						# DEFAULT TO SNOTEL FOR NOW
-						#if (snotelScatter) {
+						if (snotelScatter) {
 							ind <- which(obsSnoData$site_id == pointId & obsSnoData$POSIXct >= snowScatterBegDate &
                                         			obsSnoData$POSIXct <= snowScatterEndDate &
-                                        			!is.nan(obsSnoData$SWE_mm))
 							obsDates <- obsSnoData$POSIXct[ind]
 							obsSNOW <- obsSnoData$SWE_mm[ind]
-						#}
-						#if (metScatter) {
-						#	ind <- which(obsMetData.dy$site_id == pointId & obsMetData.dy$POSIXct >= snowScatterBegDate &
-                                        	#	obsMetData.dy$POSIXct <= snowScatterEndDate &
-                                        	#	!is.nan(obsMetData.dy$SnoDep_mean))
-						#	obsDates <- obsMetData.dy$POSIXct[ind]
-                                		#	obsSNOW <- obsMetData.dy$SnoDep_mean[ind]
-						#}
+						}
+						if (metScatter) {
+							ind <- which(obsMetData.dy$site_id == pointId & obsMetData.dy$POSIXct >= snowScatterBegDate &
+                                        		obsMetData.dy$POSIXct <= snowScatterEndDate &
+							obsDates <- obsMetData.dy$POSIXct[ind]
+                                			obsSNOW <- obsMetData.dy$SnoDep_mean[ind]
+						}
 
 						numSteps <- length(ind)
 						if (numSteps > 0){
 							for (m in 1:numSteps){
-								print(m)
 								tmpDate <- obsDates[m]
 								tmpDate2 <- as.numeric(strftime(tmpDate,format="%m"))
 								tmpObs <- obsSNOW[m]
 								ind2 <- which(modData$statArg == pointId & modData$tag == tag &
 										modData$POSIXct == tmpDate)
-								# DEFAULT TO SNOTEL FOR NOW
-								#if (snotelScatter) {
+								if (snotelScatter) {
 									tmpMod <- modData$SNEQV_mean[ind2[1]]
-								#}
-								#if (metScatter) {
-								#	tmpMod <- modData$SNOWH_mean[ind2]
-								#}
+								}
+								if (metScatter) {
+									tmpMod <- modData$SNOWH_mean[ind2]
+								}
 
 								ind3 <- which(snodasout$utcday$statArg == pointId & snodasout$utcday$POSIXct == tmpDate)
-								# DEFAULT TO SNOTEL FOR NOW
-								#if (snotelScatter) {
+								if (snotelScatter) {
 									tmpSnodas <- snodasout$utcday$SNEQV[ind3[1]]
-								#}
-								#if (metScatter) {
-								#	tmpSnodas <- snodasout$utcday$SNOWH[ind3]
-								#}
+								}
+								if (metScatter) {
+									tmpSnodas <- snodasout$utcday$SNOWH[ind3]
+								}
 
 								obsTmp <- c(obsTmp, tmpObs)
 								modTmp <- c(modTmp, tmpMod)
@@ -1613,20 +1599,18 @@ if (snowPointScatter) {
 					pathOut <- paste0(writePlotDir,"/MODEL_OBS_SCATTER_",basId,"_",tag,"_",
 							strftime(snowScatterBegDate,format="%Y%m%d"),"_",
                                                 	strftime(snowScatterEndDate,format="%Y%m%d"),".png")
-					print(pathOut)
-					# DEFAULT TO SNOTEL FOR NOW
-					#if (snotelScatter) {
+					if (snotelScatter) {
 						title <- paste0(basId,' ',tag,' vs. SNOTEL: ',
                                                 	strftime(snowScatterEndDate,format="%Y"),' WY')
                                 		xlab <- 'SNOTEL SWE (mm)'
                                 		ylab <- 'Model SWE (mm)'
-					#}
-					#if (metScatter) {
-					#	title <- paste0('HydroMet ',basId,' ',tag,' vs. HydroMet:: ',
-                                        #        	strftime(snowScatterEndDate,format="%Y"),' WY')
-                                	#	xlab <- 'HydroMet Snow Depth (mm)'
-                                	#	ylab <- 'Model Snow Depth (mm)'
-					#}
+					}
+					if (metScatter) {
+						title <- paste0('HydroMet ',basId,' ',tag,' vs. HydroMet:: ',
+                                               	strftime(snowScatterEndDate,format="%Y"),' WY')
+                                		xlab <- 'HydroMet Snow Depth (mm)'
+                                		ylab <- 'Model Snow Depth (mm)'
+					}
 
                                 	# Linear Regression Coefficient Calculations
 					lmOut <- lm(Model ~ Observation, dfTmp)
@@ -1656,19 +1640,18 @@ if (snowPointScatter) {
                                         pathOut <- paste0(writePlotDir,"/MODEL_SNODAS_SCATTER_",basId,"_",tag,"_",
                                                         strftime(snowScatterBegDate,format="%Y%m%d"),"_",
                                                         strftime(snowScatterEndDate,format="%Y%m%d"),".png")
-                                        # DEFAULT TO SNOTEL FOR NOW
-                                        #if (snotelScatter) {
+                                        if (snotelScatter) {
                                                 title <- paste0(basId,' ',tag,' vs. SNODAS: ',
                                                         strftime(snowScatterEndDate,format="%Y"),' WY')
                                                 xlab <- 'SNODAS SWE (mm)'
                                                 ylab <- 'Model SWE (mm)'
-                                        #}
-                                        #if (metScatter) {
-                                        #       title <- paste0('HydroMet ',basId,' ',tag,' vs. SNODAS:: ',
-                                        #               strftime(snowScatterEndDate,format="%Y"),' WY')
-                                        #       xlab <- 'SNODAS Snow Depth (mm)'
-                                        #       ylab <- 'Model Snow Depth (mm)'
-                                        #}
+                                        }
+                                        if (metScatter) {
+                                               title <- paste0('HydroMet ',basId,' ',tag,' vs. SNODAS:: ',
+                                                       strftime(snowScatterEndDate,format="%Y"),' WY')
+                                               xlab <- 'SNODAS Snow Depth (mm)'
+                                               ylab <- 'Model Snow Depth (mm)'
+                                        }
 
                                         # Linear Regression Coefficient Calculations
 					lmOut <- lm(Model ~ SNODAS, dfTmp)
@@ -1698,19 +1681,18 @@ if (snowPointScatter) {
                                         pathOut <- paste0(writePlotDir,"/SNODAS_OBSERVATION_SCATTER_",basId,"_",tag,"_",
                                                         strftime(snowScatterBegDate,format="%Y%m%d"),"_",
                                                         strftime(snowScatterEndDate,format="%Y%m%d"),".png")
-                                        # DEFAULT TO SNOTEL FOR NOW
-                                        #if (snotelScatter) {
+                                        if (snotelScatter) {
                                                 title <- paste0('SNOTEL ',basId,' vs. SNODAS: ',
                                                         strftime(snowScatterEndDate,format="%Y"),' WY')
                                                 xlab <- 'SNOTEL SWE (mm)'
                                                 ylab <- 'SNODAS SWE (mm)'
-                                        #}
-                                        #if (metScatter) {
-                                        #       title <- paste0('HydroMet ',basId,' vs. SNODAS:: ',
-                                        #               strftime(snowScatterEndDate,format="%Y"),' WY')
-                                        #       xlab <- 'HydroMet Snow Depth (mm)'
-                                        #       ylab <- 'SNODAS Snow Depth (mm)'
-                                        #}
+                                        }
+                                        if (metScatter) {
+                                               title <- paste0('HydroMet ',basId,' vs. SNODAS:: ',
+                                                       strftime(snowScatterEndDate,format="%Y"),' WY')
+                                               xlab <- 'HydroMet Snow Depth (mm)'
+                                               ylab <- 'SNODAS Snow Depth (mm)'
+                                        }
 
                                         # Linear Regression Coefficient Calculations
 					lmOut <- lm(SNODAS ~ Observation, dfTmp)

@@ -27,22 +27,6 @@ message(paste0("Temp output file:", tmpRimg))
 ## ------------------------------------------------------------------------
 ## ------------------------------------------------------------------------
 
-#if (readSnodas & readBasinSnodas) {
-#	# Basin indices
-#        # Basin Mean
-#        basgeoIndexMean <- list()
-#        for (i in 1:length(mskgeo.nameList)) {
-#		basgeoIndexMean[[as.character(mskgeo.nameList[[i]])]] <- list(start=c(mskgeo.minInds$x[i], mskgeo.minInds$y[i],1),
-#			end=c(mskgeo.maxInds$x[i],mskgeo.maxInds$y[i], 1),stat='basin_avg', arg=list(mskvar=mskgeo.List[[i]]))
-#	}
-#	# Basin Sum
-#	basgeoIndexSum <- list()
-#        for (i in 1:length(mskgeo.nameList)) {
-#                basgeoIndexSum[[as.character(mskgeo.nameList[[i]])]] <- list(start=c(mskgeo.minInds$x[i], mskgeo.minInds$y[i],1),
-#                        end=c(mskgeo.maxInds$x[i],mskgeo.maxInds$y[i], 1),stat='basin_sum_swe', arg=list(mskvar=mskgeo.List[[i]],res=resMod))
-#        }
-#}
-
 if (readSnodas & readSnoSnodas) {
 	# SNOTEL sites
 	snoIndex_Lev0 <- list()
@@ -78,89 +62,6 @@ if (readSnodas & readMetSnodas) {
         }
 
 }
-
-## SNODAS Basin Processing
-#if (readSnodas & readBasinSnodas) {
-#	#Setup variables
-#	varNames <- c('SNEQV','SNEQV')
-#	varLabels <- c('SNEQV_MEAN','SNEQV_SUM')
-#	snodasVars <- as.list(varNames)
-#	names(snodasVars) <- varLabels
-#	genIndex_Snodas <- function(pref,snodasVars.=snodasVars) {
-#		mean <- get(paste0(pref,"IndexMean"))
-#		sum <- get(paste0(pref,"IndexSum"))
-#		snodasInd <- list(mean, sum)
-#		names(snodasInd) <- names(snodasVars.)
-#		snodasInd
-#	}
-#
-#	# Run through reads
-#	snodasIndexList <- list()
-#	snodasVariableList <- list()
-#	if (readBasinSnodas) {
-#		snodasInd <- genIndex_Snodas("basgeo")
-#		snodasIndexList <- c(snodasIndexList,list(snodas.basgeo = snodasInd ))
-#		snodasVariableList <- c(snodasVariableList, list( snodas.basgeo = snodasVars ))
-#	}
-#
-#	# Get the data and flatten files
-#	snodas_FINAL <- data.table()
-#	snodas.utcday_FINAL <- data.table()
-#	snodas.utcmonth_FINAL <- data.table()
-#	for (i in 1:length(snodasPathList)) {
-#		snodasPath <- snodasPathList[i]
-#		snodasTag <- snodasTagList[i]
-#		filesList <- list.files(path=snodasPath,pattern=glob2rx('SNODAS_CONUS_*.nc'),full.names=TRUE)
-#		if (!is.null(readSnodasStart) | !is.null(readSnodasEnd)) {
-#			filesList <- subDates(filesList, readSnodasStart, readSnodasEnd, snodas2dt)
-#		}
-#		message(paste0("First: ", filesList[1], " Last: ", filesList[length(filesList)]))
-#		# Repeat vars and files for all of the index options
-#		indcnt <- length(names(snodasIndexList))
-#		snodasFilesList <- rep(list(filesList),indcnt)
-#		names(snodasFilesList) <- names(snodasIndexList)
-#		# Run basin means
-#	        snodasOutDF <- GetMultiNcdf(indexList=snodasIndexList,
-#                                            variableList=snodasVariableList,
-#                                            filesList=snodasFilesList,
-#                                            parallel=parallelFlag )
-#                snodasOutDF_ALL <- ReshapeMultiNcdf(snodasOutDF) 
-#                fileGroups <- unique(snodasOutDF$fileGroup)
-#
-#                snodasOutList <- list()
-#                for (j in fileGroups) {
-#                    if (length(fileGroups)==1) { snodasout <- snodasOutDF_ALL } else { snodasout <- snodasOutDF_ALL[[j]] }
-#                    # Data mgmt
-#                    snodasout$tag <- snodasTag
-#                    snodasout$fileGroup <- j
-#                    snodasout <- data.table(snodasout)
-#                    setkey(snodasout, tag, fileGroup, statArg, POSIXct)
-#                    # Calculate truncated date from UTC time
-#                    snodasout$UTC_date <- CalcDateTrunc(snodasout$POSIXct)
-#                    # List data by UTC day
-#                    snodasout.utcday <- snodasout[,list(SNEQV_MEAN=SNEQV_MEAN,SNEQV_SUM=SNEQV_SUM),by = "statArg,UTC_date"]
-#                    mo <- as.integer(format(snodasout.utcday$UTC_date,"%m"))
-#                    yr <- as.integer(format(snodasout.utcday$UTC_date,"%Y"))
-#                    snodasout.utcday$UTC_month <- as.Date(paste0(yr,"-",mo,"-15"),format="%Y-%m-%d")
-#                    snodasout.utcmonth <- snodasout.utcday[,list(SNEQV_MEAN=mean(SNEQV_MEAN),SNEQV_SUM=mean(SNEQV_SUM)),
-#                                          by = "statArg,UTC_month"]
-#                    snodasout.utcday$POSIXct <- as.POSIXct(paste0(snodasout.utcday$UTC_date, " 00:00"), tz="UTC")
-#                    snodasout.utcmonth$POSIXct <- as.POSIXct(paste0(snodasout.utcmonth$UTC_month, " 00:00"),tz="UTC")
-#                    # Add tags
-#                    snodas_FINAL <- rbindlist(list(snodas_FINAL, snodasout))
-#                    snodas.utcday_FINAL <- rbindlist(list(snodas.utcday_FINAL, snodasout.utcday))
-#                    snodas.utcmonth_FINAL <- rbindlist(list(snodas.utcmonth_FINAL, snodasout.utcmonth))
-#                    rm(snodasout, snodasout.utcday, snodasout.utcmonth)
-#                    gc()
-#                }
-#
-#        }	
-#
-#        snodas_tmp <- list(snodas_FINAL,snodas.utcday_FINAL,snodas.utcmonth_FINAL)
-#        names(snodas_tmp) <- c("native","utcday","utcmonth")
-#        saveList <- c(saveList,"snodas_tmp")
-#        save(list=saveList,file=tmpRimg)
-#}      
 
 # SNODAS point processing
 if (readSnodas & (readSnoSnodas | readAmfSnodas | readMetSnodas)) {

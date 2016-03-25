@@ -149,7 +149,6 @@ if (calcStats & basSnoProc) {
 	# Load basin snow file 
 	load(snodasReadFileOut)
 	# Load model output (necessary for total accumulated streamflow).
-	#load(modReadFileOut)
 	source("calc_BASIN_SNOW.R")
 }
 

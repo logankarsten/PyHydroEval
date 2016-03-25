@@ -253,7 +253,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	spreadDf$mean <- NA
 	spreadDf$ObsCFS <- NA
 
-	print(n)
 	for (i in 1:nSteps) {
 		dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
 		qCalc <- quantile(dfTmp2$q_cfs, probs=seq(0,1,0.25), na.rm = TRUE)
@@ -271,7 +270,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 		spreadDf$mean[i] <- mean(dfTmp2$q_cfs)
 		# Observations
 
-		print(dates[i])
 		ind <- which(obs$site_no == n & strftime(obs$POSIXct,"%Y-%m-%d %H:%M") == strftime(dates[i],"%Y-%m-%d %H:%M"))
 		#ind <- which(obs$site_no == n & obs$Date == strftime(dates[i],"%Y-%m-%d"))
 		if (length(ind) != 0){
@@ -294,16 +292,9 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	ggsave(filename=fileOutPath, plot = gg)
 
 	#Spaghetti plots
-	#numColor = length(unique(dfTmp2$enstag)) + 2
 	numColor = length(unique(dfTmp$enstag)) + 1
 	colOut <- rgb(runif(numColor),runif(numColor),runif(numColor))
 	colOut[length(colOut)] <- 'black'
-        #gg <- ggplot(data=dfTmp2,aes(x=POSIXct,y=q_cfs,color=enstag)) + geom_line() +
-        #        ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,500) +  
-	#	geom_line(data=dfTmpNLDAS, aes(x=POSIXct,y=q_cfs,color='NLDAS2'), size=1.15) + 
-	#	geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') + 
-	#	#scale_x_date(labels = date_format("%d:%H")) + ylim(0,250) + 
-	#	scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp2$enstag),'NLDAS2','Observed'))
 	gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=q_cfs,color=enstag)) + geom_line() + 
 	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') + 
 	      scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag),'Observed')) + 
@@ -463,7 +454,6 @@ plotEnsSWE <- function(n, modDfs,
 	dates <- unique(dfTmp$POSIXct)
 	nSteps <- length(dates)
 
-	print(n)
 	# Spread plots
         spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=18))
         names(spreadDf) <- c('POSIXct','basin',

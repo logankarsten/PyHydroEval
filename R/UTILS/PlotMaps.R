@@ -93,7 +93,6 @@ PlotPeakSweMap <- function(myMap,dStart,dEnd,geoNX,geoNY) {
 		for (j in 1:numMod) {
 			modPath <- paste0(modPathList[[j]],"/",strftime(dCurrent,"%Y%m%d"),
                           "00.LDASOUT_DOMAIN1")
-			message(modPath)
                         id <- nc_open(modPath)
                         sweModel <- ncvar_get(id,'SNEQV')
                         nc_close(id)
@@ -102,8 +101,6 @@ PlotPeakSweMap <- function(myMap,dStart,dEnd,geoNX,geoNY) {
 				if (j == 1) {
 					modTest <- array(-9999.0,c(geoNX,geoNY,numMod))
 				}
-				print(dim(modTest))
-				print(dim(sweModel))
 				modTest[,,j] <- sweModel
 			} else {
 				testTemp <- modTest[,,j]
