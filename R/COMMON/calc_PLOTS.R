@@ -1531,13 +1531,13 @@ if (snowPointScatter) {
 					if (regionTagList[[indTmp]]) { # Observation data is within this region
 						if (snotelScatter) {
 							ind <- which(obsSnoData$site_id == pointId & obsSnoData$POSIXct >= snowScatterBegDate &
-                                        			obsSnoData$POSIXct <= snowScatterEndDate &
+                                        			obsSnoData$POSIXct <= snowScatterEndDate) 
 							obsDates <- obsSnoData$POSIXct[ind]
 							obsSNOW <- obsSnoData$SWE_mm[ind]
 						}
 						if (metScatter) {
 							ind <- which(obsMetData.dy$site_id == pointId & obsMetData.dy$POSIXct >= snowScatterBegDate &
-                                        		obsMetData.dy$POSIXct <= snowScatterEndDate &
+                                        		obsMetData.dy$POSIXct <= snowScatterEndDate) 
 							obsDates <- obsMetData.dy$POSIXct[ind]
                                 			obsSNOW <- obsMetData.dy$SnoDep_mean[ind]
 						}
