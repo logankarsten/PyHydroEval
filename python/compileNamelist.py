@@ -127,7 +127,7 @@ def editNamelist(pathIn,args,dbIn):
 			sys.exit(1)
 		searchStr = "basinSub <- NULL"
 		replaceStr = "basinSub <- read.table('" + dbIn.basinSubFile[indDbOrig] + \
-		             "', sep=\"\t\", header=TRUE, colClasses=c(\"character\"))"
+		             "', sep=\"\\t\", header=TRUE, colClasses=c(\"character\"))"
 		el(pathIn,searchStr,replaceStr) 
 		 
 	# Edit tmp directory.
