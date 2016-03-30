@@ -36,6 +36,7 @@ def main(argv):
 	parser.add_argument('--plot',nargs='?', help='Plot Flag (1-18)')
 	parser.add_argument('--begPDate',nargs='?', help='Beginning Date for Plotting in YYYYMMDDHH Format')
 	parser.add_argument('--endPDate',nargs='?', help='Ending Date for Plotting in YYYYMMDDHH Format')
+	parser.add_argument('--subset',nargs='?', help='Flag to turn on subsetting within reading or plotting')
 
 	args = parser.parse_args()
 

@@ -53,8 +53,10 @@ geoHydFile = /d4/karsten/PyHydroEval_test/geo/Fulldom_hires_netcdf_file.nc
 # Specify mask file to be used for this particular model/alias
 maskFile = /d4/karsten/PyHydroEval_test/geo/urg_MASKS_NEWDOMAIN.Rdata
 
-# Optional - specify text file mapping links to gages
-link2gageFile = 
+# Optional - specify text file subsetting links for reading/plotting/stats 
+readLink2gageFile =
+statsLink2GageFile =
+plotLink2GageFile = 
 
 # Optional - specify observation datasets
 [observations_specification]

@@ -195,13 +195,13 @@ def editNamelist(pathIn,args,dbIn):
 		replaceStr = "enddate_stats <- as.POSIXct('" + endAStr2 + str1
 		el(pathIn,searchStr,replaceStr)
 
-		searchStr = "stdate_stats_sub <- NULL"
-		replaceStr = "stdate_stats_sub <- as.POSIXct('" + begAStr2 + str1
-		el(pathIn,searchStr,replaceStr)
+		#searchStr = "stdate_stats_sub <- NULL"
+		#replaceStr = "stdate_stats_sub <- as.POSIXct('" + begAStr2 + str1
+		#el(pathIn,searchStr,replaceStr)
 
-		searchStr = "enddate_stats_sub <- NULL"
-		replaceStr = "enddate_stats_sub <- as.POSIXct('" + endAStr2 + str1
-		el(pathIn,searchStr,replaceStr)
+		#searchStr = "enddate_stats_sub <- NULL"
+		#replaceStr = "enddate_stats_sub <- as.POSIXct('" + endAStr2 + str1
+		#el(pathIn,searchStr,replaceStr)
 
 	# Edit all plotting dates in file.
 	if args.begPDate is not None:
@@ -637,23 +637,86 @@ def editNamelist(pathIn,args,dbIn):
 		searchStr = "calcStats <- FALSE"
 		replaceStr = "calcStats <- TRUE"
 		el(pathIn,searchStr,replaceStr)
-		
+	
+		searchStr = "writeDir <- NULL"
+                replaceStr = "writeDir <- '" + dbIn.topDir[indDbOrig] + "/" + \
+                             dbIn.alias[indDbOrig] + "/analysis_out/analysis_datasets'"
+                el(pathIn,searchStr,replaceStr)
+
+		searchStr = "writeStatsFile <- FALSE"
+		replaceStr = "writeStatsFile <- TRUE"
+		el(pathIn,searchStr,replaceStr)
+	
 		if int(args.stat) == 1:
-			searchStr = "basSnoProc <- FALSE"
-			replaceStr = "basSnoProc <- TRUE"
+			searchStr = "strProc <- FALSE"
+			replaceStr = "strProc <- TRUE"
 			el(pathIn,searchStr,replaceStr)
+
+			status = 0
+                        for checkStr in ['_FRXST.Rdata']:
+                                try:
+                                        ioMgmntMod.modReadInCheck(indDbOrig,begADateObj,\
+                                                                  endADateObj,pathIn,args,\
+                                                                  dbIn,(strTmp + checkStr))
+                                        status = 1
+                                        break
+                                except:
+                                        continue
+                        if status == 0:
+                                print "ERROR: Failure to find input model file for streamflow statistics."
+                                sys.exit(1)
+			
+			statFileOut = begAStr1 + "_" + endAStr1 + "_" + strTmp + "_STR_STAT.Rdata"
+			searchStr = "statsFileOut <- NULL"
+			replaceStr = "statsFileOut <- '" + dbIn.topDir[indDbOrig] + "/" + \
+                             dbIn.alias[indDbOrig] + "/analysis_out/analysis_datasets'/" + \
+			     statFileOut + "'"
+			el(pathIn,searchStr,replaceStr) 
 		elif int(args.stat) == 2:
-			searchStr = "snoProc <- FALSE"
-			replaceStr = "snoProc <- TRUE"
+			searchStr = "strProc <- FALSE"
+                        replaceStr = "strProc <- TRUE"
+                        el(pathIn,searchStr,replaceStr)
+
+			searchStr = "strProcDaily <- FALSE"
+			replaceStr = "strProcDaily <- TRUE"
 			el(pathIn,searchStr,replaceStr)
+
+			status = 0
+                        for checkStr in ['_FRXST.Rdata']:
+                                try:
+                                        ioMgmntMod.modReadInCheck(indDbOrig,begADateObj,endADateObj,\
+                                                                  pathIn,args,dbIn,(strTmp + checkStr))
+                                        status = 1
+                                        break
+                                except:
+                                        continue
+                        if status == 0:
+                                print "ERROR: Failure to find input model file for daily streamflow statistics."
+                                sys.exit(1)
+		
+			statFileOut = begAStr1 + "_" + endAStr1 + "_" + strTmp + "_STR_DAILY_STAT.Rdata"
+                        searchStr = "statsFileOut <- NULL"
+                        replaceStr = "statsFileOut <- '" + dbIn.topDir[indDbOrig] + "/" + \
+                                     dbIn.alias[indDbOrig] + "/analysis_out/analysis_datasets'/" + \
+                                     statFileOut + "'"
+                        el(pathIn,searchStr,replaceStr)
+
 		elif int(args.stat) == 3:
-			searchStr = "amfProc <- FALSE"
-			replaceStr = "amfProc <- TRUE"
-			el(pathIn,searchStr,replaceStr)
+			searchStr = "snoProc <- FALSE"
+                        replaceStr = "snoProc <- TRUE"
+                        el(pathIn,searchStr,replaceStr)
 		elif int(args.stat) == 4:
 			searchStr = "metProc <- FALSE"
-			replaceStr = "metProc <- TRUE"
-			el(pathIn,searchStr,replaceStr)
+                        replaceStr = "metProc <- TRUE"
+                        el(pathIn,searchStr,replaceStr)
+		elif int(args.stat) == 5:
+			searchStr = "amfProc <- FALSE"
+                        replaceStr = "amfProc <- TRUE"
+                        el(pathIn,searchStr,replaceStr)
+		elif int(args.stat) == 6:
+			searchStr = "basSnoProc <- FALSE"
+                        replaceStr = "basSnoProc <- TRUE"
+                        el(pathIn,searchStr,replaceStr)
 
 	if args.plot is not None:
 		searchStr = "createPlots <- FALSE"

@@ -24,7 +24,10 @@ class modelDatabase:
 		self.agg = []
 		self.fullDomFile = []
 		self.mskFile = []
-		self.link2GageFile = []
+		self.readLink2GageFile = []
+		self.statsLink2GageFile = []
+		self.plotLink2GageFile = []
+		self.basinSubFile = []
 		self.strObsFile = []
 		self.snotelObsFile = []
 		self.amfObsFile = []
@@ -51,7 +54,10 @@ class modelDatabase:
 				self.agg.append(dbTmp.agg[i])
 				self.fullDomFile.append(dbTmp.fullDomFile[i])
 				self.mskFile.append(dbTmp.mskFile[i])
-				self.link2GageFile.append(dbTmp.link2GageFile[i])
+				self.readLink2GageFile.append(dbTmp.readLink2GageFile[i])
+				self.statsLink2GageFile.append(dbTmp.statsLink2GageFile[i])
+				self.plotLink2GageFile.append(dbTmp.plotLink2GageFile[i])
+				self.basinSubFile.append(dbTmp.basinSubFile[i])
 				self.strObsFile.append(dbTmp.strObsFile[i])
 				self.snotelObsFile.append(dbTmp.snotelObsFile[i])
 				self.amfObsFile.append(dbTmp.amfObsFile[i])
@@ -75,7 +81,10 @@ class modelDatabase:
 		aggTmp = parser.get('geo','aggFactor')
 		geoHydFileTmp = parser.get('geo_specification','geoHydFile')
 		mskFileTmp = parser.get('geo_specification','maskFile')
-		lnkFileTmp = parser.get('geo_specification','link2gageFile')
+		readLinkFileTmp = parser.get('geo_specification','readLink2GageFile')
+		statsLinkFileTmp = parser.get('geo_specification','statsLink2GageFile')
+		plotLinkFileTmp = parser.get('geo_specification','plotLink2GageFile')
+		basinSubFileTmp = parser.get('geo_specification','basinSubFile')
 		strObsFileTmp = parser.get('observations_specification','strObsFile')
 		snotelObsFileTmp = parser.get('observations_specification','snotelObsFile')
 		amfObsFileTmp = parser.get('observations_specification','amfObsFile')
@@ -105,7 +114,10 @@ class modelDatabase:
 		self.agg.append(aggTmp)
 		self.fullDomFile.append(geoHydFileTmp)
 		self.mskFile.append(mskFileTmp)
-		self.link2GageFile.append(lnkFileTmp)
+		self.readLink2GageFile.append(readLinkFileTmp)
+		self.statsLink2GageFile.append(statsLinkFileTmp)
+		self.plotLink2GageFile.append(plotLinkFileTmp)
+		self.basinSubFile.append(basinSubFileTmp)
 		self.strObsFile.append(strObsFileTmp)
 		self.snotelObsFile.append(snotelObsFileTmp)
 		self.amfObsFile.append(amfObsFileTmp)
@@ -168,11 +180,20 @@ class modelDatabase:
 		geoLsmLnk = geoDir1 + "/geo_em.nc"
 		geoHydroLnk = geoDir1 + "/geo_Hydro.nc"
 		mskFile = geoDir1 + "/masks_geo.Rdata"
-		link2GagesFile = geoDir1 + "/links_2_gages.txt"
+		readLink2GagesFile = geoDir1 + "/read_links_2_gages.txt"
+		statsLink2GagesFile = geoDir1 + "/stats_links_2_gages.txt"
+		plotLink2GagesFile = geoDir1 + "/plot_links_2_gages.txt"
 		os.symlink(self.geoFile[ind],geoLsmLnk)
 		os.symlink(self.fullDomFile[ind],geoHydroLnk)
-		if len(self.link2GageFile[ind]) != 0:
-			os.symlink(self.link2GageFile[ind],link2GagesFile)
+		if len(self.readLink2GageFile[ind]) != 0:
+			os.symlink(self.readLink2GageFile[ind],readLink2GagesFile)
+		if Len(self.statsLink2GageFile[ind]) != 0:
+			os.symlink(self.statsLink2GageFile[ind],statsLink2GagesFile)
+		if len(self.plotLink2GageFile[ind]) != 0:
+			os.symlink(self.plotLink2GageFile[ind],plotLink2GagesFile)
+		basSubLnk = geoDir1 + "/basin_sub_file.txt"
+		if len(self.basinSubFile[ind]) != 0:
+			os.symlink(self.basinSubFile[ind],basSubLnk)
 
 		# Link forcing directory
 		forcDir1 = subDir1 + "/forcing"
@@ -206,7 +227,10 @@ class modelDatabase:
 		aggTmp = []
 		fullDomFileTmp = []
 		mskFileTmp = []
-		link2GageFileTmp = []
+		readLink2GageFileTmp = []
+		statsLink2GageFileTmp = []
+		plotLink2GageFileTmp = []
+		basinSubFileTmp = []
 		strObsFileTmp = []
 		snotelObsFileTmp = []
 		amfObsFileTmp = []
@@ -230,7 +254,10 @@ class modelDatabase:
 				self.agg.append(dbTmp.agg[i])
                                 self.fullDomFile.append(dbTmp.fullDomFile[i])
                                 self.mskFile.append(dbTmp.mskFile[i])
-                                self.link2GageFile.append(dbTmp.link2GageFile[i])
+                                self.readLink2GageFile.append(dbTmp.readLink2GageFile[i])
+				self.statsLink2GageFile.append(dbTmp.statsLink2GageFile[i])
+				self.plotLink2GageFile.append(dbTmp.plotLink2GageFile[i])
+				self.basinSubFile.append(dbTmp.basinSubFile[i])
                                 self.strObsFile.append(dbTmp.strObsFile[i])
                                 self.snotelObsFile.append(dbTmp.snotelObsFile[i])
                                 self.amfObsFile.append(dbTmp.amfObsFile[i])
@@ -255,7 +282,10 @@ class modelDatabase:
 				aggTmp.append(self.agg[i])
 				fullDomFileTmp.append(self.fullDomFile[i])
 				mskFileTmp.append(self.mskFile[i])
-				link2GageFileTmp.append(self.link2GageFile[i])
+				readLink2GageFileTmp.append(self.readLink2GageFile[i])
+				statsLink2GageFileTmp.append(self.statsLink2GageFile[i])
+				plotLink2GageFileTmp.append(self.plotLink2GageFile[i])
+				basinSubFileTmp.append(self.basinSubFile[i])
 				strObsFileTmp.append(self.strObsFile[i])
 				snotelObsFileTmp.append(self.snotelObsFile[i])
 				amfObsFileTmp.append(self.amfObsFile[i])
@@ -279,7 +309,10 @@ class modelDatabase:
 		self.agg = []
                 self.fullDomFile = []
                 self.mskFile = []
-                self.link2GageFile = []
+                self.readLink2GageFile = []
+		self.statsLink2GageFile = []
+		self.plotLink2GageFile = []
+		self.basinSubFile = []
                 self.strObsFile = []
                 self.snotelObsFile = []
                 self.amfObsFile = []
@@ -300,7 +333,10 @@ class modelDatabase:
 			self.agg.append(aggTmp[i])
 			self.fullDomFile.append(fullDomFileTmp[i])
 			self.mskFile.append(mskFileTmp[i])
-			self.link2GageFile.append(link2GageFileTmp[i])
+			self.readLink2GageFile.append(readLink2GageFileTmp[i])
+			self.statsLink2GageFile.append(statsLink2GageFileTmp[i])
+			self.plotLink2GageFile.append(plotLink2GageFileTmp[i])
+			self.basinSubFile.append(basinSubFileTmp[i])
 			self.strObsFile.append(strObsFileTmp[i])
 			self.snotelObsFile.append(snotelObsFileTmp[i])
 			self.amfObsFile.append(amfObsFileTmp[i])
@@ -329,7 +365,10 @@ class modelDatabase:
 				self.agg.append(dbTmp.agg[i])
                                 self.fullDomFile.append(dbTmp.fullDomFile[i])
                                 self.mskFile.append(dbTmp.mskFile[i])
-                                self.link2GageFile.append(dbTmp.link2GageFile[i])
+                                self.readLink2GageFile.append(dbTmp.readLink2GageFile[i])
+				self.statsLink2GageFile.append(dbTmp.statsLink2GageFile[i])
+				self.plotLink2GageFile.append(dbTmp.plotLink2GageFile[i])
+				self.basinSubFile.append(dbTmp.basinSubFile[i])
                                 self.strObsFile.append(dbTmp.strObsFile[i])
                                 self.snotelObsFile.append(dbTmp.snotelObsFile[i])
                                 self.amfObsFile.append(dbTmp.amfObsFile[i])
@@ -427,10 +466,25 @@ class modelDatabase:
 		else:
 			self.fullDomFile.append(self.fullDomFile[aliasInd])
 
-		if args.link2gage:
-			self.link2GageFile.append(args.link2gage)
+		if args.readLink2gage:
+			self.readLink2GageFile.append(args.readLink2gage)
 		else:
-			self.link2GageFile.append(self.link2GageFile[aliasInd])
+			self.readLink2GageFile.append(self.readLink2GageFile[aliasInd])
+
+		if args.statsLink2gage:
+			self.statsLink2GageFile.append(args.statsLink2gage)
+		else:
+			self.statsLink2GageFile.append(self.statsLink2GageFile[aliasInd])
+
+		if args.plotLInk2gage:
+			self.plotLink2GageFile.append(args.plotLink2gage)
+		else:
+			self.plotLink2GageFile.append(self.plotLink2GageFile[aliasInd])
+
+		if args.basinSub:
+			self.basinSubFile.append(args.basinSub)
+		else:
+			self.basinSubFile.append(self.basinSubFile[aliasInd])
 	
 		if args.snPath:
 			self.snodasPath.append(args.snPath)

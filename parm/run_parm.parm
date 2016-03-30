@@ -107,7 +107,8 @@ forcingReadFlag = []
 # 2 - Streamflow performance plus daily performance.
 # 3 - SNOTEL performance statistics.
 # 4 - HydroMet performance statistics.
-# 5 - Basin-aggregated snow statistics.
+# 5 - AMF performance statistics.
+# 6 - Basin-aggregated snow statistics.
 statsFlag = []
 
 [plotFlags]
