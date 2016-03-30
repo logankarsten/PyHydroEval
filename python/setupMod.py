@@ -481,7 +481,7 @@ class modelDatabase:
 		else:
 			self.plotLink2GageFile.append(self.plotLink2GageFile[aliasInd])
 
-		if args.basinSub:
+		if args.basSub:
 			self.basinSubFile.append(args.basinSub)
 		else:
 			self.basinSubFile.append(self.basinSubFile[aliasInd])
