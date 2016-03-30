@@ -105,23 +105,8 @@ def main(argv):
 		sys.exit(1)	
 
 
-	# Run Rscript command to perform analysis. Pipe stdout and stderr
-	# to text files for users to inspect after analysis job complete.
-	stdOutPath = "./stdout_" + str(os.getpid()) + ".txt"
-	stdErrPath = "./stdout_" + str(os.getpid()) + ".txt"
-
         cmd = "Rscript " + nameLink
 	subprocess.call(cmd,shell=True)	
-	#try:
-	#	fOut = open(stdOutPath,"w")
-	#	fErr = open(stdErrPath,"w")
-	#	subprocess.call(cmd,stdout=fOut,stderr=fErr)
-	#except:
-	#	print "ERROR: Failure to execute/run analysis."
-	#	print "ERROR: Please see output diagnostic files."
-	#	subprocess.call("rm *.R",shell=True)
-	#	os.unlink(nameLink)
-	#	sys.exit(1)
 
 	# Remove namelist link specific to processor ID
 	try:
@@ -130,13 +115,10 @@ def main(argv):
 		print "ERROR: Failure to remove link: " + nameLink
 		sys.exit(1)
 
-	# Remove temporary links to R scripts
-	#cmd4 = "rm *.R"
-	
-	#try:
-	#	subprocess.call(cmd4,shell=True)
-	#except:
-	#	print "ERROR: Failure to remove symbolic links to R scripts."
-	#	sys.exit(1)	
+	# If Rplots.pdf file exists, remove it.
+	if os.path.isfile('./Rplots.pdf'):
+		cmd = 'rm -rf Rplots.pdf'
+		subprocess.call(cmd,shell=True)
+
 if __name__ == "__main__":
 	main(sys.argv[1:])
