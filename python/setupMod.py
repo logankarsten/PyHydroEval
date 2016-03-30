@@ -187,7 +187,7 @@ class modelDatabase:
 		os.symlink(self.fullDomFile[ind],geoHydroLnk)
 		if len(self.readLink2GageFile[ind]) != 0:
 			os.symlink(self.readLink2GageFile[ind],readLink2GagesFile)
-		if Len(self.statsLink2GageFile[ind]) != 0:
+		if len(self.statsLink2GageFile[ind]) != 0:
 			os.symlink(self.statsLink2GageFile[ind],statsLink2GagesFile)
 		if len(self.plotLink2GageFile[ind]) != 0:
 			os.symlink(self.plotLink2GageFile[ind],plotLink2GagesFile)

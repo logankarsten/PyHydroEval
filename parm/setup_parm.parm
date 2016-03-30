@@ -57,6 +57,7 @@ maskFile = /d4/karsten/PyHydroEval_test/geo/urg_MASKS_NEWDOMAIN.Rdata
 readLink2gageFile =
 statsLink2GageFile =
 plotLink2GageFile = 
+basinSubFile = 
 
 # Optional - specify observation datasets
 [observations_specification]
