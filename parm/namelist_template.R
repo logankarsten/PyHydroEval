@@ -23,6 +23,9 @@ maskFile <- NULL
 # If TRUE, mask file should also contain rtLinks dataframe.
 reachRting <- FALSE 
 
+## Specify text file to subset basins or regions for reading/plotting.
+basinSub <- NULL
+
 ## Temp directory to write intermediate files
 tmpDir <- NULL 
 

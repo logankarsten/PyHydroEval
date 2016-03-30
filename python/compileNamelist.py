@@ -120,6 +120,16 @@ def editNamelist(pathIn,args,dbIn):
 		replaceStr = "maskFile <- " + "'" + dbIn.mskFile[indDbOrig] + "'" 
 		el(pathIn,searchStr,replaceStr)
 
+	# Edit basin subsetting option, if specified by user
+	if args.subset:
+		if len(dbIn.basinSubFile[indDbOrig]) == 0:
+			print "ERROR: Basin Subset File Not Specified for Model Project."
+			sys.exit(1)
+		searchStr = "basinSub <- NULL"
+		replaceStr = "basinSub <- read.table('" + dbIn.basinSubFile[indDbOrig] + \
+		             "', sep='\t', header=TRUE, colClasses=c("character"))"
+		el(pathIn,searchStr,replaceStr) 
+		 
 	# Edit tmp directory.
 	searchStr = "tmpDir <- NULL"
 	replaceStr = "tmpDir <- " + "'" + dbIn.topDir[indDbOrig] + \

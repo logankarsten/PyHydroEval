@@ -153,3 +153,40 @@ basSnowMetrics <- function(sweVar,mskVar,basElev,runoff,res,runoffFlag) {
   # TODO
   return(outList)
 }
+
+# Subset basin mask information and update data frames/lists appropriately.
+subsetBasins <- function(basinSub,mskgeo.nameList,frxstPts,gage2basinList,
+                         mskgeo.areaList, mskgeo.countInds, mskgeo.List, mskgeo.maxInds,
+     			 mskgeo.minInds, mskhyd.areaList, mskhyd.countInds,
+     			 mskhyd.List, mskhyd.maxInds, mskhyd.minInds, 
+     			 mskhyd.nameList,stid2gageList){
+
+  ind <- c()
+  for (basin in basinSub$basin){
+    i <- which(mskgeo.nameList == basin)
+    ind <- append(ind,i)
+  }
+
+  # Subset lists/data frames
+  mskgeo.nameList <- mskgeo.nameList[ind]
+  frxstPts <- frxstPts[ind,]
+  gage2basinList <- gage2basinList[ind]
+  mskgeo.areaList <- mskgeo.areaList[ind]
+  mskgeo.countInds <- mskgeo.countInds[ind,]
+  mskgeo.List <- mskgeo.List[ind]
+  mskgeo.maxInds <- mskgeo.maxInds[ind,]
+  mskgeo.minInds <- mskgeo.minInds[ind,]
+  mskhyd.areaList <- mskhyd.areaList[ind]
+  mskhyd.countInds <- mskhyd.countInds[ind,]
+  mskhyd.List <- mskhyd.List[ind]
+  mskhyd.maxInds <- mskhyd.maxInds[ind,]
+  mskhyd.minInds <- mskhyd.minInds[ind,]
+  mskhyd.nameList <- mskhyd.nameList[ind]
+  stid2gageList <- stid2gageList[ind]
+
+  return(mskgeo.nameList,frxstPts,gage2basinList,mskgeo.areaList,
+         mskgeo.List,mskgeo.maxInds,mskgeo.minInds,mskhyd.areaList,
+         mskhyd.countInds,mskhyd.List,mskhyd.maxInds,mskhyd.minInds,
+         stid2gageList)
+}
+ 
