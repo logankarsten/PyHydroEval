@@ -476,7 +476,7 @@ class modelDatabase:
 		else:
 			self.statsLink2GageFile.append(self.statsLink2GageFile[aliasInd])
 
-		if args.plotLInk2gage:
+		if args.plotLink2gage:
 			self.plotLink2GageFile.append(args.plotLink2gage)
 		else:
 			self.plotLink2GageFile.append(self.plotLink2GageFile[aliasInd])
