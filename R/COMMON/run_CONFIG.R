@@ -32,6 +32,7 @@ if (exists("basinSub") & !is.null(basinSub)){
 			       mskhyd.minInds,
                                mskhyd.nameList,
 			       stid2gageList)
+  save(listSubBasin, file = 'test.Rdata')
   mskgeo.nameList <- listSubBasin$mskgeo.nameList
   frxstPts <- listSubBasin$frxstPts
   basin2gageList <- listSubBasin$basin2gageList
