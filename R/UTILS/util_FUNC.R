@@ -185,7 +185,7 @@ subsetBasins <- function(basinSub,mskgeo.nameList,frxstPts,basin2gageList,gage2b
   mskhyd.nameList <- mskhyd.nameList[ind]
   stid2gageList <- stid2gageList[ind]
 
-  return(list(mskgeo.namelist,frxstPts,basin2gageList,gage2basinList,
+  return(list(mskgeo.nameList,frxstPts,basin2gageList,gage2basinList,
               mskgeo.areaList,mskgeo.countInds,mskgeo.List,mskgeo.maxInds,
               mskgeo.minInds,mskhyd.areaList,mskhyd.countInds,
               mskhyd.List,mskhyd.maxInds,mskhyd.minInds,mskhyd.nameList,
