@@ -15,27 +15,38 @@ source("util_FUNC.R")
 # If subsetting of basins has been enabled, subset basins/frxst points
 # immediately before anything else is done.
 if (exists("basinSub") & !is.null(basinSub)){
-  print(stid2gageList)
-  mskgeo.nameList, frxstPts, basin2gageList, gage2basinList,
-  mskgeo.areaList, mskgeo.countInds, mskgeo.List, mskgeo.maxInds,
-  mskgeo.minInds, mskhyd.areaList, mskhyd.countInds,
-  mskhyd.List, mskhyd.maxInds, mskhyd.minInds,
-  mskhyd.nameList,stid2gageList <- subsetBasins(mskgeo.nameList, 
-     				                frxstPts, 
-						basin2gageList, 
-						gage2basinList,
-                                                mskgeo.areaList, 
-						mskgeo.countInds, 
-						mskgeo.List, 
-						mskgeo.maxInds,
-                                                mskgeo.minInds, 
-						mskhyd.areaList, 
-						mskhyd.countInds,
-                                                mskhyd.List, 
-						mskhyd.maxInds, 
-						mskhyd.minInds,
-                                                mskhyd.nameList,
-						stid2gageList)
+  listSubBasin <- subsetBasins(mskgeo.nameList, 
+ 		               frxstPts, 
+				basin2gageList, 
+				gage2basinList,
+                                mskgeo.areaList, 
+				mskgeo.countInds, 
+				mskgeo.List, 
+				mskgeo.maxInds,
+                                mskgeo.minInds, 
+				mskhyd.areaList, 
+				mskhyd.countInds,
+                                mskhyd.List, 
+				mskhyd.maxInds, 
+				mskhyd.minInds,
+                                mskhyd.nameList,
+				stid2gageList)
+  mskgeo.nameList <- listSubBasin$mskgeo.nameList
+  frxstPts <- listSubBasin$frxstPts
+  basin2gageList <- listSubBasin$basin2gageList
+  gage2basinList <- listSubBasin$gage2basinList
+  mskgeo.areaList <- listSubBasin$mskgeo.areaList
+  mskgeo.countInds <- listSubBasin$mskgeo.countInds
+  mskgeo.List <- listSubBasin$mskgeo.List
+  mskgeo.maxInds <- listSubBasin$mskgeo.maxInds
+  mskgeo.minInds <- listSubBasin$mskgeo.minInds
+  mskhyd.areaList <- listSubBasin$mskhyd.areaList
+  mskhyd.countInds <- listSubBasin$mskhyd.countInds
+  mskhyd.List <- listSubBasin$mskhyd.List
+  mskhyd.maxInds <- listSubBasin$mskhyd.maxInds
+  mskhyd.minInds <- listSubBasin$mskhyd.minInds
+  mskhyd.nameList <- listSubBasin$mskhyd.nameList
+  stid2gageList <- listSubBasin$stid2gageList
 }
 
 print(stid2gageList)
