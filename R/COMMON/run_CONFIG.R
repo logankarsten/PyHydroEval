@@ -33,22 +33,22 @@ if (exists("basinSub") & !is.null(basinSub)){
                                mskhyd.nameList,
 			       stid2gageList)
   save(listSubBasin, file = 'test.Rdata')
-  mskgeo.nameList <- listSubBasin$mskgeo.nameList
-  frxstPts <- listSubBasin$frxstPts
-  basin2gageList <- listSubBasin$basin2gageList
-  gage2basinList <- listSubBasin$gage2basinList
-  mskgeo.areaList <- listSubBasin$mskgeo.areaList
-  mskgeo.countInds <- listSubBasin$mskgeo.countInds
-  mskgeo.List <- listSubBasin$mskgeo.List
-  mskgeo.maxInds <- listSubBasin$mskgeo.maxInds
-  mskgeo.minInds <- listSubBasin$mskgeo.minInds
-  mskhyd.areaList <- listSubBasin$mskhyd.areaList
-  mskhyd.countInds <- listSubBasin$mskhyd.countInds
-  mskhyd.List <- listSubBasin$mskhyd.List
-  mskhyd.maxInds <- listSubBasin$mskhyd.maxInds
-  mskhyd.minInds <- listSubBasin$mskhyd.minInds
-  mskhyd.nameList <- listSubBasin$mskhyd.nameList
-  stid2gageList <- listSubBasin$stid2gageList
+  mskgeo.nameList <- listSubBasin[[1]]
+  frxstPts <- listSubBasin[[2]]
+  basin2gageList <- listSubBasin[[3]]
+  gage2basinList <- listSubBasin[[4]]
+  mskgeo.areaList <- listSubBasin[[5]]
+  mskgeo.countInds <- listSubBasin[[6]]
+  mskgeo.List <- listSubBasin[[7]]
+  mskgeo.maxInds <- listSubBasin[[8]]
+  mskgeo.minInds <- listSubBasin[[9]]
+  mskhyd.areaList <- listSubBasin[[10]]
+  mskhyd.countInds <- listSubBasin[[11]]
+  mskhyd.List <- listSubBasin[[12]]
+  mskhyd.maxInds <- listSubBasin[[13]]
+  mskhyd.minInds <- listSubBasin[[14]]
+  mskhyd.nameList <- listSubBasin[[15]]
+  stid2gageList <- listSubBasin[[16]]
 }
 
 print(stid2gageList)
