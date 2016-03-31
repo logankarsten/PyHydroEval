@@ -15,7 +15,8 @@ source("util_FUNC.R")
 # If subsetting of basins has been enabled, subset basins/frxst points
 # immediately before anything else is done.
 if (exists("basinSub") & !is.null(basinSub)){
-  listSubBasin <- subsetBasins(mskgeo.nameList, 
+  listSubBasin <- subsetBasins(basinSub,
+			       mskgeo.nameList, 
  		               frxstPts, 
 				basin2gageList, 
 				gage2basinList,
