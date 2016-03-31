@@ -15,6 +15,7 @@ source("util_FUNC.R")
 # If subsetting of basins has been enabled, subset basins/frxst points
 # immediately before anything else is done.
 if (exists("basinSub") & !is.null(basinSub)){
+  print(stid2gageList)
   mskgeo.nameList, frxstPts, basin2gageList, gage2basinList,
   mskgeo.areaList, mskgeo.countInds, mskgeo.List, mskgeo.maxInds,
   mskgeo.minInds, mskhyd.areaList, mskhyd.countInds,
