@@ -155,7 +155,7 @@ basSnowMetrics <- function(sweVar,mskVar,basElev,runoff,res,runoffFlag) {
 }
 
 # Subset basin mask information and update data frames/lists appropriately.
-subsetBasins <- function(basinSub,mskgeo.nameList,frxstPts,gage2basinList,
+subsetBasins <- function(basinSub,mskgeo.nameList,frxstPts,basin2gageList,gage2basinList,
                          mskgeo.areaList, mskgeo.countInds, mskgeo.List, mskgeo.maxInds,
      			 mskgeo.minInds, mskhyd.areaList, mskhyd.countInds,
      			 mskhyd.List, mskhyd.maxInds, mskhyd.minInds, 
