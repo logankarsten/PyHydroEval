@@ -769,8 +769,6 @@ if (readMod & readFrxstout) {
 			modFrxstout$st_id <- stringr::str_trim(modFrxstout$st_id)
 			modFrxstout$STAID <- modFrxstout$st_id
 		}
-		# Remove NA values for subsetting
-                modFrxstout <- subset(modFrxstout, !is.na(st_id))
 		names(modFrxstout)[names(modFrxstout)=="STAID"] <- "site_no"
   		# Calculate accumulated flow
   		modFrxstout$q_mm <- NA
@@ -801,6 +799,8 @@ if (readMod & readFrxstout) {
                 modFrxstout$tag <- modoutTag
 		modFrxstout$enstag <- ensoutTag
                 modFrxstout_tmp <- plyr::rbind.fill(modFrxstout_tmp, modFrxstout)
+		# Remove NA values with subsetting
+                modFrxstout_tmp <- subset(modFrxstout_tmp, !is.na(site_no))
                 rm(modFrxstout)
                 gc()
         }
