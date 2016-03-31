@@ -32,7 +32,6 @@ if (exists("basinSub") & !is.null(basinSub)){
 			       mskhyd.minInds,
                                mskhyd.nameList,
 			       stid2gageList)
-  save(listSubBasin, file = 'test.Rdata')
   mskgeo.nameList <- listSubBasin[[1]]
   frxstPts <- listSubBasin[[2]]
   basin2gageList <- listSubBasin[[3]]
@@ -51,7 +50,6 @@ if (exists("basinSub") & !is.null(basinSub)){
   stid2gageList <- listSubBasin[[16]]
 }
 
-print(stid2gageList)
 
 # Model Reads 
 if (readMod | readForc) {
