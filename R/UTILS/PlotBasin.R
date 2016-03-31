@@ -296,7 +296,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 
 	#Spaghetti plots
 	numColor = length(unique(dfTmp$enstag)) + 1
-	colOut <- colOut[1:numColor]
+	colOut <- colOutList[1:numColor]
 	colOut[length(colOut)] <- 'black'
 	gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=q_cfs,color=enstag)) + geom_line() + 
 	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') + 
@@ -408,7 +408,7 @@ plotEnsFlow <- function(n, modDfs,
 
 	#Spaghetti plots
         numColor = length(unique(dfTmp$enstag))
-	colOut <- colOut[1:numColor]
+	colOut <- colOutList[1:numColor]
         colOut[length(colOut)] <- 'black'
         gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=q_cfs,color=enstag)) + geom_line() +
               scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag))) +
@@ -496,7 +496,7 @@ plotEnsSWE <- function(n, modDfs,
 
 	# Product spaghetti plots
 	numColor <- length(unique(dfTmp$enstag))
-	colOut <- colOut[1:numColor]
+	colOut <- colOutList[1:numColor]
 	gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=SNEQV_SUM,color=enstag)) + geom_line() + 
 	      scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag))) +
 	      ggtitle(title) + xlab('Date') + ylab('SWE Volume (thousands acre-feet)') + ylim(0,yMax)
