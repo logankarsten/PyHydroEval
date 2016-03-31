@@ -769,6 +769,8 @@ if (readMod & readFrxstout) {
 			modFrxstout$st_id <- stringr::str_trim(modFrxstout$st_id)
 			modFrxstout$STAID <- modFrxstout$st_id
 		}
+		# Remove NA values for subsetting
+                modFrxstout <- subset(modFrxstout, !is.na(st_id))
 		names(modFrxstout)[names(modFrxstout)=="STAID"] <- "site_no"
   		# Calculate accumulated flow
   		modFrxstout$q_mm <- NA
