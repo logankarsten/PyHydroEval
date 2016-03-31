@@ -340,10 +340,10 @@ plotEnsFlow <- function(n, modDfs,
 	yMaxAF <- 1.2*max(dfTmp$ACCFLOW_af)
 
 	# Spread plots
-        spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=18))
+        spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=19))
         names(spreadDf) <- c('st_id','st_lon','st_lat','POSIXct','site_no','tag',
                              'q25','q50','q75','q0','q100','mean',
-			     'af25','af50','af75','af0','af100','mean_af')
+			     'af25','af50','af75','af0','af100','mean_af','median_af')
         spreadDf$st_id <- NA
         spreadDf$st_lon <- NA
         spreadDf$st_lat <- NA
@@ -362,6 +362,7 @@ plotEnsFlow <- function(n, modDfs,
 	spreadDf$af0 <- NA
 	spreadDf$af100 <- NA
 	spreadDf$mean_af <- NA
+	spreadDf$median_af <- NA
 
         for (i in 1:nSteps) {
                 dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
@@ -385,7 +386,13 @@ plotEnsFlow <- function(n, modDfs,
 		spreadDf$af0[i] <- afCalc[[1]]
 		spreadDf$af100[i] <- afCalc[[5]]
 		spreadDf$mean_af[i] <- mean(dfTmp2$ACCFLOW_af)
+		spreadDf$median_af[i] <- median(dfTmp2$ACCFLOW_af)
         }
+
+	#LK TMP PRINT STATS TO SCREEN
+	print(paste0('BAINS: ',n))
+	print(paste0('MEAN ACCUMULATED RUNOFF (kaf): ',max(spreadDf$mean_af)))
+	print(paste0('MEDIAN ACCUMULATED RUNOFF (kaf): ',max(spreadDf$median_af)))
 
         spreadDf$Date <- as.Date(spreadDf$POSIXct)
         dfTmp$Date <- as.Date(dfTmp$POSIXct)
@@ -460,7 +467,7 @@ plotEnsSWE <- function(n, modDfs,
 	# Spread plots
         spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=18))
         names(spreadDf) <- c('POSIXct','basin',
-                             'q25','q50','q75','q0','q100','mean')
+                             'q25','q50','q75','q0','q100','mean','median')
         spreadDf$POSIXct <- as.POSIXct('1900-01-01 00:00',format='%Y-%m-%d %H:%M')
         spreadDf$basin <- NA
         spreadDf$q25 <- NA
@@ -469,6 +476,7 @@ plotEnsSWE <- function(n, modDfs,
         spreadDf$q0 <- NA
         spreadDf$q100 <- NA
         spreadDf$mean <- NA
+        spreadDf$median <- NA
 
         for (i in 1:nSteps) {
                 dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
@@ -481,7 +489,13 @@ plotEnsSWE <- function(n, modDfs,
                 spreadDf$q0[i] <- qCalc[[1]]
                 spreadDf$q100[i] <- qCalc[[5]]
                 spreadDf$mean[i] <- mean(dfTmp2$SNEQV_SUM)
+                spreadDf$median[i] <- median(dfTmp2$SNEQV_SUM)
         }
+
+	#LK TMP PRINT STATS TO SCREEN
+        print(paste0('BAINS: ',n))
+        print(paste0('MEAN MAXIMUM SWE VOLUME (kaf): ',max(spreadDf$mean)))
+        print(paste0('MEDIAN MAXIMUM SWE VOLUME (kaf): ',max(spreadDf$median)))
 
         spreadDf$Date <- as.Date(spreadDf$POSIXct)
         dfTmp$Date <- as.Date(dfTmp$POSIXct)
