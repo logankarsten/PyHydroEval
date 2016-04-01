@@ -14,7 +14,7 @@ source("util_FUNC.R")
 
 # If subsetting of basins has been enabled, subset basins/frxst points
 # immediately before anything else is done.
-if (exists("basinSub") & !is.null(basinSub)){
+if (exists("basinSub") & exists("frxstPts") & !is.null(basinSub)){
   listSubBasin <- subsetBasins(basinSub,
 			       mskgeo.nameList, 
  		               frxstPts, 
@@ -50,7 +50,23 @@ if (exists("basinSub") & !is.null(basinSub)){
   stid2gageList <- listSubBasin[[16]]
 }
 
-
+if (exists("basinSub") & !exists("frxstPts") & !exists("mskhyd.nameList") & exists("mskgeo.nameList") & !is.null(basinSub)){
+  listSubBasin <- subsetRegions(basinSub,
+                                mskgeo.nameList,
+                                basin2gageList,
+                                mskgeo.areaList,
+                                mskgeo.countInds,
+                                mskgeo.List,
+                                mskgeo.maxInds,
+                                mskgeo.minInds)
+  mskgeo.nameList <- listSubBasin[[1]]
+  basin2gageList <- listSubBasin[[2]]
+  mskgeo.areaList <- listSubBasin[[3]]
+  mskgeo.countInds <- listSubBasin[[4]]
+  mskgeo.List <- listSubBasin[[5]]
+  mskgeo.maxInds <- listSubBasin[[6]]
+  mskgeo.minInds <- listSubBasin[[7]]
+}
 # Model Reads 
 if (readMod | readForc) {
         source("read_MODELOUT.R")
