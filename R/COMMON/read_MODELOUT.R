@@ -101,6 +101,7 @@ if ((readMod & readAmfLdasout) | (readForc & readAmfLdasin)) {
         amfIndex_Lev2 <- list()
         amfIndex_Lev3 <- list()
         amfIndex_Lev4 <- list()
+        amfIndex_sweSum <- list()
         # Ameriflux sites
         for (i in 1:length(ptgeo.amf$id)) {
                 if (!is.na(ptgeo.amf$we[i]) & !is.na(ptgeo.amf$sn[i])) {
@@ -114,6 +115,8 @@ if ((readMod & readAmfLdasout) | (readForc & readAmfLdasin)) {
                                                end=c(ptgeo.amf$we[i], 3, ptgeo.amf$sn[i], 1), stat="mean")
                         amfIndex_Lev4[[as.character(ptgeo.amf$id[i])]] <- list(start=c(ptgeo.amf$we[i], 4, ptgeo.amf$sn[i], 1),
                                                end=c(ptgeo.amf$we[i], 4, ptgeo.amf$sn[i], 1), stat="mean")
+			amfIndex_sweSum[[as.character(ptgeo.amf$id[i])]] <- list(start=c(ptgeo.amf$we[i], ptgeo.amf$sn[i], 1),
+                                               end=c(ptgeo.amf$we[i], ptgeo.amf$sn[i], 1), stat="mean")
                         }
                 }
         }
@@ -125,6 +128,7 @@ if ((readMod & readSnoLdasout) | (readForc & readSnoLdasin)) {
  	snoIndex_Lev2 <- list()
  	snoIndex_Lev3 <- list()
  	snoIndex_Lev4 <- list()
+	snoIndex_sweSum <- list()
  	for (i in 1:length(ptgeo.sno$id)) {
    		if (!is.na(ptgeo.sno$we[i]) & !is.na(ptgeo.sno$sn[i])) {
    			snoIndex_Lev0[[as.character(ptgeo.sno$id[i])]] <- list(start=c(ptgeo.sno$we[i], ptgeo.sno$sn[i], 1),
@@ -137,6 +141,8 @@ if ((readMod & readSnoLdasout) | (readForc & readSnoLdasin)) {
                                                end=c(ptgeo.sno$we[i], 3, ptgeo.sno$sn[i], 1), stat="mean")
    			snoIndex_Lev4[[as.character(ptgeo.sno$id[i])]] <- list(start=c(ptgeo.sno$we[i], 4, ptgeo.sno$sn[i], 1),
                                                end=c(ptgeo.sno$we[i], 4, ptgeo.sno$sn[i], 1), stat="mean")
+			snoIndex_sweSum[[as.character(ptgeo.sno$id[i])]] <- list(start=c(ptgeo.sno$we[i], ptgeo.sno$sn[i], 1),
+                                               end=c(ptgeo.sno$we[i], ptgeo.sno$sn[i], 1), stat="mean")
    			}
  		}
 	}
@@ -148,6 +154,7 @@ if ((readMod & readMetLdasout) | (readForc & readMetLdasin)) {
         metIndex_Lev2 <- list()
         metIndex_Lev3 <- list()
         metIndex_Lev4 <- list()
+	metIndex_sweSum <- list()
         for (i in 1:length(ptgeo.met$id)) {
                 if (!is.na(ptgeo.met$we[i]) & !is.na(ptgeo.met$sn[i])) {
                         metIndex_Lev0[[as.character(ptgeo.met$id[i])]] <- list(start=c(ptgeo.met$we[i], ptgeo.met$sn[i], 1),
@@ -160,6 +167,8 @@ if ((readMod & readMetLdasout) | (readForc & readMetLdasin)) {
                                                end=c(ptgeo.met$we[i], 3, ptgeo.met$sn[i], 1), stat="mean")
                         metIndex_Lev4[[as.character(ptgeo.met$id[i])]] <- list(start=c(ptgeo.met$we[i], 4, ptgeo.met$sn[i], 1),
                                                end=c(ptgeo.met$we[i], 4, ptgeo.met$sn[i], 1), stat="mean")
+			metIndex_sweSum[[as.character(ptgeo.met$id[i])]] <- list(start=c(ptgeo.met$we[i], ptgeo.met$sn[i], 1),
+                                               end=c(ptgeo.met$we[i], ptgeo.met$sn[i], 1), stat="mean")
                         }
                 }
 	}
