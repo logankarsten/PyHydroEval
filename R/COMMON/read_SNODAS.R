@@ -201,5 +201,7 @@ saveListSnodas <- unique(saveListSnodas)
 
 save(list=saveListSnodas, file=snodasReadFileOut)
 
-stopCluster(cl)
+if (ncores>1) {
+	stopCluster(cl)
+}
 proc.time()    

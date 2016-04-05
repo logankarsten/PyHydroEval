@@ -15,28 +15,28 @@
 
 [top_level]
 # Specify top level directory containing all model project subdirectories.
-topOut = /d4/karsten/PyHydroEval_test/output
+topOut = /d7/karsten/wrf_hydro_analysis
 
 [model_specification]
 # Specify directory containing model output relevant to analysis
-modelDir = /d4/karsten/PyHydroEval_test/modelIn1
+modelDir = /d7/karsten/URG_RETRO
 
 # Specify model tag and alias. Model tag will be used for plotting 
 # purposes. The alias will be used when calling main analysis program,
 # directing program to this model project.
 tag = retrospective
-alias = test1
+alias = URG_RETRO 
 
 [ensemble_specification] 
 # Specify ensembles if present. If not, leave as []
-ensembleList = blah1 blah2 blah3 blah4 
-ensembleTags = crap1 crap2 crap3 crap4
+ensembleList = 
+ensembleTags = 
 
 [geo]
 # Specify LSM resolution in km
 geoRes = 1.0
 # Specify aggregation factor between high res routing grid and LSM grid.
-aggFactor = 4.0
+aggFactor = 10.0
 
 [forcing_specification]
 # Specify the directory containing model forcing data used for this specified
@@ -51,21 +51,21 @@ geoFile = /d4/karsten/PyHydroEval_test/geo/geo_em.d02.nc
 geoHydFile = /d4/karsten/PyHydroEval_test/geo/Fulldom_hires_netcdf_file.nc
 
 # Specify mask file to be used for this particular model/alias
-maskFile = /d4/karsten/PyHydroEval_test/geo/urg_MASKS_NEWDOMAIN.Rdata
+maskFile = /d7/karsten/URG_RETRO/urg_MASKS_NEWDOMAIN_TAGGED_POINTS.Rdata
 
 # Optional - specify text file subsetting links for reading/plotting/stats 
 readLink2gageFile =
 statsLink2GageFile =
 plotLink2GageFile = 
-basinSubFile = 
+basinSubFile = /d7/karsten/URG_RETRO/ESP_SUB.txt 
 
 # Optional - specify observation datasets
 [observations_specification]
-snodasPath = /home/karsten/SNODAS_Rio
-strObsFile = 
-snotelObsFile = /d4/karsten/wrf_hydro_snow_analysis/rio_grande/data/obs/snotel_URG_BU.Rdata
+snodasPath = /d4/karsten/rio_snodas_retro/wrf_hydro_grids
+strObsFile =
+snotelObsFile = /d7/karsten/URG_RETRO/obs_SNOTEL_1998_current_update.Rdata 
 amfObsFile = 
-metObsFile = /d4/karsten/wrf_hydro_snow_analysis/rio_grande/data/obs/met_URG.Rdata
+metObsFile = 
 
 [run_options]
 # Optional - specify number of cores to use for parallel. Default is 1.

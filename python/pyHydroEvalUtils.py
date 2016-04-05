@@ -72,7 +72,7 @@ def checkArgs(parser):
 			print "ERROR: Invalid snRead value."
 			raise
 	if parser.stat:
-		if (int(parser.stat) < 1) or (int(parser.stat) > 5):
+		if (int(parser.stat) < 1) or (int(parser.stat) > 6):
 			print "ERROR: Invalid stat value."
 			raise
 	if parser.plot:

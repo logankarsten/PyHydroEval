@@ -57,3 +57,36 @@ def modReadInCheck(dbInd,bDate,eDate,nListPath,args,dbIn,strTmp):
 	searchStr = "modReadFileIn <- NULL"
 	replaceStr = "modReadFileIn <- '" + fileIn + "'"
 	el(nListPath,searchStr,replaceStr)
+
+def snodasSnoFileCheck(dbInd,bDate,eDate,nListPath,args,dbIn,strTmp):
+	# Find necessary input Rdata files for SNODAS read files used for plotting/analysis.
+	
+	# Compose strings to be used in checking for files.
+	strCheck1 = dbIn.topDir[dbInd] + "/" + dbIn.alias[dbInd] + "/analysis_out/read_datasets/"
+
+	try:
+                fileIn = ff(bDate,eDate,strCheck1,strTmp)
+        except:
+                print "WARNING: No input found for : " + strTmp + " files."
+                raise
+
+	# Place into namelist file
+	searchStr = "snodasSNOfile <- NULL"
+	replaceStr = "snodasSNOfile <- '" + fileIn + "'"
+	el(nListPath,searchStr,replaceStr)
+
+def snodasReadFileOutCheck(dbInd,bDate,eDate,nListPath,args,dbIn,strTmp):
+	# Find necessary snodasReadFileOut necessary for statistics/analysis.
+	# Compose strings to be used in checking for files.
+	strCheck1 = dbIn.topDir[dbInd] + "/" + dbIn.alias[dbInd] + "/analysis_out/read_datasets/"
+	
+	try:
+		fileIn = ff(bDate,eDate,strCheck1,strTmp)
+        except:
+                print "WARNING: No input found for : " + strTmp + " files."
+                raise
+
+	# Place into namelist file
+	searchStr = "snodasReadFileOut <- NULL"
+	replaceStr = "snodasReadFileOut <- '" + fileIn + "'"
+	el(nListPath,searchStr,replaceStr)

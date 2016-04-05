@@ -113,10 +113,10 @@ for (i in 1:length(mskgeo.nameList)) {
 			  "00.LDASOUT_DOMAIN1")
 			id <- nc_open(snowPath)
 			sweModel <- ncvar_get(id,'SNEQV',start=bStart,count=bCount)
-			#runoffModel <- ncvar_get(id,'SFCRNOFF',start=bStart,count=bCount)
+			runoffModel <- ncvar_get(id,'SFCRNOFF',start=bStart,count=bCount)
 			nc_close(id)
 
-			statsTemp <- basSnowMetrics(sweModel,mskVar,basElev,runoffModel,res=resMod,runoffFlag=0)
+			statsTemp <- basSnowMetrics(sweModel,mskVar,basElev,runoffModel,res=resMod,runoffFlag=1)
 			snowBasinData$Basin[count] <- bName
 	                snowBasinData$Date[count] <- dCurrent
                         snowBasinData$product[count] <- modoutTag

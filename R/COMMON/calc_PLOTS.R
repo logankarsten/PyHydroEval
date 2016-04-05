@@ -615,7 +615,6 @@ if (snowBasinPlot) {
 				     ylab="km^2",
 			             xlab="Date",
 				     fileOut=pngFile)
-		dev.off()
 
 		#Fraction of basin covered by snow
 		snowVarSub1 <- subset(snowBasinData,Basin == bName,select=c(Basin,Date,product,snow_cover_fraction))
@@ -628,7 +627,6 @@ if (snowBasinPlot) {
 				     ylab="Fraction of Basin",
                                      xlab="Date",
 				     fileOut=pngFile)
-		dev.off()
 
 		#Snow volume (cubic meters)
 		snowVarSub1 <- subset(snowBasinData,Basin == bName,select=c(Basin,Date,product,snow_volume_cub_meters))
@@ -641,7 +639,6 @@ if (snowBasinPlot) {
 				     ylab="m^3",
                                      xlab="Date",
 				     fileOut=pngFile)
-		dev.off()
 
 		#Snow volume (acre feet)
 		snowVarSub1 <- subset(snowBasinData,Basin == bName,select=c(Basin,Date,product,snow_volume_acre_feet))
@@ -654,7 +651,6 @@ if (snowBasinPlot) {
 				     ylab="acre-feet",
                                      xlab="Date",
 				     fileOut=pngFile)
-		dev.off()
 
 		#Mean snow line (meters)
 		snowVarSub1 <- subset(snowBasinData,Basin == bName,select=c(Basin,Date,product,mean_snow_line_meters))
@@ -668,7 +664,6 @@ if (snowBasinPlot) {
 					     ylab="m",
                                	             xlab="Date",
 					     fileOut=pngFile)
-			dev.off()
 		}
 
 		#Mean snow line (feet)
@@ -683,7 +678,6 @@ if (snowBasinPlot) {
 					     ylab="ft",
                 	                     xlab="Date",
 					     fileOut=pngFile)
-			dev.off()
 		}
 
 		#Mean SWE (mm)
@@ -697,7 +691,6 @@ if (snowBasinPlot) {
 				     ylab="mm",
                                      xlab="Date",
 				     fileOut=pngFile)
-		dev.off()
 
 		#Max SWE (mm)
 		snowVarSub1 <- subset(snowBasinData,Basin == bName,select=c(Basin,Date,product,max_swe_mm))
@@ -710,7 +703,6 @@ if (snowBasinPlot) {
 			             ylab="mm",
                                      xlab="Date",
                                      fileOut=pngFile)
-		dev.off()
 
 	}
 
@@ -1015,16 +1007,17 @@ if (snowPointScatter) {
 		# Determine number of model tags to analyze
 		tags <- unique(modData$tag)
 		numTags <- length(tags)
- 
+
 		# Loop through points/tags and generate scatter plots
-		for (i in 1:numPoints){
+		for (i in 41:numPoints){
 			pointId <- ptgeo.sno$id[i]
 
+			print(pointId)
 			# Set a default maximum value for plotting purposes
 			maxSnow <- 500.0
 			for (j in 1:numTags){
 				tag <- tags[j]
-				
+			
 				# model vs. obs scatter
 				ind <- which(modData$statArg == pointId & modData$tag == tag & modData$POSIXct >= snowScatterBegDate &
 					modData$POSIXct <= snowScatterEndDate)
@@ -1043,27 +1036,26 @@ if (snowPointScatter) {
 				modTmp <- c()
 				obsTmp <- c()
 				snodasTmp <- c()
-	
+
 				for (k in 1:numSteps){
 					dateTmp2 <- modDates[k]
-					dfTmp$Month[k] <- as.numeric(strftime(dateTmp2,format="%m"))
-					dfTmp$Model[k] <- modSNEQV[k]
 
 					ind <- which(obsSnoData$POSIXct == dateTmp2 & obsSnoData$site_id == pointId)
-					dfTmp$SNOTEL[k] <- obsSnoData$SWE_mm[ind[1]]
+					obsTmp <- c(obsTmp, obsSnoData$SWE_mm[ind[1]])
 
 					ind <- which(snodasout$utcday$statArg == pointId & snodasout$utcday$POSIXct == dateTmp2)
-					dfTmp$SNODAS[k] <- snodasout$utcday$SNEQV[k]
+					snodasTmp <- c(snodasTmp, snodasout$utcday$SNEQV[ind])
 
-					dateTmp <- c(dateTmp2, as.numeric(strftime(dateTmp2,format="%m")))
+					dateTmp <- c(dateTmp, as.numeric(strftime(dateTmp2,format="%m")))
 					modTmp <- c(modTmp, modSNEQV[k])
-					obsTmp <- c(obsTmp, obsSnoData$SWE_mm[ind[1]])
-					snodasTmp <- c(snodasTmp, snodasout$utcday$SNEQV[k])
 					
 				}
 
 				# Filter any NA values that may have snuck in
 				ind4 <- which(!is.na(modTmp) & !is.na(obsTmp) & !is.na(snodasTmp))
+				if (length(ind4) == 0){
+					break
+				}
 				obsTmp <- obsTmp[ind4]
 				modTmp <- modTmp[ind4]
 				snodasTmp <- snodasTmp[ind4]
@@ -1254,6 +1246,9 @@ if (snowPointScatter) {
                                 }
 
 				ind4 <- which(!is.na(obsTmp) & !is.na(modTmp) & !is.na(snodasTmp))
+				if (length(ind4) == 0){
+					break
+				}
 				obsTmp <- obsTmp[ind4]
 				modTmp <- modTmp[ind4]
 				snodasTmp <- snodasTmp[ind4]
@@ -1506,6 +1501,7 @@ if (snowPointScatter) {
 			basId <- mskgeo.nameList[[i]]
 			maxSnow <- 500.0
 
+			print(basId)
 			for (j in 1:numTags){
 				tag <- tags[j]
 
@@ -1572,6 +1568,9 @@ if (snowPointScatter) {
 							} # Done looping through time steps in model
 							# Filter out NA values that may have snuck in
 							ind4 <- which(!is.na(obsTmp) & !is.na(modTmp) & !is.na(snodasTmp))
+							if (length(ind4) == 0){
+								break
+							}
 							obsTmp <- obsTmp[ind4]
 							modTmp <- modTmp[ind4]
 							snodasTmp <- snodasTmp[ind4]

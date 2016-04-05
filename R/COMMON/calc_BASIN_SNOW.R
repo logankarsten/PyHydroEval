@@ -6,7 +6,7 @@ library(data.table)
 
 # Establish date/time information
 dUnits <- "days"
-diff1 <- difftime(enddate_stats_sub,stdate_stats_sub,units=dUnits)
+diff1 <- difftime(enddate_stats,stdate_stats,units=dUnits)
 nSteps <- diff1 <- as.numeric(diff1)
 dt <- 24*3600
 resSquared <- (resMod*1000.0)*(resMod*1000.0)
@@ -52,8 +52,8 @@ for (i in 1:length(mskgeo.nameList)) {
 
 	# Loop through days and peform SNODAS analysis
         for (j in 1:nSteps){
-		dCurrent <- stdate_stats_sub + dt*j
-		dPrev <- stdate_stats_sub + dt*(j - 1)
+		dCurrent <- stdate_stats + dt*j
+		dPrev <- stdate_stats + dt*(j - 1)
 
 		ind <- which(snowBasinData$Date == as.Date(dCurrent) & snowBasinData$Basin == bName &
 		             snowBasinData$product == "SNODAS")
@@ -84,8 +84,8 @@ for (i in 1:length(mskgeo.nameList)) {
 
 	snowMetrics$Basin[count] <- bName
 	snowMetrics$product[count] <- "SNODAS"
-	snowMetrics$start_date[count] <- as.Date(stdate_stats_sub)
-	snowMetrics$end_date[count] <- as.Date(enddate_stats_sub)
+	snowMetrics$start_date[count] <- as.Date(stdate_stats)
+	snowMetrics$end_date[count] <- as.Date(enddate_stats)
 	snowMetrics$bias[count] <- NA # Since SNODAS is our "verification" data, no bias calculated for it.
 	snowMetrics$temporal_correlation[count] <- NA # Correlation is calculated for models.
         snowMetrics$peak_swe_volume_cub_meters[count] <- peak_swe_volume_cub_meters
@@ -111,10 +111,11 @@ for (i in 1:length(mskgeo.nameList)) {
 
 		product <- modTagList[[k]]	
 		for (j in 1:nSteps){
-                	dCurrent <- stdate_stats_sub + dt*j
-			dCurrentFrxst <- stdate_stats_sub + dt*j + 3600 # frxst points are at 1 UTC.
-                	dPrev <- stdate_stats_sub + dt*(j - 1)
+                	dCurrent <- stdate_stats + dt*j
+			dCurrentFrxst <- stdate_stats + dt*j + 3600 # frxst points are at 1 UTC.
+                	dPrev <- stdate_stats + dt*(j - 1)
 
+			print(dCurrent)
                 	ind <- which(snowBasinData$Date == as.Date(dCurrent) & snowBasinData$Basin == bName &
                         	     snowBasinData$product == product)
                 	if (j > 1){
@@ -158,13 +159,6 @@ for (i in 1:length(mskgeo.nameList)) {
 				biasTemp <- sweVolModelTemp - sweVolSnodasTemp
 				acc_bias <- acc_bias + biasTemp
 				countBias <- countBias + 1
-				if (i == 1){
-					print('---------------')
-					print(sweVolModelTemp)
-					print(sweVolSnodasTemp)
-					print(biasTemp)
-					print(acc_bias)
-				}
 			}
 
 			# Total accumulated streamflow
@@ -178,8 +172,8 @@ for (i in 1:length(mskgeo.nameList)) {
 
 		snowMetrics$Basin[count] <- bName
         	snowMetrics$product[count] <- modTagList[[k]]
-        	snowMetrics$start_date[count] <- as.Date(stdate_stats_sub)
-        	snowMetrics$end_date[count] <- as.Date(enddate_stats_sub)
+        	snowMetrics$start_date[count] <- as.Date(stdate_stats)
+        	snowMetrics$end_date[count] <- as.Date(enddate_stats)
 		# Calculate bias using SNODAS
         	snowMetrics$bias[count] <- acc_bias/countBias # Units of mm
 		# Calculate correlation ONLY where snow exists for both model and SNODAS

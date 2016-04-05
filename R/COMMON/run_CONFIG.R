@@ -149,14 +149,12 @@ if (calcStats | createPlots) {
 # Read in basin Snow/SNODAS
 if (readSnodas & readBasinSnodas) {
         # Load necessary mask data to perform analysis
-        load(maskFile)
         source("read_BASIN_SNOW.R")
 }
 
 # Read in point SNODAS
 if (readSnodas & (readSnoSnodas | readAmfSnodas | readMetSnodas)) {
 	# Load necessary mask data to perform reads
-	load(maskFile)
 	source("read_SNODAS.R")
 }
 

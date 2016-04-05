@@ -447,4 +447,3 @@ writePlotDir <- NULL
 ## RUN (do not change anything below this line)
 
 source("run_CONFIG.R")
-

@@ -679,7 +679,7 @@ def editNamelist(pathIn,args,dbIn):
 			statFileOut = begAStr1 + "_" + endAStr1 + "_" + strTmp + "_STR_STAT.Rdata"
 			searchStr = "statsFileOut <- NULL"
 			replaceStr = "statsFileOut <- '" + dbIn.topDir[indDbOrig] + "/" + \
-                             dbIn.alias[indDbOrig] + "/analysis_out/analysis_datasets'/" + \
+                             dbIn.alias[indDbOrig] + "/analysis_out/analysis_datasets/" + \
 			     statFileOut + "'"
 			el(pathIn,searchStr,replaceStr) 
 		elif int(args.stat) == 2:
@@ -707,7 +707,7 @@ def editNamelist(pathIn,args,dbIn):
 			statFileOut = begAStr1 + "_" + endAStr1 + "_" + strTmp + "_STR_DAILY_STAT.Rdata"
                         searchStr = "statsFileOut <- NULL"
                         replaceStr = "statsFileOut <- '" + dbIn.topDir[indDbOrig] + "/" + \
-                                     dbIn.alias[indDbOrig] + "/analysis_out/analysis_datasets'/" + \
+                                     dbIn.alias[indDbOrig] + "/analysis_out/analysis_datasets/" + \
                                      statFileOut + "'"
                         el(pathIn,searchStr,replaceStr)
 
@@ -726,6 +726,26 @@ def editNamelist(pathIn,args,dbIn):
 		elif int(args.stat) == 6:
 			searchStr = "basSnoProc <- FALSE"
                         replaceStr = "basSnoProc <- TRUE"
+                        el(pathIn,searchStr,replaceStr)
+
+			# Check for existence of basin snow read file
+			for checkStr in ['_SNODAS_BASIN.Rdata']:
+				try:
+					ioMgmntMod.snodasReadFileOutCheck(indDbOrig,begADateObj,endADateObj,\
+                                        	                          pathIn,args,dbIn,(strTmp + checkStr))
+					status = 1
+					break
+				except:
+					continue
+			if status == 0:
+				print "ERROR: Failure to find input SNODAS/Snow data for basin snow statistics."
+				sys.exit(1)
+
+			statFileOut = begAStr1 + "_" + endAStr1 + "_" + strTmp + "_BAS_SNOW_STAT.Rdata"
+			searchStr = "statsFileOut <- NULL"
+                        replaceStr = "statsFileOut <- '" + dbIn.topDir[indDbOrig] + "/" + \
+                                     dbIn.alias[indDbOrig] + "/analysis_out/analysis_datasets/" + \
+                                     statFileOut + "'"
                         el(pathIn,searchStr,replaceStr)
 
 	if args.plot is not None:
@@ -900,12 +920,27 @@ def editNamelist(pathIn,args,dbIn):
                         if status == 0:
                                 print "ERROR: Failure to find input model file for SNOTEL Region Scatter Plots." 
                                 sys.exit(1)
+
+			# Check for corresponding SNODAS file for SNOTEL points
+			for checkStr in ['_SNODAS_SNOTEL.Rdata']:
+				try:
+					ioMgmntMod.snodasSnoFileCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
+					status = 1
+					break
+				except:
+					continue
+			if status == 0:
+				print "ERROR: Failure to find input SNODAS SNOTEL file for scatter plots."
+				sys.exit(1) 
  
 			searchStr = "snowPointScatter <- FALSE"
                         replaceStr = "snowPointScatter <- TRUE"
                         el(pathIn,searchStr,replaceStr)
 			searchStr = "basinScatter <- FALSE"
 			replaceStr = "basinScatter <- TRUE"
+			el(pathIn,searchStr,replaceStr)
+			searchStr = "snotelScatter <- FALSE"
+			replaceStr = "snotelScatter <- TRUE"
 			el(pathIn,searchStr,replaceStr)
 		elif int(args.plot) == 19:
 			status = 0
