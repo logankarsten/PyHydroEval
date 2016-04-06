@@ -1791,7 +1791,7 @@ if (snotelAccPcpPlot) {
 					         modData$tag == tag)
 				indTmp2 <- which(modData$statArg == pointId & modData$POSIXct == snotelAccPcpBegDate &
 					         modData$tag == tag)
-				dfTmp$ACC_PCP[count] <- modData$ACCPRCP[ind1] - modData$ACCPRCP[ind2]	
+				dfTmp$ACC_PCP[count] <- modData$ACCPRCP[indTmp1] - modData$ACCPRCP[indTmp2]	
 				count <- count + 1
 			}
 		}
