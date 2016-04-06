@@ -1770,12 +1770,12 @@ if (snotelAccPcpPlot) {
 			}
 		}
 	
-		print(snotelSum)
 		# Create data frame to hold data for plotting
 		dfTmp <- data.frame(matrix(NA, nrow=numSteps*(numTags+1),ncol=3))
 		names(dfTmp) <- c("POSIXct","tag","ACC_PCP")
 		dfTmp$POSIXct <- as.POSIXct('1900-01-01','%Y-%m-%d')
 
+		print('blkasdf')
 	 	count <- 1
 		for (dateTmp in modDates){
 			ind <- which(snotelTmp$POSIXct == dateTmp)
