@@ -1799,7 +1799,7 @@ if (snotelAccPcpPlot) {
 		title <- paste0("SNOTEL Site: ",pointId," Accumulated Precipitation")
 		# Create time series plot
 		fileOut <- paste0(writePlotDir,"/SNOTEL_",pointId,"_ACCPCP_",bDStr,"_",eDStr,".png")
-		gg <- ggplot2::ggplot(dfTmp,ggplot2::aes(x=POSIXct,y=Model,color=tag)) + ggplot2::geom_line() + 
+		gg <- ggplot2::ggplot(dfTmp,ggplot2::aes(x=POSIXct,y=ACC_PCP,color=tag)) + ggplot2::geom_line() + 
 		      ggplot2::ggtitle(title) + ggplot2::xlab('Date') + ggplot2::ylab('Accumulated Precipitation (mm)')
 		# Save figure
 		ggsave(filename = fileOut, plot = gg)
