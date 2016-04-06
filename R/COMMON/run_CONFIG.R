@@ -293,6 +293,13 @@ if (createPlots) {
 			}
 		}
 	}
+	if (snotelAccPcpPlot) {
+		if (file.exists(modReadFileIn)) {
+			load(modReadFileIn)
+		}
+		if (file.exists(SNOfile)) {
+			load(SNOfile)
+		}
 
         source("calc_PLOTS.R")
 }

@@ -133,3 +133,5 @@ statsFlag = []
 # 17 - Individual HydroMet scatter plots.
 # 18 - Basin-aggregated SNOTEL scatter plots.
 # 19 - Basin-aggregated model ensemble SWE plots.
+# 20 - SNOTEL vs. Model Acc precip plots.
+# 21 - SNOTEL vs. Model acc precip plots + basin aggregation scatter plots.

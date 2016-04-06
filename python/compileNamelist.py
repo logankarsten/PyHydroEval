@@ -317,6 +317,14 @@ def editNamelist(pathIn,args,dbIn):
 		searchStr = "snowScatterEndDate <- NULL"
 		replaceStr = "snowScatterEndDate <- as.POSIXct('" + endPStr1 + str2
 		el(pathIn,searchStr,replaceStr)
+	
+		searchStr = "snotelAccPcpBegDate <- NULL"
+		replaceStr = "snotelAccPcpBegDate <- as.POSIXct('" + endPStr1 + str2 
+		el(pathIn,searchStr,replaceStr)
+
+		searchStr = "snotelAccPcpEndDate <- NULL"
+		replaceStr = "snotelAccPcpEndDate <- as.POSIXct('" + endPStr1 + str2
+		el(pathIn,searchStr,replaceStr)
 
 	# Edit baseline namelist options corresponding to arguments passed in.
 	if args.begADate is not None:
@@ -958,4 +966,39 @@ def editNamelist(pathIn,args,dbIn):
 
 			searchStr = "basSnoEnsPlot <- FALSE"
 			replaceStr = "basSnoEnsPlot <- TRUE"
+			el(pathIn,searchStr,replaceStr)
+		elif int(args.plot) == 20:
+			status = 0
+			for checkStr in ['_LSMSNOTEL_ALL.Rdata','_LSMSNOTEL_SUB.Rdata','_LSMSNOTEL_NFIE.Rdata','_LSMSNOTEL_SNOW.Rdata']:
+				try:
+					ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
+                                        status = 1
+                                        break
+                                except:
+                                        continue
+                        if status == 0:
+                                print "ERROR: Failure to find input model file for accumulated SNOTEL precipitation plots."
+                                sys.exit(1)
+
+			searchStr = "snotelAccPcpPlot <- FALSE"
+			replaceStr = "snotelAccPcpPlot <- TRUE"
+			el(pathIn,searchStr,replaceStr)
+		elif int(args.plot0 == 21:
+			status = 0
+                        for checkStr in ['_LSMSNOTEL_ALL.Rdata','_LSMSNOTEL_SUB.Rdata','_LSMSNOTEL_NFIE.Rdata','_LSMSNOTEL_SNOW.Rdata']:
+                                try:
+                                        ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
+                                        status = 1
+                                        break
+                                except:
+                                        continue
+                        if status == 0:
+                                print "ERROR: Failure to find input model file for accumulated SNOTEL precipitation plots."
+                                sys.exit(1)
+
+                        searchStr = "snotelAccPcpPlot <- FALSE"
+                        replaceStr = "snotelAccPcpPlot <- TRUE"
+                        el(pathIn,searchStr,replaceStr)
+			searchStr = "snotelAccPcpBasin <- FALSE"
+			replaceStr = "snotelAccPcpBasin <- TRUE"
 			el(pathIn,searchStr,replaceStr)

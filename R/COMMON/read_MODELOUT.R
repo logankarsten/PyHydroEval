@@ -337,8 +337,8 @@ if (readMod & (readBasinLdasout | readAmfLdasout | readSnoLdasout | readMetLdaso
 		}
 
 	} else if (varsLdasoutSNOW) {
-		varNames <- c('SNEQV','SNOWH','SNEQV')
-		varLabels <- c('SNEQV','SNOWH','SNEQV_SUM')
+		varNames <- c('SNEQV','SNOWH','SNEQV','ACCPRCP')
+		varLabels <- c('SNEQV','SNOWH','SNEQV_SUM','ACCPRCP')
 		ldasoutVars <- as.list( varNames )
 		names(ldasoutVars) <- varLabels
 		genIndex_Ldasout <- function(pref, ldasoutVars.=ldasoutVars) {
@@ -348,7 +348,7 @@ if (readMod & (readBasinLdasout | readAmfLdasout | readSnoLdasout | readMetLdaso
                         level3 <- get(paste0(pref, "Index_Lev3"))
                         level4 <- get(paste0(pref, "Index_Lev4"))
 			levelSum <- get(paste0(pref,"Index_sweSum"))
-                        ldasoutInd <- list( level0, level0, levelSum)
+                        ldasoutInd <- list( level0, level0, levelSum,level0)
 		names(ldasoutInd) <- names(ldasoutVars.)
                 #ldasoutIndexList <- list( ldasout = ldasoutInd )
                 ldasoutInd
@@ -626,7 +626,7 @@ if (readMod & (readBasinLdasout | readAmfLdasout | readSnoLdasout | readMetLdaso
                                 yr <- as.integer(format(modLdasout.utcday$UTC_date, "%Y"))
                                 modLdasout.utcday$UTC_month <- as.Date(paste0(yr,"-",mo,"-15"), format="%Y-%m-%d")
                                 modLdasout.utcmonth <- modLdasout.utcday[, list(SNEQV_mean=mean(SNEQV_mean), 
-					SNOWH_mean=mean(SNOWH_mean)),
+					SNOWH_mean=mean(SNOWH_mean),ACCPRCP_mean=mean(ACCPRCP)),
 					by = "statArg,UTC_month"]
 			} else if (varsLdasoutIOC0) {
 			        modLdasout.utcday <- modLdasout[, list(DEL_ACCEDIR=sum(DEL_ACCEDIR),

@@ -1009,7 +1009,7 @@ if (snowPointScatter) {
 		numTags <- length(tags)
 
 		# Loop through points/tags and generate scatter plots
-		for (i in 41:numPoints){
+		for (i in 1:numPoints){
 			pointId <- ptgeo.sno$id[i]
 
 			print(pointId)
@@ -1723,6 +1723,85 @@ if (snowPointScatter) {
 	} # Done basin scatter plots
 	
 
+}
+# SNOTEL accumulated precipitation against modeled accumulated precipitation plots.
+if (snotelAccPcpPlot) {
+	numPoints <- length(ptgeo.sno$id)
+	modData <- modLdasout$native
+	
+	bDStr = strftime(snotelAccPcpBegDate,format="%Y%m%d")
+	eDStr = strftime(snotelAccPcpEndDate,format="%Y%m%d")
+
+	tags <- unique(modLdasout$native$tag)
+	numTags <- length(tags)
+	# Loop through points and generate time series plots of accumulated precipitation
+	for (i in 1:numPoints){
+		pointId <- ptgeo.sno$id[i]
+
+		# Subset observed SNOTEL cumulative precipitation and subtract out first value to get
+		# cumulative from beginning of period
+		snotelTmp <- subset(obsSnoData, site_id == pointId & POSIXct >= snotelAccPcpBegDate &
+                                        POSIXct <= snotelAccPcpEndDate)
+		snotelSum <- c()
+		# Form cumulative sum
+		for (j in 1:length(snotelTmp$POSIXct)){
+			if (J == 1){
+				snotelSum <- c(snotelSum, 0.0)
+			} else {
+				if (!is.na(snotelTmp$CumPrec_mm[j])){
+					snotelSum <- c(snotelSum, (snotelTmp$CumPrec_mm[j] - snotelTmp$CumPrec_mm[j-1]))
+				} else {
+					snotelSum <- c(snotelSum, snotelTmp$CumPrec_mm[j])
+				}
+			}
+		}
+
+		print(pointId)
+		ind <- which(modData$statArg == pointId & modData$POSIXct >= snotelAccPcpBegDate &
+					modData$POSIXct <= snotelAccPcpEndDate)
+
+		modDates <- unique(modData$POSIXct[ind])
+		maxPcp <- max(modData$ACCPRCP[ind])
+		numSteps <- length(modDates)
+
+		# Create data frame to hold data for plotting
+		dfTmp <- data.frame(matrix(NA, nrow=numSteps*(numTags+1),ncol=3))
+		names(dfTmp) <- c("POSIXct","tag","ACC_PCP")
+		dfTmp$POSIXct <- as.POSIXct('1900-01-01','%Y-%m-%d')
+
+	 	count <- 1
+		for (dateTmp in modDates){
+			ind <- which(snotelTmp$POSIXct == dateTmp)
+			if (length(ind) == 0) {
+				cumSnotelTmp <- NA
+			} else {
+				cumSnotelTmp <- snotelSum[ind[1]]
+			}
+			dfTmp$POSIXct[count] <- dateTmp
+			dfTmp$tag[count] <- "SNOTEL"
+			dfTmp$ACC_PCP[count] <- cumSnotelTmp
+			count <- count + 1
+			for (tag in tags){
+				dfTmp$POSIXct[count] <- dateTmp
+				dfTmp$tag[count] <- tag
+				indTmp1 <- which(modData$statArg == pointId & modData$POSIXct == dateTmp &
+					         modData$tag == tag)
+				indTmp2 <- which(modData$statArg == pointId & modData$POSIXct == snotelAccPcpBegDate &
+					         modData$tag == tag)
+				dfTmp$ACC_PCP[count] <- modData$ACCPRCP[ind1] - modData$ACCPRCP[ind2]	
+				count <- count + 1
+			}
+		}
+
+		title <- paste0("SNOTEL Site: ",pointId," Accumulated Precipitation")
+		# Create time series plot
+		fileOut <- paste0(writePlotDir,"/SNOTEL_",pointId,"_ACCPCP_",bDStr,"_",eDStr,".png")
+		gg <- ggplot2::ggplot(dfTmp,ggplot2::aes(x=POSIXct,y=Model,color=tag)) + ggplot2::geom_line() + 
+		      ggplot2::ggtitle(title) + ggplot2::xlab('Date') + ggplot2::ylab('Accumulated Precipitation (mm)')
+		# Save figure
+		ggsave(filename = fileOut, plot = gg)
+	}
+ 
 }
 # Output HTML
 if (writeHtml) {

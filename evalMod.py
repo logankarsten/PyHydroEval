@@ -33,7 +33,7 @@ def main(argv):
 	parser.add_argument('--forRead',nargs='?', help='Forcing Read Flag (1-4')
 	parser.add_argument('--snRead',nargs='?', help='SNODAS Read Flag (1-4)')
 	parser.add_argument('--stat',nargs='?', help='Statistics Performance Flag (1-5)')
-	parser.add_argument('--plot',nargs='?', help='Plot Flag (1-18)')
+	parser.add_argument('--plot',nargs='?', help='Plot Flag (1-21)')
 	parser.add_argument('--begPDate',nargs='?', help='Beginning Date for Plotting in YYYYMMDDHH Format')
 	parser.add_argument('--endPDate',nargs='?', help='Ending Date for Plotting in YYYYMMDDHH Format')
 	parser.add_argument('--subset',nargs='?', help='Flag to turn on subsetting within reading or plotting')

@@ -439,6 +439,18 @@ writePlotDir <- NULL
 
 		basinScatter <- FALSE # Perform scatter plot of all points within basins/regions?
 
+	## Observed SNOTEL versus modeled accumulated precipitation
+	snotelAccPcpPlot <- FALSE
+
+		# Specify the beginning date
+		snotelAccPcpBegDate <- NULL 
+	
+		# Specify the ending date
+		snotelAccPcpEndDate <- NULL 
+
+		# Specify to lump snotel points by basin
+		snotelAccPcpBasin <- FALSE
+
 	## Include summary stats tables?
 	statsMapTables <- FALSE
 
