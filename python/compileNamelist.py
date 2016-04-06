@@ -983,7 +983,7 @@ def editNamelist(pathIn,args,dbIn):
 			searchStr = "snotelAccPcpPlot <- FALSE"
 			replaceStr = "snotelAccPcpPlot <- TRUE"
 			el(pathIn,searchStr,replaceStr)
-		elif int(args.plot0 == 21:
+		elif int(args.plot0) == 21:
 			status = 0
                         for checkStr in ['_LSMSNOTEL_ALL.Rdata','_LSMSNOTEL_SUB.Rdata','_LSMSNOTEL_NFIE.Rdata','_LSMSNOTEL_SNOW.Rdata']:
                                 try:
