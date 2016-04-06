@@ -1757,11 +1757,11 @@ if (snotelAccPcpPlot) {
 				snotelSum <- c(snotelSum, 0.0)
                         } else {
 				indSnotel <- which(snotelTmp$POSIXct == modDates[j])
-				print(snotelTmp$CumPrec_mm[indSnotel[1]] - snotelSum[j-1])
 				if (length(indSnotel) == 0) {
 					snotelSum <- c(snotelSum, snotelSum[j-1])
 				} else {
-					snotelSum <- c(snotelSum, (snotelTmp$CumPrec_mm[indSnotel[1]] - snotelSum[j-1]))
+					diff <- snotelTmp$CumPrec_mm[indSnotel[1]] - snotelSum[j-1]
+					snotelSum <- c(snotelSum, (snotelTmp$CumPrec_mm[indSnotel[1]] + diff))
 				}
 			}
 		}
