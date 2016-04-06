@@ -1761,12 +1761,11 @@ if (snotelAccPcpPlot) {
 					snotelSum <- c(snotelSum, snotelSum[j-1])
 				} else {
 					diff <- snotelTmp$CumPrec_mm[indSnotel[1]] - snotelSum[j-1]
-					print('-------')
-					print(j)
-					print(diff)
-					print(snotelSum[j-1])
-					print(snotelTmp$CumPrec_mm[indSnotel[1]])
-					snotelSum <- c(snotelSum, (snotelSum[j-1] + diff))
+					if (diff > 0.0) {
+						snotelSum <- c(snotelSum, (snotelSum[j-1] + diff))
+					} else { 
+						snotelSum <- c(snotelSum, snotelSum[j-1])
+					}
 				}
 			}
 		}
