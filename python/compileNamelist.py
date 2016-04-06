@@ -319,7 +319,7 @@ def editNamelist(pathIn,args,dbIn):
 		el(pathIn,searchStr,replaceStr)
 	
 		searchStr = "snotelAccPcpBegDate <- NULL"
-		replaceStr = "snotelAccPcpBegDate <- as.POSIXct('" + endPStr1 + str2 
+		replaceStr = "snotelAccPcpBegDate <- as.POSIXct('" + begPStr1 + str2 
 		el(pathIn,searchStr,replaceStr)
 
 		searchStr = "snotelAccPcpEndDate <- NULL"
