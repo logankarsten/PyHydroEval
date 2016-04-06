@@ -1753,11 +1753,11 @@ if (snotelAccPcpPlot) {
 
 		snotelSum <- c()
 		for (j in 1:numSteps) {
-			print(modDates[j])
 			if (j == 1) {
 				snotelSum <- c(snotelSum, 0.0)
                         } else {
 				indSnotel <- which(snotelTmp$POSIXct == modDates[j])
+				print(length(indSnotel))
 				if (length(indSnotel) == 0) {
 					snotelSum <- c(snotelSum, snotelSum[j-1])
 				} else {
