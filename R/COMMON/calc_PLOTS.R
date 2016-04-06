@@ -1779,15 +1779,9 @@ if (snotelAccPcpPlot) {
 		for (j in 1:numSteps){
 			dateTmp <- modDates[j]
 			print(dateTmp)
-			ind <- which(snotelTmp$POSIXct == dateTmp)
-			if (length(ind) == 0) {
-				cumSnotelTmp <- NA
-			} else {
-				cumSnotelTmp <- snotelSum[ind[1]]
-			}
 			dfTmp$POSIXct[count] <- dateTmp
 			dfTmp$tag[count] <- "SNOTEL"
-			dfTmp$ACC_PCP[count] <- cumSnotelTmp
+			dfTmp$ACC_PCP[count] <- snotelSum[j] 
 			count <- count + 1
 			for (k in 1:numTags){
 				tag <- tags[k]
