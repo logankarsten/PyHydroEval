@@ -1742,6 +1742,9 @@ if (snotelAccPcpPlot) {
 		# cumulative from beginning of period
 		snotelTmp <- subset(obsSnoData, site_id == pointId & POSIXct >= snotelAccPcpBegDate &
                                         POSIXct <= snotelAccPcpEndDate)
+		print(snotelTmp)
+		print(snotelAccPcpEndDate)
+		print(snotelAccPcpBegDate)
 		snotelSum <- c()
 		# Form cumulative sum
 		for (j in 1:length(snotelTmp$POSIXct)){
