@@ -1776,7 +1776,8 @@ if (snotelAccPcpPlot) {
 		dfTmp$POSIXct <- as.POSIXct('1900-01-01','%Y-%m-%d')
 
 	 	count <- 1
-		for (dateTmp in modDates){
+		for (j in 1:numSteps){
+			dateTmp <- modDates[j]
 			print(dateTmp)
 			ind <- which(snotelTmp$POSIXct == dateTmp)
 			if (length(ind) == 0) {
@@ -1788,7 +1789,8 @@ if (snotelAccPcpPlot) {
 			dfTmp$tag[count] <- "SNOTEL"
 			dfTmp$ACC_PCP[count] <- cumSnotelTmp
 			count <- count + 1
-			for (tag in tags){
+			for (k in 1:numTags){
+				tag <- tags[k]
 				dfTmp$POSIXct[count] <- dateTmp
 				dfTmp$tag[count] <- tag
 				indTmp1 <- which(modData$statArg == pointId & modData$POSIXct == dateTmp &
