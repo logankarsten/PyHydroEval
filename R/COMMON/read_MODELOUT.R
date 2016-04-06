@@ -446,10 +446,10 @@ if (readMod & (readBasinLdasout | readAmfLdasout | readSnoLdasout | readMetLdaso
  		# INDEXES
 	        genIndex_Ldasout <- function(pref, ldasoutVars.=ldasoutVars) {
                         level0 <- get(paste0(pref, "Index_Lev0"))
-			level0 <- get(paste0(pref, "Index_Lev0"))
-                        level0 <- get(paste0(pref, "Index_Lev0"))
-                        level0 <- get(paste0(pref, "Index_Lev0"))
-                        level0 <- get(paste0(pref, "Index_Lev0"))
+			level1 <- get(paste0(pref, "Index_Lev1"))
+                        level2 <- get(paste0(pref, "Index_Lev2"))
+                        level3 <- get(paste0(pref, "Index_Lev3"))
+                        level4 <- get(paste0(pref, "Index_Lev4"))
                         levelSum <- get(paste0(pref,"Index_sweSum"))
                         ldasoutInd <- list( level0, level0, level0, level0, level0, level0, level0, level0, level0, level0,
                                      level0, level0, level0, level0, level0, level0, level0, level0, level0, level0,

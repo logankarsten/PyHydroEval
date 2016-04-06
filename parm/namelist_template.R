@@ -103,7 +103,7 @@ readMod <- FALSE
 		readMetLdasout <- FALSE
 
 	# Subset LDASOUT variables?
-	varsLdasoutSUB <-  FALSE
+	varsLdasoutSUB <- FALSE
 	varsLdasoutNFIE <- FALSE
 	varsLdasoutIOC0 <- FALSE
 	varsLdasoutSNOW <- FALSE 
