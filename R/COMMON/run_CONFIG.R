@@ -300,6 +300,7 @@ if (createPlots) {
 		if (file.exists(SNOfile)) {
 			load(SNOfile)
 		}
+	}
 
         source("calc_PLOTS.R")
 }
