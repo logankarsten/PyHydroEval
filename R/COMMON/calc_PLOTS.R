@@ -1745,6 +1745,7 @@ if (snotelAccPcpPlot) {
 		snotelSum <- c()
 		# Form cumulative sum
 		for (j in 1:length(snotelTmp$POSIXct)){
+			print(j)
 			if (j == 1){
 				snotelSum <- c(snotelSum, 0.0)
 			} else {
