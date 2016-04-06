@@ -1775,9 +1775,9 @@ if (snotelAccPcpPlot) {
 		names(dfTmp) <- c("POSIXct","tag","ACC_PCP")
 		dfTmp$POSIXct <- as.POSIXct('1900-01-01','%Y-%m-%d')
 
-		print('blkasdf')
 	 	count <- 1
 		for (dateTmp in modDates){
+			print(dateTmp)
 			ind <- which(snotelTmp$POSIXct == dateTmp)
 			if (length(ind) == 0) {
 				cumSnotelTmp <- NA
