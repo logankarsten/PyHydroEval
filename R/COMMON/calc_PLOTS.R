@@ -1742,24 +1742,7 @@ if (snotelAccPcpPlot) {
 		# cumulative from beginning of period
 		snotelTmp <- subset(obsSnoData, site_id == pointId & POSIXct >= snotelAccPcpBegDate &
                                         POSIXct <= snotelAccPcpEndDate)
-		print(snotelTmp)
-		print(snotelAccPcpEndDate)
-		print(snotelAccPcpBegDate)
-		snotelSum <- c()
-		# Form cumulative sum
-		for (j in 1:length(snotelTmp$POSIXct)){
-			print(j)
-			if (j == 1){
-				snotelSum <- c(snotelSum, 0.0)
-			} else {
-				if (!is.na(snotelTmp$CumPrec_mm[j])){
-					snotelSum <- c(snotelSum, (snotelTmp$CumPrec_mm[j] - snotelTmp$CumPrec_mm[j-1]))
-				} else {
-					snotelSum <- c(snotelSum, snotelTmp$CumPrec_mm[j])
-				}
-			}
-		}
-
+		
 		print(pointId)
 		ind <- which(modData$statArg == pointId & modData$POSIXct >= snotelAccPcpBegDate &
 					modData$POSIXct <= snotelAccPcpEndDate)
@@ -1768,6 +1751,21 @@ if (snotelAccPcpPlot) {
 		maxPcp <- max(modData$ACCPRCP[ind])
 		numSteps <- length(modDates)
 
+		snotelSum <- c()
+		for (j in 1:numSteps) {
+			if (j == 1) {
+				snotelSum <- c(snotelSum, 0.0)
+                        } else {
+				indSnotel <- which(snotelTmp$POSIXct == modDates[j])
+				if (length(indSnotel) == 0) {
+					snotelSum <- c(snotelSum, snotelSum[j-1])
+				} else {
+					snotelSum <- c(snotelSum, (snotelTmp$CumPrec_mm[indSnotel[1]] - snotelSum[j-1]))
+				}
+			}
+		}
+	
+		print(snotelSum)
 		# Create data frame to hold data for plotting
 		dfTmp <- data.frame(matrix(NA, nrow=numSteps*(numTags+1),ncol=3))
 		names(dfTmp) <- c("POSIXct","tag","ACC_PCP")
