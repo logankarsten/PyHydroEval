@@ -1735,7 +1735,7 @@ if (snotelAccPcpPlot) {
 	tags <- unique(modLdasout$native$tag)
 	numTags <- length(tags)
 	# Loop through points and generate time series plots of accumulated precipitation
-	for (i in 3:numPoints){
+	for (i in 1:numPoints){
 		pointId <- ptgeo.sno$id[i]
 
 		# Subset observed SNOTEL cumulative precipitation and subtract out first value to get
@@ -1753,7 +1753,6 @@ if (snotelAccPcpPlot) {
 
 		snotelSum <- c()
 		for (j in 1:numSteps) {
-			print(j)
 			if (j == 1) {
 				snotelSum <- c(snotelSum, 0.0)
 				indSnotel <- which(snotelTmp$POSIXct == modDates[j])
