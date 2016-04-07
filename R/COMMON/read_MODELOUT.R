@@ -620,13 +620,14 @@ if (readMod & (readBasinLdasout | readAmfLdasout | readSnoLdasout | readMetLdaso
                                          FIRA_mean=mean(FIRA_mean), FSA_mean=mean(FSA_mean)),
                                          by = "statArg,UTC_month"]
 			} else if (varsLdasoutSNOW) {
-				modLdasout.utcday <- modLdasout[, list(SNEQV_mean=mean(SNEQV), SNOWH_mean=mean(SNOWH)),
+				modLdasout.utcday <- modLdasout[, list(SNEQV_mean=mean(SNEQV), SNOWH_mean=mean(SNOWH), 
+								       ACCPRCP_mean=mean(ACCPRCP)),
 					 by = "statArg,UTC_date"]
 				mo <- as.integer(format(modLdasout.utcday$UTC_date, "%m"))
                                 yr <- as.integer(format(modLdasout.utcday$UTC_date, "%Y"))
                                 modLdasout.utcday$UTC_month <- as.Date(paste0(yr,"-",mo,"-15"), format="%Y-%m-%d")
                                 modLdasout.utcmonth <- modLdasout.utcday[, list(SNEQV_mean=mean(SNEQV_mean), 
-					SNOWH_mean=mean(SNOWH_mean),ACCPRCP_mean=mean(ACCPRCP)),
+					SNOWH_mean=mean(SNOWH_mean),ACCPRCP_mean=mean(ACCPRCP_mean)),
 					by = "statArg,UTC_month"]
 			} else if (varsLdasoutIOC0) {
 			        modLdasout.utcday <- modLdasout[, list(DEL_ACCEDIR=sum(DEL_ACCEDIR),
