@@ -1768,7 +1768,7 @@ if (snotelAccPcpPlot) {
 					} else { 
 						snotelSum <- c(snotelSum, snotelSum[j-1])
 						# Reset base value for new water year, or if precip is reset.
-						baseValue <- snotelTmp$CumPrec_mm[indSnotel[1]]
+						baseValue <- 0.0 - snotelSum[j-1] 
 					}
 				}
 			}
