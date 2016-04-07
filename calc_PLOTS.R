@@ -1764,6 +1764,10 @@ if (snotelAccPcpPlot) {
 					snotelSum <- c(snotelSum, snotelSum[j-1])
 				} else {
 					diff <- (snotelTmp$CumPrec_mm[indSnotel[1]] - baseValue) - snotelSum[j-1]
+					print(snotelTmp$CumPrec_mm[indSnotel[1]])
+					print(baseValue)
+					print(snotelSum[j-1])
+					print('-----------------'
 					if (diff >= 0.0) {
 						snotelSum <- c(snotelSum, (snotelSum[j-1] + diff))
 					} else { 
