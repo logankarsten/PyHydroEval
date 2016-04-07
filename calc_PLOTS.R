@@ -1735,7 +1735,7 @@ if (snotelAccPcpPlot) {
 	tags <- unique(modLdasout$native$tag)
 	numTags <- length(tags)
 	# Loop through points and generate time series plots of accumulated precipitation
-	for (i in 1:1){
+	for (i in 3:numPoints){
 		pointId <- ptgeo.sno$id[i]
 
 		# Subset observed SNOTEL cumulative precipitation and subtract out first value to get
