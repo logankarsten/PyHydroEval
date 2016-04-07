@@ -1753,6 +1753,7 @@ if (snotelAccPcpPlot) {
 
 		snotelSum <- c()
 		for (j in 1:numSteps) {
+			print(j)
 			if (j == 1) {
 				snotelSum <- c(snotelSum, 0.0)
 				indSnotel <- which(snotelTmp$POSIXct == modDates[j])
