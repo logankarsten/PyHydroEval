@@ -1771,6 +1771,8 @@ if (snotelAccPcpPlot) {
 				}
 			}
 		}
+		indNDV <- which(is.na(snotelTmp$CumPrec_mm))
+		snotelSum[indNDV] <- NA
 	
 		# Create data frame to hold data for plotting
 		dfTmp <- data.frame(matrix(NA, nrow=numSteps*(numTags+1),ncol=3))
