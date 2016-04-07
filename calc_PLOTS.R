@@ -1735,7 +1735,7 @@ if (snotelAccPcpPlot) {
 	tags <- unique(modLdasout$native$tag)
 	numTags <- length(tags)
 	# Loop through points and generate time series plots of accumulated precipitation
-	for (i in 1:numPoints){
+	for (i in 1:1){
 		pointId <- ptgeo.sno$id[i]
 
 		# Subset observed SNOTEL cumulative precipitation and subtract out first value to get
@@ -1767,6 +1767,8 @@ if (snotelAccPcpPlot) {
 						snotelSum <- c(snotelSum, (snotelSum[j-1] + diff))
 					} else { 
 						snotelSum <- c(snotelSum, snotelSum[j-1])
+						# Reset base value for new water year, or if precip is reset.
+						baseValue <- snotelTmp$CumPrec_mm[indSnotel[1]]
 					}
 				}
 			}
