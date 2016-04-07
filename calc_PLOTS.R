@@ -1763,15 +1763,10 @@ if (snotelAccPcpPlot) {
 				if (length(indSnotel) == 0) {
 					snotelSum <- c(snotelSum, snotelSum[j-1])
 				} else {
-					if (is.na(snotelTmp$CumPrec_mm[indSnotel[1]])) {
+					diff <- (snotelTmp$CumPrec_mm[indSnotel[1]] - baseValue) - snotelSum[j-1]
+					if (is.na(diff)) {
 						snotelSum <- c(snotelSum, snotelSum[j-1])
 					} else {
-						diff <- (snotelTmp$CumPrec_mm[indSnotel[1]] - baseValue) - snotelSum[j-1]
-						print('---------------')
-						print(diff)
-						print(snotelTmp$CumPrec_mm[indSnotel[1]])
-						print(baseValue)
-						print(snotelSum[j-1])
 						if (diff >= 0.0) {
 							snotelSum <- c(snotelSum, (snotelSum[j-1] + diff))
 						} else { 
@@ -1781,6 +1776,9 @@ if (snotelAccPcpPlot) {
 						}
 					}
 				}
+			}
+			if (is.na(baseValue)){
+				baseValue <- 0.0
 			}
 		}
 		indNDV <- which(is.na(snotelTmp$CumPrec_mm))
