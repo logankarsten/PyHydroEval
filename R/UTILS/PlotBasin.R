@@ -285,9 +285,8 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 
 	spreadDf$Date <- as.Date(spreadDf$POSIXct)
 	dfTmp$Date <- as.Date(dfTmp$POSIXct)
-	#dfTmpNLDAS <- subset(dfTmp,enstag == "NLDAS2")
-	#dfTmp2 <- subset(dfTmp,enstag != "NLDAS2")
 	colOut <- c('red','black')
+	print(spreadDf)
 	gg <- ggplot() + 
 	      geom_smooth(data=spreadDf, aes(x=POSIXct,y=q50,ymin=q25,ymax=q75,color=site_no),stat="identity",alpha=1) +
 	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') +
