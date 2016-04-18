@@ -214,6 +214,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 
 	yMax <- 1.2*max(dfTmp$q_cfs)
 
+	print(n)
 	# Create df with observations and modeled values for raster hydrograph
 	dfTmp3 = data.frame(matrix(NA,nrow=nSteps*(length(ensLab)+1),ncol=3))
 	names(dfTmp3) <- c('POSIXct','tag','q_cfs')
@@ -227,6 +228,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 			dfTmp3$q_cfs[countTmp1] <- modDfs$q_cfs[ind]
 			countTmp1 <- countTmp1 + 1
 		}
+		print(dates[i]) 
 		posixTmp <- modDfs$POSIXct[ind]
 		#ind <- which(obs$site_no == n & obs$Date == strftime(dates[i],"%Y-%m-%d"))
 		ind <- which(obs$site_no == n & strftime(obs$POSIXct,"%Y-%m-%d %H:%M") == strftime(dates[i],"%Y-%m-%d %H:%M"))
