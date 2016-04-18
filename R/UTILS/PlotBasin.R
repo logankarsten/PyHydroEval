@@ -273,6 +273,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 		spreadDf$mean[i] <- mean(dfTmp2$q_cfs)
 		# Observations
 
+		print(dates[i])
 		ind <- which(obs$site_no == n & strftime(obs$POSIXct,"%Y-%m-%d %H:%M") == strftime(dates[i],"%Y-%m-%d %H:%M"))
 		#ind <- which(obs$site_no == n & obs$Date == strftime(dates[i],"%Y-%m-%d"))
 		if (length(ind) != 0){
