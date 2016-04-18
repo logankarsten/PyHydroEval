@@ -838,8 +838,8 @@ def editNamelist(pathIn,args,dbIn):
                         if status == 0:
                                 print "ERROR: Failure to find input model file for SNOTEL SWE timeseries plots."
                                 sys.exit(1)
-			searchStr = "swePlot <- FALSE"
-                        replaceStr = "swePlot <- TRUE"
+			searchStr = "indSwePlot <- FALSE"
+                        replaceStr = "indSwePlot <- TRUE"
                         el(pathIn,searchStr,replaceStr)
 		elif int(args.plot) == 8:
 			searchStr = "metTags <- NULL"

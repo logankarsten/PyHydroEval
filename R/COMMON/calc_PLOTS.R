@@ -40,7 +40,7 @@ if (writeHtml) {
                 writeLines('```{r set-options, echo=FALSE, cache=FALSE}\noptions(width=1600)\nopts_chunk$set(comment = "", warning = FALSE, message = FALSE, echo = TRUE, tidy = FALSE, size="small")\n```', con=paste0(writePlotDir,"/plots_climate.Rmd"))
                 cat('# MODEL OUTPUT: CLIMATE\n', file=paste0(writePlotDir,"/plots_climate.Rmd"), append=TRUE)
 	}
-	if (flowswePlot | swePlot) {
+	if (flowswePlot | indSwePlot) {
                 writeLines('```{r set-options, echo=FALSE, cache=FALSE}\noptions(width=1600)\nopts_chunk$set(comment = "", warning = FALSE, message = FALSE, echo = TRUE, tidy = FALSE, size="small")\n```', con=paste0(writePlotDir,"/plots_snow.Rmd"))
                 cat('# MODEL OUTPUT: SNOW\n', file=paste0(writePlotDir,"/plots_snow.Rmd"), append=TRUE)
 	}
@@ -59,7 +59,7 @@ if (accprecipPlot | flowswePlot | flowlsmPlot) {
                        utcday=subset(modLdasout[["utcday"]], modLdasout[["utcday"]]$fileGroup=="ldasout.basgeo"))
 }
 
-if (swePlot) {
+if (indSwePlot) {
 	modLdasout_SNO <- list(native=subset(modLdasout[["native"]], modLdasout[["native"]]$fileGroup=="ldasout.sno"),
                        snoday=subset(modLdasout[["snoday"]], modLdasout[["snoday"]]$fileGroup=="ldasout.sno"),
                        utcday=subset(modLdasout[["utcday"]], modLdasout[["utcday"]]$fileGroup=="ldasout.sno"))
@@ -235,7 +235,7 @@ for (i in 1:length(hydroTags2)) {
 		# Make suit of plots
 		if (obsFlag == 1){
 			plotEnsFlowWObs(n, modDfs=modDfsOut,
-		      		        obs=ObsStrData,
+		      		        obs=obsStrData,
 			    	        labObs="Observed",
 			    	        title=plotTitle,
 			    	        startDate=hydroEnsStartDate,
@@ -447,7 +447,7 @@ for (i in 1:length(flowlsmTags)) {
 }
    
 # SWE
-if (swePlot) {
+if (indSwePlot) {
 message("Generating SWE plots...")
 # Setup
 sweList <- list()
@@ -461,7 +461,10 @@ sweWidths <- rep(lineWd, length(sweList))
 # Loop plots
 sites <- unique(modLdasout_SNO[["native"]]$statArg)
 for (n in sites) {
-  png(paste0(writePlotDir, "/swe_", n, ".png"), width=2100, height=1350, res=225)
+  #png(paste0(writePlotDir, "/swe_", n, ".png"), width=2100, height=1350, res=225)
+  # Logan modify for output file path to be a bit more specific
+  png(paste0(writePlotDir, "/SNOTEL_SWE_TIMESERIES_",n,"_",strftime(sweStartDate,'%Y%m%d'),'_',strftime(sweEndDate,'%Y%m%d'),'.png'),
+      height=1350, res=225)
   PlotSwe(n, modDfs=sweList,
                 obs=obsSnoData, obsmeta=obsSnoMeta,
                 labMods=sweTags,
@@ -1755,20 +1758,33 @@ if (snotelAccPcpPlot) {
 		for (j in 1:numSteps) {
 			if (j == 1) {
 				snotelSum <- c(snotelSum, 0.0)
+				indSnotel <- which(snotelTmp$POSIXct == modDates[j])
+				baseValue <- snotelTmp$CumPrec_mm[indSnotel[1]]
                         } else {
 				indSnotel <- which(snotelTmp$POSIXct == modDates[j])
 				if (length(indSnotel) == 0) {
 					snotelSum <- c(snotelSum, snotelSum[j-1])
 				} else {
-					diff <- snotelTmp$CumPrec_mm[indSnotel[1]] - snotelSum[j-1]
-					if (diff > 0.0) {
-						snotelSum <- c(snotelSum, (snotelSum[j-1] + diff))
-					} else { 
+					diff <- (snotelTmp$CumPrec_mm[indSnotel[1]] - baseValue) - snotelSum[j-1]
+					if (is.na(diff)) {
 						snotelSum <- c(snotelSum, snotelSum[j-1])
+					} else {
+						if (diff >= 0.0) {
+							snotelSum <- c(snotelSum, (snotelSum[j-1] + diff))
+						} else { 
+							snotelSum <- c(snotelSum, snotelSum[j-1])
+							# Reset base value for new water year, or if precip is reset.
+							baseValue <- 0.0 - snotelSum[j-1] 
+						}
 					}
 				}
 			}
+			if (is.na(baseValue)){
+				baseValue <- 0.0
+			}
 		}
+		indNDV <- which(is.na(snotelTmp$CumPrec_mm))
+		snotelSum[indNDV] <- NA
 	
 		# Create data frame to hold data for plotting
 		dfTmp <- data.frame(matrix(NA, nrow=numSteps*(numTags+1),ncol=3))
@@ -1799,7 +1815,7 @@ if (snotelAccPcpPlot) {
 		title <- paste0("SNOTEL Site: ",pointId," Accumulated Precipitation")
 		# Create time series plot
 		fileOut <- paste0(writePlotDir,"/SNOTEL_",pointId,"_ACCPCP_",bDStr,"_",eDStr,".png")
-		gg <- ggplot2::ggplot(dfTmp,ggplot2::aes(x=POSIXct,y=Model,color=tag)) + ggplot2::geom_line() + 
+		gg <- ggplot2::ggplot(dfTmp,ggplot2::aes(x=POSIXct,y=ACC_PCP,color=tag)) + ggplot2::geom_line() + 
 		      ggplot2::ggtitle(title) + ggplot2::xlab('Date') + ggplot2::ylab('Accumulated Precipitation (mm)')
 		# Save figure
 		ggsave(filename = fileOut, plot = gg)
@@ -1816,7 +1832,7 @@ if (writeHtml) {
 		knit2html(paste0(writePlotDir,"/plots_climate.Rmd"), paste0(writePlotDir,"/plots_climate.html"))
 		file.remove("plots_climate.md")
 	}
-	if (flowswePlot | swePlot) {	
+	if (flowswePlot | indSwePlot) {	
 		knit2html(paste0(writePlotDir,"/plots_snow.Rmd"), paste0(writePlotDir,"/plots_snow.html"))
 		file.remove("plots_snow.md")
 	}

@@ -82,7 +82,7 @@ if (calcStats | createPlots) {
 			stop(paste("Ameriflux obs file specified but does not exist:", AMFfile))
 		}
 	}
-	if (!is.null(SNOfile) & (snoProc | swePlot) & exists("ptgeo.sno")) {
+	if (!is.null(SNOfile) & (snoProc | indSwePlot) & exists("ptgeo.sno")) {
         	if (file.exists(SNOfile)) {
                 	load(SNOfile)
 			obsSnoData <- subset(obsSnoData, obsSnoData$site_id %in% ptgeo.sno$id)
@@ -207,7 +207,7 @@ if (calcStats & basSnoProc) {
 # Plots
 if (createPlots) {
 	if (accflowPlot | hydroPlot | hydroEnsPlot | accprecipPlot | 
-			flowswePlot | flowlsmPlot | swePlot | 
+			flowswePlot | flowlsmPlot | indSwePlot | 
 			strBiasMap | strCorrMap | 
 			snosweErrMap | snoprecipErrMap) {
         	message("Generating plots")

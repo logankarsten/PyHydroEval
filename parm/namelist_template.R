@@ -334,7 +334,7 @@ writePlotDir <- NULL
                 flowlsmEndDate <- NULL
 
 	## Generate SWE station plots?
-	swePlot <- FALSE
+	indSwePlot <- FALSE
 
         	# Specify which run tags to plot
         	sweTags <- NULL
