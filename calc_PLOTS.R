@@ -461,7 +461,10 @@ sweWidths <- rep(lineWd, length(sweList))
 # Loop plots
 sites <- unique(modLdasout_SNO[["native"]]$statArg)
 for (n in sites) {
-  png(paste0(writePlotDir, "/swe_", n, ".png"), width=2100, height=1350, res=225)
+  #png(paste0(writePlotDir, "/swe_", n, ".png"), width=2100, height=1350, res=225)
+  # Logan modify for output file path to be a bit more specific
+  png(paste0(writePlotDir, "/SNOTEL_SWE_TIMESERIES_",n,"_",strftime(sweStartDate,'%Y%m%d'),'_',strftime(sweEndDate,'%Y%m%d'),'.png'),
+      height=1350, res=225)
   PlotSwe(n, modDfs=sweList,
                 obs=obsSnoData, obsmeta=obsSnoMeta,
                 labMods=sweTags,

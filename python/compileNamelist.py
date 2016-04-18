@@ -827,9 +827,17 @@ def editNamelist(pathIn,args,dbIn):
                         replaceStr = "flowlsmPlot <- TRUE"
                         el(pathIn,searchStr,replaceStr)
 		elif int(args.plot) == 7:
-			searchStr = "sweTags <- NULL"
-			replaceStr = "sweTags <- " + tagStr
-			el(pathIn,searchStr,replaceStr)
+			status = 0
+			for checkStr in ['_LSMSNOTEL_ALL.Rdata','_LSMSNOTEL_SUB.Rdata','_LSMSNOTEL_NFIE.Rdata','_LSMSNOTEL_SNOW.Rdata']:
+				try:
+					ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
+                                        status = 1
+                                        break
+                                except:
+                                        continue
+                        if status == 0:
+                                print "ERROR: Failure to find input model file for SNOTEL SWE timeseries plots."
+                                sys.exit(1)
 			searchStr = "swePlot <- FALSE"
                         replaceStr = "swePlot <- TRUE"
                         el(pathIn,searchStr,replaceStr)
