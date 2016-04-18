@@ -162,6 +162,12 @@ def editNamelist(pathIn,args,dbIn):
 		replaceStr = "METfile <- " + "'" + dbIn.metObsFile[indDbOrig] + "'"
 		el(pathIn,searchStr,replaceStr)
 
+	# Edit the streamflow observation file.
+	if len(dbIn.strObsFile[indDbOrig]) != 0:
+		searchStr = "STRfile <- NULL"
+		replaceStr = "STRfile <- " + "'" + dbIn.strObsFile[indDbOrig] + "'"
+		el(pathIn,searchStr,replaceStr)
+
 	# Edit all analysis/read dates in file.
 	str1 = "', format='%Y-%m-%d %H:%M', tz='UTC')"
 	str2 = "', format='%Y-%m-%d', tz='UTC')"
