@@ -261,6 +261,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	spreadDf$mean <- NA
 	spreadDf$ObsCFS <- NA
 
+	print(dfTmp2)
 	for (i in 1:nSteps) {
 		dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
 		qCalc <- quantile(dfTmp2$q_cfs, probs=seq(0,1,0.25), na.rm = TRUE)
