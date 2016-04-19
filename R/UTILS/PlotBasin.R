@@ -244,9 +244,11 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	yMax <- 1.2*max(dfTmp3$q_cfs)
 
 	# Spread plots
-	spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=13))
+	spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=22))
 	names(spreadDf) <- c('st_id','st_lon','st_lat','POSIXct','site_no','tag',
-			     'q25','q50','q75','q0','q100','mean','ObsCFS')
+			     'q25','q50','q75','q0','q100','mean',
+			     'af25','af50','af75','af0','af100',
+			     'mean_af','median_af','ObsCFS','ObsAF','ObsAccAF')
 	spreadDf$st_id <- NA 
 	spreadDf$st_lon <- NA 
 	spreadDf$st_lat <- NA 
@@ -260,10 +262,20 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	spreadDf$q100 <- NA
 	spreadDf$mean <- NA
 	spreadDf$ObsCFS <- NA
+	spreadDf$af25 <- NA
+	spreadDf$af50 <- NA
+	spreadDf$af75 <- NA
+	spreadDf$af0 <- NA
+	spreadDf$af100 <- NA
+	spreadDf$mean_af <- NA
+	spreadDf$median_af <- NA
+	spreadDf$ObsAF <- NA
+	spreadDf$ObsAccAF <- NA
 
 	for (i in 1:nSteps) {
 		dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
 		qCalc <- quantile(dfTmp2$q_cfs, probs=seq(0,1,0.25), na.rm = TRUE)
+		afCalc <- quantile(dfTmp2$ACCFLOW_af, probs=seq(0,1,0.25), na.rm = TRUE)
 		spreadDf$st_id[i] <- dfTmp2$st_id[1]
 		spreadDf$st_lon[i] <- dfTmp2$st_lon[1]
 		spreadDf$st_lat[i] <- dfTmp2$st_lat[1]
@@ -276,13 +288,42 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 		spreadDf$q0[i] <- qCalc[[1]]
 		spreadDf$q100[i] <- qCalc[[5]]
 		spreadDf$mean[i] <- mean(dfTmp2$q_cfs)
-		# Observations
+		spreadDf$af25[i] <- afCalc[[2]]
+		spreadDf$af50[i] <- afCalc[[3]]
+		spreadDf$af75[i] <- afCalc[[4]]
+		spreadDf$af0[i] <- afCalc[[1]]
+		spreadDf$af100[i] <- afCalc[[5]]
+		spreadDf$mean_af[i] <- mean(dfTmp2$ACCFLOW_af)
+		spreadDf$median_af[i] <- median(dfTmp2$ACCFLOW_af)
 
+		# Observations
 		ind <- which(obs$site_no == n & strftime(obs$POSIXct,"%Y-%m-%d %H:%M") == strftime(dates[i],"%Y-%m-%d %H:%M"))
-		#ind <- which(obs$site_no == n & obs$Date == strftime(dates[i],"%Y-%m-%d"))
 		if (length(ind) != 0){
 			spreadDf$ObsCFS[i] <- obs$q_cms[ind[1]]*35.3147
 		}
+		# Calculate volume of water in terms of acre-feet
+		if (i == 1){
+			dtSec <- as.numeric(difftime(spreadDf$POSIXct[i+1],spreadDf$POSIXct[i],units='secs'))
+			if (!is.na(spreadDf$ObsCFS[i]){
+				spreadDf$ObsAF[i] <- spreadDf$ObsCFS[i]*dtSec
+			}
+		} else {
+			dtSec <- as.numeric(difftime(spreadDf$POSIXct[i],spreadDf$POSIXct[i-1],units='secs'))
+			if (!is.na(spreadDf$ObsCFS[i]){
+                                spreadDf$ObsAF[i] <- (spreadDf$ObsCFS[i]*dtSec)/1000.0
+                        }
+		}
+	}
+
+	# Calculate cumulative observed flow in thousands acre-feet
+	tmpFlow <- spreadDf$ObsAF
+	spreadDf$ObsAccAF[!is.na(spreadDf$ObsAF)] <- cumsum(spreadDf$ObsAF[!is.na(spreadDf$ObsAF)])
+
+	# Calculate maximum accumulated flow values for plotting purposes
+	yMaxAF <- 1.2*max(dfTmp$ACCFLOW_af)
+	yMaxAFCheck <- 1.2*max(spreadDf$ObsAccAF[!is.na(spreadDf$ObsAccAF)])
+	if (yMaxAFCheck > yMaxAF){
+		yMaxAF <- yMaxAFCheck
 	}
 
 	spreadDf$Date <- as.Date(spreadDf$POSIXct)
@@ -304,6 +345,22 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
 	ggsave(filename=fileOutPath, plot = gg)
 
+	if (!is.na(spreadDf$ObsAccAF[1])){
+		if (spreadDf$ObsAccAF[1] < spreadDf$af25[1]){
+			colOut <- c('black','red')
+        	} else {
+                	colOut <- c('red','black')
+        	}
+	}
+	gg <- ggplot() +
+              geom_smooth(data=spreadDf, aes(x=POSIXct,y=af50,ymin=af25,ymax=af75,color=site_no),stat="identity",alpha=1) +
+	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsAccAF,color='Observed'),size=1.2,linetype='dashed') + 
+              scale_color_manual(name='Model Run',values = colOut,label=c('Mean Modeled')) +
+              ggtitle(title) + xlab('Date') + ylab('Accumulated Runoff (thousands acre-feet)') + ylim(0,yMaxAF)
+        fileOutPath <- paste0(outDir,'/acc_runoff_af_spread_',n,'_',strftime(startDate,"%Y%m%d%H"),
+                        '_',strftime(endDate,"%Y%m%d%H"),'.png')
+        ggsave(filename=fileOutPath, plot = gg)
+
 	#Spaghetti plots
 	numColor = length(unique(dfTmp$enstag)) + 1
 	colOut <- colOutList[1:numColor]
@@ -316,6 +373,14 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
         ggsave(filename = fileOutPath, plot = gg)
 
+	gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=ACCFLOW_af,color=enstag)) + geom_line() +
+	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsAccAF,color='Observed'),size=1.2,linetype='dashed') + 
+              scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag),'Observed')) +
+              ggtitle(title) + xlab('Date') + ylab('Accumulated Runoff (thousands acre-feet') + ylim(0,yMaxAF)
+        fileOutPath <- paste0(outDir,'/acc_runoff_af_spaghetti_',n,'_',strftime(startDate,"%Y%m%d%H"),
+                        '_',strftime(endDate,"%Y%m%d%H"),'.png')
+        ggsave(filename = fileOutPath, plot = gg)
+
 	# Produce hydrograph raster
 	gg <- ggplot(dfTmp3, aes(x=POSIXct, y=tag, fill=q_cfs)) + geom_raster() +
 	      scale_fill_gradientn(colours = rainbow(10)) + 
@@ -324,7 +389,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	fileOutPath <- paste0(outDir,'/streamflow_raster_hydrograph_',n,'_',strftime(startDate,"%Y%m%d%H"),
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
 	ggsave(filename=fileOutPath, plot=gg)
-
 
 }
 
