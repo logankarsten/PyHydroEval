@@ -309,7 +309,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 			}
 		} else {
 			dtSec <- as.numeric(difftime(spreadDf$POSIXct[i],spreadDf$POSIXct[i-1],units='secs'))
-			if (!is.na(spreadDf$ObsCFS[i]){
+			if (!is.na(spreadDf$ObsCFS[i])){
                                 spreadDf$ObsAF[i] <- (spreadDf$ObsCFS[i]*dtSec)/1000.0
                         }
 		}
