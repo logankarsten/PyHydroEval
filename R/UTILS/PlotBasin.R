@@ -310,7 +310,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
         ggsave(filename = fileOutPath, plot = gg)
 
 	# Produce hydrograph raster
-	gg <- ggplot(dfTmp3, aes(x=POSIXct, y=enstag, fill=q_cfs)) + geom_raster() +
+	gg <- ggplot(dfTmp3, aes(x=POSIXct, y=tag, fill=q_cfs)) + geom_raster() +
 	      scale_fill_gradientn(colours = rainbow(10)) + 
 	      ggtitle(title) + xlab('Date') + ylab('Ensemble')  
 	      #scale_x_date(labels = date_format("%d:%H")) 
