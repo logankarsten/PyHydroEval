@@ -288,6 +288,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	spreadDf$Date <- as.Date(spreadDf$POSIXct)
 	dfTmp$Date <- as.Date(dfTmp$POSIXct)
 	colOut <- c('red','black')
+	print(spreadDf)
 	gg <- ggplot() + 
 	      geom_smooth(data=spreadDf, aes(x=POSIXct,y=q50,ymin=q25,ymax=q75,color=site_no),stat="identity",alpha=1) +
 	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') +
@@ -309,7 +310,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
         ggsave(filename = fileOutPath, plot = gg)
 
-	print(dfTmp3)
 	# Produce hydrograph raster
 	gg <- ggplot(dfTmp3, aes(x=POSIXct, y=tag, fill=q_cfs)) + geom_raster() +
 	      scale_fill_gradientn(colours = rainbow(10)) + 
