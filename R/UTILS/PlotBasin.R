@@ -212,8 +212,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
         nSteps <- length(dates)
 	ensLab <- unique(modDfs$enstag)
 
-	yMax <- 1.2*max(dfTmp$q_cfs)
-
 	print(n)
 	# Create df with observations and modeled values for raster hydrograph
 	dfTmp3 = data.frame(matrix(NA,nrow=nSteps*(length(ensLab)+1),ncol=3))
@@ -228,11 +226,8 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 			dfTmp3$q_cfs[countTmp1] <- modDfs$q_cfs[ind]
 			countTmp1 <- countTmp1 + 1
 		}
-		print(dates[i]) 
 		posixTmp <- modDfs$POSIXct[ind]
-		#ind <- which(obs$site_no == n & obs$Date == strftime(dates[i],"%Y-%m-%d"))
 		ind <- which(obs$site_no == n & strftime(obs$POSIXct,"%Y-%m-%d %H:%M") == strftime(dates[i],"%Y-%m-%d %H:%M"))
-		print(length(ind))
 		if (length(ind) != 0){
 			dfTmp3$POSIXct[countTmp1] <- posixTmp
 			dfTmp3$tag[countTmp1] <- 'Obs'
@@ -241,6 +236,10 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 		countTmp1 <- countTmp1 + 1
 
 	}
+
+	# Calculate maximum value for plotting purposes.
+	yMax <- 1.2*max(dfTmp3$q_cfs)
+
 	# Spread plots
 	spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=13))
 	names(spreadDf) <- c('st_id','st_lon','st_lat','POSIXct','site_no','tag',
@@ -276,7 +275,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 		spreadDf$mean[i] <- mean(dfTmp2$q_cfs)
 		# Observations
 
-		print(dates[i])
 		ind <- which(obs$site_no == n & strftime(obs$POSIXct,"%Y-%m-%d %H:%M") == strftime(dates[i],"%Y-%m-%d %H:%M"))
 		#ind <- which(obs$site_no == n & obs$Date == strftime(dates[i],"%Y-%m-%d"))
 		if (length(ind) != 0){
@@ -287,7 +285,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	spreadDf$Date <- as.Date(spreadDf$POSIXct)
 	dfTmp$Date <- as.Date(dfTmp$POSIXct)
 	colOut <- c('red','black')
-	print(spreadDf)
 	gg <- ggplot() + 
 	      geom_smooth(data=spreadDf, aes(x=POSIXct,y=q50,ymin=q25,ymax=q75,color=site_no),stat="identity",alpha=1) +
 	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') +
