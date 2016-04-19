@@ -329,6 +329,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	spreadDf$Date <- as.Date(spreadDf$POSIXct)
 	dfTmp$Date <- as.Date(dfTmp$POSIXct)
 
+	print(spreadDf)
 	# Interesting bug here. If initial modeled is greater than observed, colors get switched around.
 	# Introducing bug to fix this.
 	if (spreadDf$ObsCFS[1] < spreadDf$q25[1]){
