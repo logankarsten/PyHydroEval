@@ -238,7 +238,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	}
 
 	# Remove any erroneous NA values
-	dfTmp3 <- subset(dfTmp3, !is.na(tag)
+	dfTmp3 <- subset(dfTmp3, !is.na(tag))
 
 	# Calculate maximum value for plotting purposes.
 	yMax <- 1.2*max(dfTmp3$q_cfs)
