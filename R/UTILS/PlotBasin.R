@@ -232,7 +232,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 		posixTmp <- modDfs$POSIXct[ind]
 		#ind <- which(obs$site_no == n & obs$Date == strftime(dates[i],"%Y-%m-%d"))
 		ind <- which(obs$site_no == n & strftime(obs$POSIXct,"%Y-%m-%d %H:%M") == strftime(dates[i],"%Y-%m-%d %H:%M"))
-		print(ind)
+		print(length(ind))
 		if (length(ind) != 0){
 			dfTmp3$POSIXct[countTmp1] <- posixTmp
 			dfTmp3$tag[countTmp1] <- 'Obs'
