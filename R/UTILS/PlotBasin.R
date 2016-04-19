@@ -263,9 +263,8 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 
 	for (i in 1:nSteps) {
 		dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
-		print(dfTmp2)
 		qCalc <- quantile(dfTmp2$q_cfs, probs=seq(0,1,0.25), na.rm = TRUE)
-		spreadDf$st_id[i] <- dfTmp2$site_id[1]
+		spreadDf$st_id[i] <- dfTmp2$st_id[1]
 		spreadDf$st_lon[i] <- dfTmp2$st_lon[1]
 		spreadDf$st_lat[i] <- dfTmp2$st_lat[1]
 		spreadDf$POSIXct[i] <- dfTmp2$POSIXct[1]
@@ -379,7 +378,7 @@ plotEnsFlow <- function(n, modDfs,
                 dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
                 qCalc <- quantile(dfTmp2$q_cfs, probs=seq(0,1,0.25), na.rm = TRUE)
 		afCalc <- quantile(dfTmp2$ACCFLOW_af, probs=seq(0,1,0.25), na.rm = TRUE)
-                spreadDf$site_id[i] <- dfTmp2$site_id[1]
+                spreadDf$site_id[i] <- dfTmp2$st_id[1]
                 spreadDf$st_lon[i] <- dfTmp2$st_lon[1]
                 spreadDf$st_lat[i] <- dfTmp2$st_lat[1]
                 spreadDf$POSIXct[i] <- dfTmp2$POSIXct[1]
