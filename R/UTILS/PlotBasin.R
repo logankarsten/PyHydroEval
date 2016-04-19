@@ -306,6 +306,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
         ggsave(filename = fileOutPath, plot = gg)
 
+	print(dfTmp3)
 	# Produce hydrograph raster
 	gg <- ggplot(dfTmp3, aes(x=POSIXct, y=tag, fill=q_cfs)) + geom_raster() +
 	      scale_fill_gradientn(colours = rainbow(10)) + 
