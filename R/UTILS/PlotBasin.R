@@ -212,6 +212,9 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
         nSteps <- length(dates)
 	ensLab <- unique(modDfs$enstag)
 
+	# Set accumulated acre-feet to thousands of acre-feet
+	dfTmp$ACCFLOW_af <- dfTmp$ACCFLOW_af/1000.0
+
 	print(n)
 	# Create df with observations and modeled values for raster hydrograph
 	dfTmp3 = data.frame(matrix(NA,nrow=nSteps*(length(ensLab)+1),ncol=3))
