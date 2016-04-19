@@ -264,7 +264,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	for (i in 1:nSteps) {
 		dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
 		qCalc <- quantile(dfTmp2$q_cfs, probs=seq(0,1,0.25), na.rm = TRUE)
-		spreadDf$site_id[i] <- dfTmp2$site_id[1]
+		spreadDf$st_id[i] <- dfTmp2$site_id[1]
 		spreadDf$st_lon[i] <- dfTmp2$st_lon[1]
 		spreadDf$st_lat[i] <- dfTmp2$st_lat[1]
 		spreadDf$POSIXct[i] <- dfTmp2$POSIXct[1]
@@ -287,8 +287,14 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 
 	spreadDf$Date <- as.Date(spreadDf$POSIXct)
 	dfTmp$Date <- as.Date(dfTmp$POSIXct)
-	colOut <- c('red','black')
-	print(spreadDf)
+
+	# Interesting bug here. If initial modeled is greater than observed, colors get switched around.
+	# Introducing bug to fix this.
+	if (spreadDf$ObsCFS[1] < spreadDf$mean[1]){
+		colOut <- c('black','red')
+	} else {
+		colOut <- c('red','black')
+	}
 	gg <- ggplot() + 
 	      geom_smooth(data=spreadDf, aes(x=POSIXct,y=q50,ymin=q25,ymax=q75,color=site_no),stat="identity",alpha=1) +
 	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') +
