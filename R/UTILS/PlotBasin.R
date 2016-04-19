@@ -304,7 +304,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 		# Calculate volume of water in terms of acre-feet
 		if (i == 1){
 			dtSec <- as.numeric(difftime(spreadDf$POSIXct[i+1],spreadDf$POSIXct[i],units='secs'))
-			if (!is.na(spreadDf$ObsCFS[i]){
+			if (!is.na(spreadDf$ObsCFS[i])){
 				spreadDf$ObsAF[i] <- spreadDf$ObsCFS[i]*dtSec
 			}
 		} else {
