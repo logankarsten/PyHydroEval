@@ -290,7 +290,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 
 	# Interesting bug here. If initial modeled is greater than observed, colors get switched around.
 	# Introducing bug to fix this.
-	if (spreadDf$ObsCFS[1] < spreadDf$q25){
+	if (spreadDf$ObsCFS[1] < spreadDf$q25[1]){
 		colOut <- c('black','red')
 	} else {
 		colOut <- c('red','black')
