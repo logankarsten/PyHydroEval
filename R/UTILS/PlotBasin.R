@@ -434,6 +434,11 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
         ggsave(filename=fileOutPath, plot=gg)
 
+	#LK TMP PRINT STATS TO SCREEN
+        print(paste0('BAINS: ',n))
+        print(paste0('MEAN ACCUMULATED RUNOFF (kaf): ',max(spreadDf$mean_af[!is.na(spreadDf$mean_af)])))
+        print(paste0('MEDIAN ACCUMULATED RUNOFF (kaf): ',max(spreadDf$median_af[!is.na(spreadDf$median_af)])))
+
 }
 
 plotEnsFlow <- function(n, modDfs,
