@@ -427,6 +427,13 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
 	ggsave(filename=fileOutPath, plot=gg)
 
+	gg <- ggplot(dfTmp, aes(x=POSIXct, y=enstag, fill=ACCFLOW_af)) + geom_raster() +
+              scale_fill_gradientn(colours = rainbow(10)) +
+              ggtitle(title) + xlab('Date') + ylab('Ensemble')
+        fileOutPath <- paste0(outDir,'/acc_flow_af_raster_hydrograph_',n,'_',strftime(startDate,"%Y%m%d%H"),
+                        '_',strftime(endDate,"%Y%m%d%H"),'.png')
+        ggsave(filename=fileOutPath, plot=gg)
+
 }
 
 plotEnsFlow <- function(n, modDfs,
