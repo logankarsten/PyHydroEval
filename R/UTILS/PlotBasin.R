@@ -351,7 +351,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	spreadDf$ObsAccAF[!is.na(spreadDf$ObsAF)] <- cumsum(spreadDf$ObsAF[!is.na(spreadDf$ObsAF)])
 
 	# Calculate maximum accumulated flow values for plotting purposes
-	yMaxAF <- 1.2*max(dfTmp$ACCFLOW_af)
+	yMaxAF <- 1.2*max(!is.na(dfTmp$ACCFLOW_af))
 	yMaxAFCheck <- 1.2*max(spreadDf$ObsAccAF[!is.na(spreadDf$ObsAccAF)])
 	if (yMaxAFCheck > yMaxAF){
 		yMaxAF <- yMaxAFCheck
