@@ -253,9 +253,11 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 		print(i)
 		for (j in 1:length(ensLab)){
 			ind <- which(modDfs$site_no == n & modDfs$enstag == ensLab[j] & modDfs$POSIXct == dates[i])
-			dfTmp3$POSIXct[countTmp1] <- modDfs$POSIXct[ind]
-			dfTmp3$tag[countTmp1] <- modDfs$enstag[ind]
-			dfTmp3$q_cfs[countTmp1] <- modDfs$q_cfs[ind]
+			if (length(ind) != 0){
+				dfTmp3$POSIXct[countTmp1] <- modDfs$POSIXct[ind]
+				dfTmp3$tag[countTmp1] <- modDfs$enstag[ind]
+				dfTmp3$q_cfs[countTmp1] <- modDfs$q_cfs[ind]
+			}
 			countTmp1 <- countTmp1 + 1
 		}
 		posixTmp <- modDfs$POSIXct[ind]
