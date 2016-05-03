@@ -229,16 +229,17 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 				dfPad$st_lon[count] <- unique(dfTmp$st_lon)
 				dfPad$st_lat[count] <- unique(dfTmp$st_lat)
 				dfPad$st_id[count] <- unique(dfTmp$st_id)
+				dfPad$tag[count] <- unique(dftmp$tag)[1]
 				dfPad$site_no[count] <- n
 				count <- count + 1
 			}
 		}
 		# Bind to existing dfTmp 
 		dfTmp <- rbind(dfPad,dfTmp)
+		# Reset dates array
+		dates <- unique(dfTmp$POSIXct)
 	}
 
-	print(dfTmp)
-	quit()
 	# Set accumulated acre-feet to thousands of acre-feet
 	dfTmp$ACCFLOW_af <- dfTmp$ACCFLOW_af/1000.0
 
