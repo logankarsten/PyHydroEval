@@ -250,6 +250,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	dfTmp3$POSIXct <- as.POSIXct('1900-01-01 00:00',format='%Y-%m-%d %H:%M')
 	countTmp1 <- 1
 	for (i in 1:nSteps){
+		print(i)
 		for (j in 1:length(ensLab)){
 			ind <- which(modDfs$site_no == n & modDfs$enstag == ensLab[j] & modDfs$POSIXct == dates[i])
 			dfTmp3$POSIXct[countTmp1] <- modDfs$POSIXct[ind]
