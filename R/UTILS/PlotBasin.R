@@ -228,7 +228,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 			print(dateTmp)
 			for (j in 1:length(ensLab)){
 				print(j)
-				dfPad$POSIXct[count] <- as.POSIXct(dateTmp)
+				dfPad$POSIXct[count] <- as.POSIXct(dateTmp,format='%Y-%m-%d %H:%M')
 				dfPad$POSIXct[count] <- ensLab[j]
 				count <- count + 1
 			}
