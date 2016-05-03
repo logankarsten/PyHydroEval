@@ -383,6 +383,8 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	ggsave(filename=fileOutPath, plot = gg)
 
 	if (!is.na(spreadDf$ObsAccAF[1]) & !is.na(spreadDf$af25[1])){
+		print(spreadDf$ObsAccAF[1])
+		print(spreadDf$af25[1])
 		if (spreadDf$ObsAccAF[1] < spreadDf$af25[1]){
 			colOut <- c('black','red')
         	} else {
