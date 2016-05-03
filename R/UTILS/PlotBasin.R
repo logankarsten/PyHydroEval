@@ -363,11 +363,16 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	# Interesting bug here. If initial modeled is greater than observed, colors get switched around.
 	# Introducing bug to fix this.
 	print(spreadDf)
-	if (spreadDf$ObsCFS[1] < spreadDf$q25[1]){
-		colOut <- c('black','red')
+	if (!is.na(spreadDf$q25[1])){
+		if (spreadDf$ObsCFS[1] < spreadDf$q25[1]){
+			colOut <- c('black','red')
+		} else {
+			colOut <- c('red','black')
+		}
 	} else {
 		colOut <- c('red','black')
 	}
+
 	gg <- ggplot() + 
 	      geom_smooth(data=spreadDf, aes(x=POSIXct,y=q50,ymin=q25,ymax=q75,color=site_no),stat="identity",alpha=1) +
 	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') +
