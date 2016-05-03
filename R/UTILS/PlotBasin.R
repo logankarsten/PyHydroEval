@@ -216,6 +216,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	if (padSteps > 0){
 		dt <- as.numeric(difftime(dfTmp$POSIXct[2],dfTmp$POSIXct[1],units="hours"))
 		nSteps <- nSteps + padSteps
+		startDatePad <- startDate
 		startDate <- startDate - dt*padSteps*3600
 		dfPad <- data.frame(matrix(NA,nrow=padSteps*length(ensLab),ncol=length(names(dfTmp))))
 		names(dfPad) <- names(dfTmp)
@@ -254,10 +255,10 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 		for (j in 1:length(ensLab)){
 			ind <- which(modDfs$site_no == n & modDfs$enstag == ensLab[j] & modDfs$POSIXct == dates[i])
 			if (length(ind) != 0){
-				dfTmp3$POSIXct[countTmp1] <- modDfs$POSIXct[ind]
-				dfTmp3$tag[countTmp1] <- modDfs$enstag[ind]
 				dfTmp3$q_cfs[countTmp1] <- modDfs$q_cfs[ind]
 			}
+			dfTmp3$POSIXct[countTmp1] <- dates[i]
+			dfTmp3$tag[countTmp1] <- ensLab[j]
 			countTmp1 <- countTmp1 + 1
 		}
 		posixTmp <- modDfs$POSIXct[ind]
@@ -349,6 +350,22 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	# Calculate cumulative observed flow in thousands acre-feet
 	tmpFlow <- spreadDf$ObsAF
 	spreadDf$ObsAccAF[!is.na(spreadDf$ObsAF)] <- cumsum(spreadDf$ObsAF[!is.na(spreadDf$ObsAF)])
+
+	# If padding is present, add observed accumulated flow to modeled accumulated flow.
+	if (padSteps > 0 ) {
+		ind <- which(spreadDf$POSIXct == startDatePad)
+		if (length(ind) != 0) {
+			obsAccPad <- spreadDf$ObsAccAF[ind]
+		}
+		if (!is.na(obsAccPad)){
+			spreadDf$af25[!is.na(spreadDf$af25)] <- spreadDf$af25[!is.na(spreadDf$af25)] + obsAccPad
+			spreadDf$af50[!is.na(spreadDf$af50)] <- spreadDf$af50[!is.na(spreadDf$af50)] + obsAccPad
+			spreadDf$af75[!is.na(spreadDf$af75)] <- spreadDf$af75[!is.na(spreadDf$af75)] + obsAccPad
+			spreadDf$af0[!is.na(spreadDf$af0)] <- spreadDf$af0[!is.na(spreadDf$af0)] + obsAccPad
+			spreadDf$af100[!is.na(spreadDf$af100)] <- spreadDf$af100[!is.na(spreadDf$af100)] + obsAccPad
+			spreadDf$median_af[!is.na(spreadDf$median_af)] <- spreadDf$median_af[!is.na(spreadDf$median_af)] + obsAccPad
+		}
+	}
 
 	# Calculate maximum accumulated flow values for plotting purposes
 	yMaxAF <- 1.2*max(!is.na(dfTmp$ACCFLOW_af))
