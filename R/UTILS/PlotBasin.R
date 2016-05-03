@@ -261,10 +261,9 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 			dfTmp3$tag[countTmp1] <- ensLab[j]
 			countTmp1 <- countTmp1 + 1
 		}
-		posixTmp <- modDfs$POSIXct[ind]
 		ind <- which(obs$site_no == n & strftime(obs$POSIXct,"%Y-%m-%d %H:%M") == strftime(dates[i],"%Y-%m-%d %H:%M"))
 		if (length(ind) != 0){
-			dfTmp3$POSIXct[countTmp1] <- posixTmp
+			dfTmp3$POSIXct[countTmp1] <- dates[i] 
 			dfTmp3$tag[countTmp1] <- 'Obs'
 			dfTmp3$q_cfs[countTmp1] <- obs$q_cms[ind[1]]*35.3147
 		}
