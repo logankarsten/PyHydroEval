@@ -251,7 +251,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	dfTmp3$POSIXct <- as.POSIXct('1900-01-01 00:00',format='%Y-%m-%d %H:%M')
 	countTmp1 <- 1
 	for (i in 1:nSteps){
-		print(i)
 		for (j in 1:length(ensLab)){
 			ind <- which(modDfs$site_no == n & modDfs$enstag == ensLab[j] & modDfs$POSIXct == dates[i])
 			if (length(ind) != 0){
@@ -275,7 +274,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	# Remove any erroneous NA values
 	dfTmp3 <- subset(dfTmp3, !is.na(tag))
 
-	print(dfTmp3)
 	# Calculate maximum value for plotting purposes.
 	yMax <- 1.2*max(dfTmp3$q_cfs)
 
