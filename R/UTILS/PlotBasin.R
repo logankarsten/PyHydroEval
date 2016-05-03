@@ -364,6 +364,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 			spreadDf$af0[!is.na(spreadDf$af0)] <- spreadDf$af0[!is.na(spreadDf$af0)] + obsAccPad
 			spreadDf$af100[!is.na(spreadDf$af100)] <- spreadDf$af100[!is.na(spreadDf$af100)] + obsAccPad
 			spreadDf$median_af[!is.na(spreadDf$median_af)] <- spreadDf$median_af[!is.na(spreadDf$median_af)] + obsAccPad
+			dfTmp$ACCFLOW_af[!is.na(dfTmp$ACCFLOW_af)] <- dfTmp$ACCFLOW_af[!is.na(dfTmp$ACCFLOW_af)] + obsAccPad
 		}
 	}
 
