@@ -394,9 +394,9 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 
 	colOut <- c('black','red')
 	gg <- ggplot() + 
-	      geom_smooth(data=spreadDf, aes(x=POSIXct,y=q50,ymin=q25,ymax=q75,color=site_no),stat="identity",alpha=1) +
+	      geom_smooth(data=spreadDf, aes(x=POSIXct,y=q50,ymin=q25,ymax=q75,color="Mean Modeled"),stat="identity",alpha=1) +
 	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') +
-	      scale_color_manual(name='Model Run',values = colOut,label=c('Mean Modeled','Observed')) +  
+	      scale_color_manual(name='Model Run',values = colOut') +  
 	      ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,yMax)
 	fileOutPath <- paste0(outDir,'/streamflow_spread_',n,'_',strftime(startDate,"%Y%m%d%H"),
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
@@ -415,9 +415,9 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	}
 
 	gg <- ggplot() +
-              geom_smooth(data=spreadDf, aes(x=POSIXct,y=af50,ymin=af25,ymax=af75,color=site_no),stat="identity",alpha=1) +
+              geom_smooth(data=spreadDf, aes(x=POSIXct,y=af50,ymin=af25,ymax=af75,color="Mean Modeled"),stat="identity",alpha=1) +
 	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsAccAF,color='Observed'),size=1.2,linetype='dashed') + 
-              scale_color_manual(name='Model Run',values = colOut,label=c('Mean Modeled','Observed')) +
+              scale_color_manual(name='Model Run',values = colOut) +
               ggtitle(title) + xlab('Date') + ylab('Accumulated Runoff (thousands acre-feet)') + ylim(0,yMaxAF)
         fileOutPath <- paste0(outDir,'/acc_runoff_af_spread_',n,'_',strftime(startDate,"%Y%m%d%H"),
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
