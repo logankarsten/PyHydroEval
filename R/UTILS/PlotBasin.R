@@ -212,6 +212,29 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
         nSteps <- length(dates)
 	ensLab <- unique(modDfs$enstag)
 
+	# Determine beginning dates, info for padding.
+	if (padSteps > 0){
+		dt <- as.numeric(difftime(dfTmp$POSIXct[2],dfTmp$POSIXct[1],units="hours")
+		nSteps <- nSteps + padSteps
+		startDate <- startDate - dt*padSteps*3600
+		dfPad <- data.frame(matrix(NA,nrow=padSteps*length(ensLab),ncol=length(names(dfTmp))))
+		names(dfPad) <- names(dfTmp)
+		dfPad$POSIXct <- as.POSIXct('1900-01-01 00:00',format='%Y-%m-%d %H:%M')
+		count <- 1
+		for (i in 1:padSteps){
+			dateTmp <- startDate + dt*(i-1)*3600
+			for (j in 1:length(ensLab)){
+				dfPad$POSIXct[count] <- dateTmp
+				dfPad$POSIXct[count] <- ensLab[j]
+				count <- count + 1
+			}
+		}
+		# Bind to existing dfTmp 
+		dfTmp <- rbind(dfPad,dfTmp)
+	}
+
+	print(dfTmp)
+	quit()
 	# Set accumulated acre-feet to thousands of acre-feet
 	dfTmp$ACCFLOW_af <- dfTmp$ACCFLOW_af/1000.0
 

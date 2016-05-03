@@ -88,6 +88,10 @@ def checkArgs(parser):
 		if (not parser.begADate) or (not parser.endADate):
 			print "ERROR: begADate and endADate required for reading/analysis."
 			raise
+	if parser.pad:
+		if (int(parser.pad) < 1)):
+			print "ERROR: Padding value must be greater than 0."
+			raise 
 
 def returnDate(dIn):
 	# Convert a date string in YYYYMMDDHH format to a datetime object

@@ -37,6 +37,7 @@ def main(argv):
 	parser.add_argument('--begPDate',nargs='?', help='Beginning Date for Plotting in YYYYMMDDHH Format')
 	parser.add_argument('--endPDate',nargs='?', help='Ending Date for Plotting in YYYYMMDDHH Format')
 	parser.add_argument('--subset',nargs='?', help='Flag to turn on subsetting within reading or plotting')
+	parser.add_argument('--pad',nargs='?', help='Padding value to padd beginning of plots with observations')
 
 	args = parser.parse_args()
 

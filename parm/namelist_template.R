@@ -246,6 +246,11 @@ createPlots <- FALSE
 ## Create HTML files?
 writeHtml <- FALSE
 
+## Specify padding for observations. This is used 
+## for plotting where there's a desire to padd the
+## the beginning of the plot with observed values.
+padSteps <- 0
+
 ## If TRUE, specify output directory
 writePlotDir <- NULL
 	######### TIME SERIES PLOTS ###########

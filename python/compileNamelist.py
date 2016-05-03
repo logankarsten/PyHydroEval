@@ -129,7 +129,13 @@ def editNamelist(pathIn,args,dbIn):
 		replaceStr = "basinSub <- read.table('" + dbIn.basinSubFile[indDbOrig] + \
 		             "', sep=\"\\t\", header=TRUE, colClasses=c(\"character\"))"
 		el(pathIn,searchStr,replaceStr) 
-		 
+	
+	# Edit the padding information for plotting.
+	if args.pad:
+		searchStr = "padSteps <- 0"
+		replaceStr = "padSteps <- " + args.pad
+		el(pathIn,searchStr,replaceStr)
+	 
 	# Edit tmp directory.
 	searchStr = "tmpDir <- NULL"
 	replaceStr = "tmpDir <- " + "'" + dbIn.topDir[indDbOrig] + \
