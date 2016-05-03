@@ -89,7 +89,7 @@ def checkArgs(parser):
 			print "ERROR: begADate and endADate required for reading/analysis."
 			raise
 	if parser.pad:
-		if (int(parser.pad) < 1)):
+		if (int(parser.pad) < 1):
 			print "ERROR: Padding value must be greater than 0."
 			raise 
 
