@@ -229,7 +229,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 				dfPad$st_lon[count] <- unique(dfTmp$st_lon)
 				dfPad$st_lat[count] <- unique(dfTmp$st_lat)
 				dfPad$st_id[count] <- unique(dfTmp$st_id)
-				dfPad$tag[count] <- unique(dftmp$tag)[1]
+				dfPad$tag[count] <- unique(dfTmp$tag)[1]
 				dfPad$site_no[count] <- n
 				count <- count + 1
 			}
