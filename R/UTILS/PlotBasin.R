@@ -214,7 +214,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 
 	# Determine beginning dates, info for padding.
 	if (padSteps > 0){
-		dt <- as.numeric(difftime(dfTmp$POSIXct[2],dfTmp$POSIXct[1],units="hours")
+		dt <- as.numeric(difftime(dfTmp$POSIXct[2],dfTmp$POSIXct[1],units="hours"))
 		nSteps <- nSteps + padSteps
 		startDate <- startDate - dt*padSteps*3600
 		dfPad <- data.frame(matrix(NA,nrow=padSteps*length(ensLab),ncol=length(names(dfTmp))))
