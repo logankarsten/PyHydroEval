@@ -396,7 +396,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	gg <- ggplot() + 
 	      geom_smooth(data=spreadDf, aes(x=POSIXct,y=q50,ymin=q25,ymax=q75,color="Mean Modeled"),stat="identity",alpha=1) +
 	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') +
-	      scale_color_manual(name='Model Run',values = colOut') +  
+	      scale_color_manual(name='Model Run',values = colOut) +  
 	      ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,yMax)
 	fileOutPath <- paste0(outDir,'/streamflow_spread_',n,'_',strftime(startDate,"%Y%m%d%H"),
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
