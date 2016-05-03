@@ -379,20 +379,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	spreadDf$Date <- as.Date(spreadDf$POSIXct)
 	dfTmp$Date <- as.Date(dfTmp$POSIXct)
 
-	# Interesting bug here. If initial modeled is greater than observed, colors get switched around.
-	# Introducing bug to fix this.
-	print(spreadDf)
-	#if (!is.na(spreadDf$q25[1])){
-	#	if (spreadDf$ObsCFS[1] < spreadDf$q25[1]){
-	#		colOut <- c('black','red')
-	#	} else {
-	#		colOut <- c('red','black')
-	#	}
-	#} else {
-	#	colOut <- c('red','black')
-	#}
-
-	colOut <- c('black','red')
+	colOut <- c('red','black')
 	gg <- ggplot() + 
 	      geom_smooth(data=spreadDf, aes(x=POSIXct,y=q50,ymin=q25,ymax=q75,color="Mean Modeled"),stat="identity",alpha=1) +
 	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') +
@@ -401,18 +388,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	fileOutPath <- paste0(outDir,'/streamflow_spread_',n,'_',strftime(startDate,"%Y%m%d%H"),
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
 	ggsave(filename=fileOutPath, plot = gg)
-
-	if (!is.na(spreadDf$ObsAccAF[1]) & !is.na(spreadDf$af25[1])){
-		print(spreadDf$ObsAccAF[1])
-		print(spreadDf$af25[1])
-		if (spreadDf$ObsAccAF[1] < spreadDf$af25[1]){
-			colOut <- c('black','red')
-        	} else {
-                	colOut <- c('red','black')
-        	}
-	} else {
-		colOut <- c('red','black')
-	}
 
 	gg <- ggplot() +
               geom_smooth(data=spreadDf, aes(x=POSIXct,y=af50,ymin=af25,ymax=af75,color="Mean Modeled"),stat="identity",alpha=1) +
