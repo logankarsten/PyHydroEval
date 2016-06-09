@@ -46,6 +46,7 @@ forcingDir = /d4/karsten/PyHydroEval_test/forcing1
 [geo_specification]
 # specify LSM geofile used for model run
 geoFile = /d4/karsten/PyHydroEval_test/geo/geo_em.d02.nc
+routeLinkFile = 
 
 # Specify the high-resolution geospatial file used
 geoHydFile = /d4/karsten/PyHydroEval_test/geo/Fulldom_hires_netcdf_file.nc
@@ -54,7 +55,6 @@ geoHydFile = /d4/karsten/PyHydroEval_test/geo/Fulldom_hires_netcdf_file.nc
 maskFile = /d7/karsten/URG_RETRO/urg_MASKS_NEWDOMAIN_TAGGED_POINTS.Rdata
 
 # Optional - specify text file subsetting links for reading/plotting/stats 
-readLink2gageFile =
 statsLink2GageFile =
 plotLink2GageFile = 
 basinSubFile = /d7/karsten/URG_RETRO/ESP_SUB.txt 

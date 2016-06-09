@@ -828,83 +828,27 @@ if (readMod & readFrxstout) {
 
 if (readMod & readChrtout) {
 
-	## Loop through model run output directories
+	# Call ReadChrtout to read in all streamflow data.
         modChrtout_tmp <- data.table()
-        for (i in 1:length(modPathList)) {
-                modoutPath <- modPathList[i]
-                modoutTag <- modTagList[i]
-                # Read STR
-		filesList <- list.files(path=modoutPath, pattern=glob2rx('*.CHRTOUT_DOMAIN*'), full.names=TRUE)
-		if (!is.null(readLink2gage)) {
-                	idlist <- unique(readLink2gage$link)
-                } else if (readChrtout_GAGES) {
-			idlist <- unique(subset(rtLinks$link, !(rtLinks$site_no=="")))
-		} else {
-			idlist <- unique(rtLinks$link)
-		}
-		#filesList<-filesList[1:10]
-        	outList <- list()
-        	outList <- foreach(j=filesList, .packages = c("ncdf4","data.table"), .combine=c) %dopar% {
-                	ncid <- nc_open(j)
-			link <- ncvar_get(ncid, "station_id")
-			streamflow <- ncvar_get(ncid, "streamflow")
-			if ("accLndRunOff" %in% names(ncid$var)) {
-				accLndRunOff <- ncvar_get(ncid, "accLndRunOff")
-				accQLateral <- ncvar_get(ncid, "accQLateral")
-				accStrmvolrt <- ncvar_get(ncid, "accStrmvolrt")
-				accBucket <- ncvar_get(ncid, "accBucket")
-				z_gwsubbas <- ncvar_get(ncid, "z_gwsubbas")
-				qout_gwsubbas <- ncvar_get(ncid, "qout_gwsubbas")
-				qin_gwsubbas <- ncvar_get(ncid, "qin_gwsubbas")
-				QLateral <- ncvar_get(ncid, "QLateral")
-                	}
-			nc_close(ncid)
-                	dtstr <- basename(j)
-                	dtstr <- unlist(strsplit(dtstr, "[.]"))[1]
-                	dtstr <- as.POSIXct(dtstr, format="%Y%m%d%H%M", tz="UTC")
-			if ("accLndRunOff" %in% names(ncid$var)) {
-                		out <- data.table(link=link, POSIXct=dtstr, q_cms=streamflow,
-					accLndRunOff=accLndRunOff, accQLateral=accQLateral, 
-					accStrmvolrt=accStrmvolrt, accBucket=accBucket,
-					z_gwsubbas=z_gwsubbas, qout_gwsubbas=qout_gwsubbas,
-					qin_gwsubbas=qin_gwsubbas, QLateral=QLateral)
-			} else {
-				out <- data.table(link=link, POSIXct=dtstr, q_cms=streamflow)
-			}
-                	out <- out[link %in% idlist,]
-                	list(out)
-                	}
-		modChrtout <- rbindlist(outList)
-		# Add model run tag and bind
-                modChrtout$tag <- modoutTag
-                modChrtout_tmp <- rbindlist(list(modChrtout_tmp, modChrtout))
-                rm(modChrtout)
-                gc()
-	}
-	# Add date for daily aggs
-	modChrtout_tmp$UTC_date <- CalcDateTrunc(modChrtout_tmp$POSIXct)
-   	setkey(modChrtout_tmp, tag, link, UTC_date)        
-	# Run daily aggs
-        modChrtout_tmp.d <- modChrtout_tmp[, list(q_cms=mean(q_cms, na.rm=TRUE)), 
-                                         by = "tag,link,UTC_date"]
-	modChrtout_tmp.d$POSIXct <- as.POSIXct(paste0(modChrtout_tmp.d$UTC_date, " 00:00"), tz="UTC")
+	
+	if (!is.null(readLink2gage)) {
+        	idlist <- unique(readLink2gage$link)
+        } else if (readChrtout_GAGES) {
+                idlist <- unique(subset(rtLinks$link, !(rtLinks$site_no=="")))
+        } else {
+                idlist <- unique(rtLinks$link)
+        }
 
-	# Join in gage IDs
-	setkey(modChrtout_tmp, link)
-	setkey(modChrtout_tmp.d, link)
-        #modChrtout_tmp <- modChrtout_tmp[rtLinks,]
-	rtLinks_tmp <- data.table(rtLinks[,c("link","site_no")])
-	setkey(rtLinks_tmp, link)
-	modChrtout_tmp <- modChrtout_tmp[rtLinks_tmp,]
-	modChrtout_tmp <- modChrtout_tmp[!(tag==""),]
-	modChrtout_tmp.d <- modChrtout_tmp.d[rtLinks_tmp,]
-        modChrtout_tmp.d <- modChrtout_tmp.d[!(tag==""),]
+	modoutPath <- modPathList[i]
+	modoutTag <- modTagList[i]
 
-	# Reset keys
-	setkey(modChrtout_tmp, tag, link, POSIXct)
-	setkey(modChrtout_tmp.d, tag, link, POSIXct)
-
-	saveList <- c(saveList, "modChrtout_tmp", "modChrtout_tmp.d")
+        modChrtout_tmp <- ReadChrtout(modoutPath,gageList=idList$site_no,rtLinkFile=routeLinkFile)
+	# Add model run tag
+	modChrtout_tmp$tag <- modoutTag
+	modChrtout_tmp <- rbindlist(list(modChrtout_tmp, modChrtout))
+        rm(modChrtout)        
+	gc()
+	saveList <- c(saveList, "modChrtout_tmp")
         save(list=saveList, file=tmpRimg)
 
 } # end modchrtout processing

@@ -20,11 +20,11 @@ class modelDatabase:
 		self.ensList = []
 		self.ensTag = []
 		self.geoFile = []
+		self.routeLinkFile = []
 		self.geoRes = []
 		self.agg = []
 		self.fullDomFile = []
 		self.mskFile = []
-		self.readLink2GageFile = []
 		self.statsLink2GageFile = []
 		self.plotLink2GageFile = []
 		self.basinSubFile = []
@@ -50,11 +50,11 @@ class modelDatabase:
 				self.ensTag.append(dbTmp.ensTag[i])
 				self.forceInDir.append(dbTmp.forceInDir[i])
 				self.geoFile.append(dbTmp.geoFile[i])
+				self.routeLinkFile.append(dbTmp.routeLinkFile[i])
 				self.geoRes.append(dbTmp.geoRes[i])
 				self.agg.append(dbTmp.agg[i])
 				self.fullDomFile.append(dbTmp.fullDomFile[i])
 				self.mskFile.append(dbTmp.mskFile[i])
-				self.readLink2GageFile.append(dbTmp.readLink2GageFile[i])
 				self.statsLink2GageFile.append(dbTmp.statsLink2GageFile[i])
 				self.plotLink2GageFile.append(dbTmp.plotLink2GageFile[i])
 				self.basinSubFile.append(dbTmp.basinSubFile[i])
@@ -77,11 +77,11 @@ class modelDatabase:
 		ensTagTmp = ensTagTmp.split()
 		forcingInTmp = parser.get('forcing_specification','forcingDir')
 		geoFileTmp = parser.get('geo_specification','geoFile')
+		routeLinkFileTmp = parser.get('geo_specification','routeLinkFile')
 		geoResTmp = parser.get('geo','geoRes')
 		aggTmp = parser.get('geo','aggFactor')
 		geoHydFileTmp = parser.get('geo_specification','geoHydFile')
 		mskFileTmp = parser.get('geo_specification','maskFile')
-		readLinkFileTmp = parser.get('geo_specification','readLink2GageFile')
 		statsLinkFileTmp = parser.get('geo_specification','statsLink2GageFile')
 		plotLinkFileTmp = parser.get('geo_specification','plotLink2GageFile')
 		basinSubFileTmp = parser.get('geo_specification','basinSubFile')
@@ -110,11 +110,11 @@ class modelDatabase:
 		self.ensTag.append(ensTagTmp)
 		self.forceInDir.append(forcingInTmp)
 		self.geoFile.append(geoFileTmp)
+		self.routeLinkFile.append(routeLinkFileTmp)
 		self.geoRes.append(geoResTmp)
 		self.agg.append(aggTmp)
 		self.fullDomFile.append(geoHydFileTmp)
 		self.mskFile.append(mskFileTmp)
-		self.readLink2GageFile.append(readLinkFileTmp)
 		self.statsLink2GageFile.append(statsLinkFileTmp)
 		self.plotLink2GageFile.append(plotLinkFileTmp)
 		self.basinSubFile.append(basinSubFileTmp)
@@ -180,13 +180,10 @@ class modelDatabase:
 		geoLsmLnk = geoDir1 + "/geo_em.nc"
 		geoHydroLnk = geoDir1 + "/geo_Hydro.nc"
 		mskFile = geoDir1 + "/masks_geo.Rdata"
-		readLink2GagesFile = geoDir1 + "/read_links_2_gages.txt"
 		statsLink2GagesFile = geoDir1 + "/stats_links_2_gages.txt"
 		plotLink2GagesFile = geoDir1 + "/plot_links_2_gages.txt"
 		os.symlink(self.geoFile[ind],geoLsmLnk)
 		os.symlink(self.fullDomFile[ind],geoHydroLnk)
-		if len(self.readLink2GageFile[ind]) != 0:
-			os.symlink(self.readLink2GageFile[ind],readLink2GagesFile)
 		if len(self.statsLink2GageFile[ind]) != 0:
 			os.symlink(self.statsLink2GageFile[ind],statsLink2GagesFile)
 		if len(self.plotLink2GageFile[ind]) != 0:
@@ -223,11 +220,11 @@ class modelDatabase:
 		ensListTmp = []
 		ensTagTmp = []
 		geoFileTmp = []
+		routeLinkFileTmp = []
 		geoResTmp = []
 		aggTmp = []
 		fullDomFileTmp = []
 		mskFileTmp = []
-		readLink2GageFileTmp = []
 		statsLink2GageFileTmp = []
 		plotLink2GageFileTmp = []
 		basinSubFileTmp = []
@@ -250,11 +247,11 @@ class modelDatabase:
 				self.ensTag.append(dbTmp.ensTag[i])
                                 self.forceInDir.append(dbTmp.forceInDir[i])
                                 self.geoFile.append(dbTmp.geoFile[i])
+				self.routeLinkFile.append(dbTmp.routeLinkFile[i])
 				self.geoRes.append(dbTmp.geoRes[i])
 				self.agg.append(dbTmp.agg[i])
                                 self.fullDomFile.append(dbTmp.fullDomFile[i])
                                 self.mskFile.append(dbTmp.mskFile[i])
-                                self.readLink2GageFile.append(dbTmp.readLink2GageFile[i])
 				self.statsLink2GageFile.append(dbTmp.statsLink2GageFile[i])
 				self.plotLink2GageFile.append(dbTmp.plotLink2GageFile[i])
 				self.basinSubFile.append(dbTmp.basinSubFile[i])
@@ -278,11 +275,11 @@ class modelDatabase:
 				ensListTmp.append(self.ensList[i])
 				ensTagTmp.append(self.ensTag[i])
 				geoFileTmp.append(self.geoFile[i])
+				routeLinkFileTmp.append(self.routeLinkFile[i])
 				geoResTmp.append(self.geoRes[i])
 				aggTmp.append(self.agg[i])
 				fullDomFileTmp.append(self.fullDomFile[i])
 				mskFileTmp.append(self.mskFile[i])
-				readLink2GageFileTmp.append(self.readLink2GageFile[i])
 				statsLink2GageFileTmp.append(self.statsLink2GageFile[i])
 				plotLink2GageFileTmp.append(self.plotLink2GageFile[i])
 				basinSubFileTmp.append(self.basinSubFile[i])
@@ -305,11 +302,11 @@ class modelDatabase:
 		self.ensList = []
 		self.ensTag = []
                 self.geoFile = []
+		self.routeLinkFile = []
 		self.geoRes = []
 		self.agg = []
                 self.fullDomFile = []
                 self.mskFile = []
-                self.readLink2GageFile = []
 		self.statsLink2GageFile = []
 		self.plotLink2GageFile = []
 		self.basinSubFile = []
@@ -329,11 +326,11 @@ class modelDatabase:
 			self.ensList.append(ensListTmp[i])
 			self.ensTag.append(ensTagTmp[i])
 			self.geoFile.append(geoFileTmp[i])
+			self.routeLinkFile.append(routeLinkFileTmp[i])
 			self.geoRes.append(geoResTmp[i])
 			self.agg.append(aggTmp[i])
 			self.fullDomFile.append(fullDomFileTmp[i])
 			self.mskFile.append(mskFileTmp[i])
-			self.readLink2GageFile.append(readLink2GageFileTmp[i])
 			self.statsLink2GageFile.append(statsLink2GageFileTmp[i])
 			self.plotLink2GageFile.append(plotLink2GageFileTmp[i])
 			self.basinSubFile.append(basinSubFileTmp[i])
@@ -361,11 +358,11 @@ class modelDatabase:
 				self.ensTag.append(dbTmp.ensTag[i])
                                 self.forceInDir.append(dbTmp.forceInDir[i])
                                 self.geoFile.append(dbTmp.geoFile[i])
+				self.routeLinkFile.append(dbTmp.routeLinkFile[i])
 				self.geoRes.append(dbTmp.geoRes[i])
 				self.agg.append(dbTmp.agg[i])
                                 self.fullDomFile.append(dbTmp.fullDomFile[i])
                                 self.mskFile.append(dbTmp.mskFile[i])
-                                self.readLink2GageFile.append(dbTmp.readLink2GageFile[i])
 				self.statsLink2GageFile.append(dbTmp.statsLink2GageFile[i])
 				self.plotLink2GageFile.append(dbTmp.plotLink2GageFile[i])
 				self.basinSubFile.append(dbTmp.basinSubFile[i])
@@ -451,6 +448,11 @@ class modelDatabase:
 		else:
 			self.geoFile.append(self.geoFile[aliasInd])
 
+		if args.routeLinkFile:
+			self.routeLinkFile.append(args.routeLinkFile)
+		else:
+			self.routeLinkFile.append(self.routeLinkFile[aliasInd])
+
 		if args.geoRes:
 			self.geoRes.append(args.geoRes)
 		else:
@@ -465,11 +467,6 @@ class modelDatabase:
 			self.fullDomFile.append(args.hydFile)
 		else:
 			self.fullDomFile.append(self.fullDomFile[aliasInd])
-
-		if args.readLink2gage:
-			self.readLink2GageFile.append(args.readLink2gage)
-		else:
-			self.readLink2GageFile.append(self.readLink2GageFile[aliasInd])
 
 		if args.statsLink2gage:
 			self.statsLink2GageFile.append(args.statsLink2gage)

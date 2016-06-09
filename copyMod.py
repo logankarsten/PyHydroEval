@@ -34,7 +34,6 @@ def main(argv):
 	parser.add_argument('--geoRes', nargs='?', help='New model project LSM resolution.')
 	parser.add_argument('--agg', nargs='?', help='New model project aggregation factor.')
 	parser.add_argument('--hydFile', nargs='?', help='New model project hydro geo file.')
-	parser.add_argument('--readLink2gage', nargs='?', help='New model project readLink2gage file.')
 	parser.add_argument('--statsLink2gage', nargs='?', help='New model project statsLink2gage file.')
 	parser.add_argument('--plotLink2gage', nargs='?', help='New model project plotLink2gage file.')
 	parser.add_argument('--basSub',nargs='?', help='New model project basin subset file.')

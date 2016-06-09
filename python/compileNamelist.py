@@ -93,6 +93,15 @@ def editNamelist(pathIn,args,dbIn):
 	replaceStr = "geoFile <- " + "'" + dbIn.geoFile[indDbOrig] + "'"
 	el(pathIn,searchStr,replaceStr)
 
+	# Edit rout link file information if it exists
+	if len(dbIn.routeLinkFile[indDbOrig]) != 0:
+		searchStr = "routeLinkFile <- NULL"
+		replaceStr = "routeLinkFile <- " + dbIn.routeLinkFile[indDbOrig]
+		el(pathIn,searchStr,replaceStr)
+		searchStr = "reachRting <- FALSE"
+		replaceStr = "reachRting <- TRUE"
+		el(pathIn,searchStr,replaceStr)
+
 	# Edit resolution information
 	searchStr = "resMod <- NULL"
 	replaceStr = "resMod <- " + dbIn.geoRes[indDbOrig]
@@ -569,13 +578,9 @@ def editNamelist(pathIn,args,dbIn):
 			searchStr = "readChrtout <- FALSE"
                         replaceStr = "readChrtout <- TRUE"
                         el(pathIn,searchStr,replaceStr)
-			if len(dbIn.link2GageFile[indDbOrig]) == 0:
-				print "ERROR: A CHRTOUT read option was selected without the"
-				print "       necessary link2gages table."
-				raise
-			searchStr = "readLink2gage <- NULL"
-			replaceStr = "readLink2gage <- read.table('" + dbIn.link2GageFile[indDbOrig] + \
-				     "', sep='\t', header=TRUE)"
+			searchStr = "readChrtout_GAGES <- FALSE"
+			replaceStr = "readChrtout_GAGES <- TRUE"
+			el(pathIn,searchStr,replaceStr)
 		modPathOut = "'" + dbIn.topDir[indDbOrig] + "/" + dbIn.alias[indDbOrig] + \
 			     "/analysis_out/read_datasets/" + modFileOut + "'"
 		searchStr = "modReadFileOut <- NULL"

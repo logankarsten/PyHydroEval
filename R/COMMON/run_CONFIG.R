@@ -9,8 +9,23 @@ library(rwrfhydro)
 library(data.table)
 library(scales)
 
-load(maskFile)
+if (!is.null(mskFile)){
+	load(maskFile)
+}
 source("util_FUNC.R")
+
+# If reach routing was specified but no rtlinks object exists,
+# read it in from the routeLinksFile.
+if (reachRting == TRUE){
+	if (is.null(routeLinkFile)){
+		if (is.null(rtLinks)){
+			stop(paste('ERROR: No route link file specified and rtLinks object does not exist'))
+	  	}
+	} else {
+		rtLinks <- ReadRouteLink(routeLinkFile)
+	}
+}	
+			
 
 # If subsetting of basins has been enabled, subset basins/frxst points
 # immediately before anything else is done.

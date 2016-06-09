@@ -22,6 +22,7 @@ maskFile <- NULL
 ## Specify whether the model run used NHD reach-based routing (otherwise gridded routing assumed)
 # If TRUE, mask file should also contain rtLinks dataframe.
 reachRting <- FALSE 
+routeLinkFile <- NULL
 
 ## Specify text file to subset basins or regions for reading/plotting.
 basinSub <- NULL
