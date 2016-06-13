@@ -60,7 +60,7 @@ def checkArgs(parser):
 			print "ERROR: Invalid fxRead value."
 			raise
 	if parser.chRead:
-		if int(parser.chRead) != 1:
+		if (int(parser.chRead) < 1) or (int(parser.chRead) > 2):
 			print "ERROR: Invalid chRead value."
 			raise
 	if parser.forRead:
