@@ -9,7 +9,7 @@ library(rwrfhydro)
 library(data.table)
 library(scales)
 
-if (!is.null(mskFile)){
+if (!is.null(maskFile)){
 	load(maskFile)
 }
 source("util_FUNC.R")
