@@ -846,6 +846,8 @@ if (readMod & readChrtout) {
 	print(idlist)
 	print(routeLinkFile)
         modChrtout_tmp <- ReadChrtout(modoutPath,idList=idlist,rtlinkFile=routeLinkFile)
+	# Subset based on datetime information
+	modChrtout_tmp <- subset(modChrtout_tmp,(POSIXct <= readModEnd) & (POSIXct >= readModStart))
 	# Add model run tag
 	modChrtout_tmp$tag <- modoutTag
 	# modChrtout_tmp <- rbindlist(list(modChrtout_tmp, modChrtout))
