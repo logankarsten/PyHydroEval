@@ -839,6 +839,7 @@ if (readMod & readChrtout) {
                 idlist <- unique(rtLinks$link)
         }
 
+	print(idlist)
 	modoutPath <- modPathList[i]
 	modoutTag <- modTagList[i]
 
