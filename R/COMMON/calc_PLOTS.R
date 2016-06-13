@@ -193,11 +193,12 @@ if (reachRting) {
         if (is.null(hydroTags2)) hydroTags2 <- unique(modChrtout$tag)
 	if (is.null(hydroEnsTags)) hydroEnsTags <- unique(modChrtout$enstag)
         if (exists("gageList")) {
-                gageNames <- unique(gageList$link)
+                gageNames <- unique(gageList$site_no)
         } else {
-                gageNames <- unique(obsStrData$link)
+                gageNames <- unique(obsStrData$site_no)
         }
-        idCol <- "link"
+        idCol <- "site_no"
+	print(gageNames)
 	modDfsOut <- modChrtout
 } else {
         if (is.null(hydroTags2)) hydroTags2 <- unique(modFrxstout$tag)
