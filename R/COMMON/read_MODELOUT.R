@@ -1096,12 +1096,12 @@ if (readMod) {
                         modChrtout <- modChrtout_tmp
                         saveListMod <- c(saveListMod, "modChrtout")
                 }
-                if (modAppend & exists("modChrtout.d")) {
-                        modChrtout.d <- rbindlist(list(modChrtout.d, modChrtout_tmp.d))
-                } else {
-                        modChrtout.d <- modChrtout_tmp.d
-                        saveListMod <- c(saveListMod, "modChrtout.d")
-                }
+                #if (modAppend & exists("modChrtout.d")) {
+                #        modChrtout.d <- rbindlist(list(modChrtout.d, modChrtout_tmp.d))
+                #} else {
+                #        modChrtout.d <- modChrtout_tmp.d
+                #        saveListMod <- c(saveListMod, "modChrtout.d")
+                #}
         }
 }
 
