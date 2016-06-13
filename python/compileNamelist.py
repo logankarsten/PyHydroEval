@@ -96,7 +96,7 @@ def editNamelist(pathIn,args,dbIn):
 	# Edit rout link file information if it exists
 	if len(dbIn.routeLinkFile[indDbOrig]) != 0:
 		searchStr = "routeLinkFile <- NULL"
-		replaceStr = "routeLinkFile <- " + dbIn.routeLinkFile[indDbOrig]
+		replaceStr = "'" + "routeLinkFile <- " + dbIn.routeLinkFile[indDbOrig] + "'"
 		el(pathIn,searchStr,replaceStr)
 		searchStr = "reachRting <- FALSE"
 		replaceStr = "reachRting <- TRUE"
