@@ -26,7 +26,7 @@ if (reachRting == TRUE){
 	}
 }	
 			
-
+print(rtLinks)
 # If subsetting of basins has been enabled, subset basins/frxst points
 # immediately before anything else is done.
 if (exists("basinSub") & exists("frxstPts") & !is.null(basinSub)){
