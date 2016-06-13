@@ -29,7 +29,7 @@ def main(argv):
 	parser.add_argument('--rtRead',nargs='?', help='RTOUT Read Flag (1-1)')
 	parser.add_argument('--gwRead',nargs='?', help='GWOUT Read Flag (1-1)')
 	parser.add_argument('--fxRead',nargs='?', help='frxst Read Flag (1-1)')
-	parser.add_argument('--chRead',nargs='?', help='CHRTOUT Read Flag (1-1)')
+	parser.add_argument('--chRead',nargs='?', help='CHRTOUT Read Flag (1-2)')
 	parser.add_argument('--forRead',nargs='?', help='Forcing Read Flag (1-4')
 	parser.add_argument('--snRead',nargs='?', help='SNODAS Read Flag (1-4)')
 	parser.add_argument('--stat',nargs='?', help='Statistics Performance Flag (1-5)')
