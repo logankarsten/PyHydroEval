@@ -839,21 +839,49 @@ if (readMod & readChrtout) {
                 idlist <- unique(rtLinks$link)
         }
 
-	modoutPath <- modPathList[1]
-	modoutTag <- modTagList[1]
+	## Loop through model run output directories
+	for (i in 1:length(modPathList)){
+		modoutPath <- modPathList[i]
+		modoutTag <- modTagList[i]
+		if (numEns > 1) {
+			ensoutTag <- ensTagList[i]
+		} else {
+			ensoutTag <- modoutTag
+		}
+		
+        	modChrtout <- ReadChrtout(modoutPath,idList=idlist,rtlinkFile=routeLinkFile)
+		# Subset based on datetime information
+		modChrtout <- subset(modChrtout,(POSIXct <= readModEnd) & (POSIXct >= readModStart))
+		# Add model run tag
+		modChrtout$tag <- modoutTag
+		# Add ensemble tags
+		modChrtout$enstag <- ensoutTag
 
-	print(modoutPath)
-	print(idlist)
-	print(routeLinkFile)
-        modChrtout_tmp <- ReadChrtout(modoutPath,idList=idlist,rtlinkFile=routeLinkFile)
-	# Subset based on datetime information
-	modChrtout_tmp <- subset(modChrtout_tmp,(POSIXct <= readModEnd) & (POSIXct >= readModStart))
-	# Add model run tag
-	modChrtout_tmp$tag <- modoutTag
-	# modChrtout_tmp <- rbindlist(list(modChrtout_tmp, modChrtout))
-        # rm(modChrtout)
-	print(modChrtout_tmp)        
-	gc()
+		# Calculate accumulated flow
+		modChrtout$q_cfs <- NA
+		modChrtout$q_af <- NA
+		modChrtout$ACCFLOW_af <- NA
+		for (j in unique(modChrtout$site_no)[!is.na(unique(modChrtout$site_no))]){
+			tmp <- subset(modChrtout,modChrtout$site_no==j)
+			tmp$q_af <- NA
+			tmp$q_cfs <- NA
+			for (k in 1:nrow(tmp)) {
+				ts <- ifelse(k==1, as.integer(difftime(tmp$POSIXct[k+1],tmp$POSIXct[k], units="secs")), 
+						as.integer(difftime(tmp$POSIXct[k],tmp$POSIXct[k-1], units="secs")))
+		 		tmp$q_af[k] <- (tmp$q_cms[k]*ts)/1233.48
+				tmp$q_cfs[k] <- tmp$q_cms[k]*35.3147
+			}
+			modChrtout$q_cfs[modChrtout$site_no==j & !is.na(modChrtout$site_no)] <- tmp$q_cfs
+			modChrtout$q_af[modChrtout$site_no==j & !is.na(modChrtout$site_no)] <- tmp$q_af
+			qaccum_af <- cumsum(tmp$q_af)
+			modChrtout$ACCFLOW_af[modChrtout$site_no==j & !is.na(modChrtout$site_no)] <- qaccum_af
+		}
+		modChrtout_tmp <- rbindlist(list(modChrtout_tmp,modChrtout))
+		# Remove NA values with subsetting
+		modChrtout_tmp <- subset(modChrtout_tmp, !is.na(site_no))
+		rm(modChrtout)
+		gc()
+	}
 	saveList <- c(saveList, "modChrtout_tmp")
         save(list=saveList, file=tmpRimg)
 
