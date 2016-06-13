@@ -842,7 +842,7 @@ if (readMod & readChrtout) {
 	modoutPath <- modPathList[1]
 	modoutTag <- modTagList[1]
 
-        modChrtout_tmp <- ReadChrtout(modoutPath,gageList=idList$site_no,rtlinkFile=routeLinkFile)
+        modChrtout_tmp <- ReadChrtout(modoutPath,gageList=idlist$site_no,rtlinkFile=routeLinkFile)
 	# Add model run tag
 	modChrtout_tmp$tag <- modoutTag
 	modChrtout_tmp <- rbindlist(list(modChrtout_tmp, modChrtout))
