@@ -842,6 +842,9 @@ if (readMod & readChrtout) {
 	modoutPath <- modPathList[1]
 	modoutTag <- modTagList[1]
 
+	print(modoutPath)
+	print(idlist)
+	print(routLinkFile)
         modChrtout_tmp <- ReadChrtout(modoutPath,gageList=idlist,rtlinkFile=routeLinkFile)
 	# Add model run tag
 	modChrtout_tmp$tag <- modoutTag
