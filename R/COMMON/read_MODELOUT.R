@@ -845,8 +845,8 @@ if (readMod & readChrtout) {
         modChrtout_tmp <- ReadChrtout(modoutPath,gageList=idlist,rtlinkFile=routeLinkFile)
 	# Add model run tag
 	modChrtout_tmp$tag <- modoutTag
-	modChrtout_tmp <- rbindlist(list(modChrtout_tmp, modChrtout))
-        rm(modChrtout)        
+	# modChrtout_tmp <- rbindlist(list(modChrtout_tmp, modChrtout))
+        # rm(modChrtout)        
 	gc()
 	saveList <- c(saveList, "modChrtout_tmp")
         save(list=saveList, file=tmpRimg)
