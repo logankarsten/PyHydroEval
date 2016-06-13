@@ -839,9 +839,8 @@ if (readMod & readChrtout) {
                 idlist <- unique(rtLinks$link)
         }
 
-	print(idlist)
-	modoutPath <- modPathList[i]
-	modoutTag <- modTagList[i]
+	modoutPath <- modPathList[1]
+	modoutTag <- modTagList[1]
 
         modChrtout_tmp <- ReadChrtout(modoutPath,gageList=idList$site_no,rtLinkFile=routeLinkFile)
 	# Add model run tag
