@@ -846,7 +846,8 @@ if (readMod & readChrtout) {
 	# Add model run tag
 	modChrtout_tmp$tag <- modoutTag
 	# modChrtout_tmp <- rbindlist(list(modChrtout_tmp, modChrtout))
-        # rm(modChrtout)        
+        # rm(modChrtout)
+	print(modChrtout_tmp)        
 	gc()
 	saveList <- c(saveList, "modChrtout_tmp")
         save(list=saveList, file=tmpRimg)
