@@ -160,6 +160,7 @@ if (calcStats | createPlots) {
 	}
 }
 
+print(obsStrData)
 # Read in basin Snow/SNODAS
 if (readSnodas & readBasinSnodas) {
         # Load necessary mask data to perform analysis
