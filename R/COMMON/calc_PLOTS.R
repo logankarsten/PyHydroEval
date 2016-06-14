@@ -194,8 +194,10 @@ if (reachRting) {
 	if (is.null(hydroEnsTags)) hydroEnsTags <- unique(modChrtout$enstag)
         if (exists("gageList")) {
                 gageNames <- unique(gageList$site_no)
+		gageNames <- gageNames[which(length(gageNames$site_no) > 0)]
         } else {
                 gageNames <- unique(obsStrData$site_no)
+		gageNames <- gageNames[which(length(gageNames$site_no) > 0)]
         }
         idCol <- "site_no"
 	print(gageNames)
