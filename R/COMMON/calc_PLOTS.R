@@ -236,6 +236,9 @@ for (i in 1:length(hydroTags2)) {
                 }
 		# Check to make sure obs exist. If not, continue to next station
 		indCheck <- which((obsStrData$site_no == n) & !is.na(obsStrData$q_cms))
+		indCheck2 <- which(obsStrData$site_no == n)
+		print(length(indCheck))
+		print(length(indCheck2))
 		if (length(indCheck) == 0) {
 			print(paste0('WARNING: No Observations found for: ',n))
 		}
