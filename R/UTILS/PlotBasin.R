@@ -275,6 +275,14 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	# Remove any erroneous NA values
 	dfTmp3 <- subset(dfTmp3, !is.na(tag))
 
+	# If no valid observations present, set plot flag to 0
+	indCheck <- which(dfTmp3$tag == "Obs")
+	if (length(indCheck == 0)){
+		plotFlag <- 1
+	} else {
+		plotFlag <- 0
+	}
+
 	# Calculate maximum value for plotting purposes.
 	yMax <- 1.2*max(dfTmp3$q_cfs)
 
@@ -379,66 +387,68 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	spreadDf$Date <- as.Date(spreadDf$POSIXct)
 	dfTmp$Date <- as.Date(dfTmp$POSIXct)
 
-	colOut <- c('red','black')
-	gg <- ggplot() + 
-	      geom_smooth(data=spreadDf, aes(x=POSIXct,y=q50,ymin=q25,ymax=q75,color="Mean Modeled"),stat="identity",alpha=1) +
-	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') +
-	      scale_color_manual(name='Model Run',values = colOut) +  
-	      ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,yMax)
-	fileOutPath <- paste0(outDir,'/streamflow_spread_',n,'_',strftime(startDate,"%Y%m%d%H"),
+	if (plotFlag == 1) {
+		colOut <- c('red','black')
+		gg <- ggplot() + 
+	      		geom_smooth(data=spreadDf, aes(x=POSIXct,y=q50,ymin=q25,ymax=q75,color="Mean Modeled"),stat="identity",alpha=1) +
+	      		geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') +
+	      		scale_color_manual(name='Model Run',values = colOut) +  
+	      		ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,yMax)
+		fileOutPath <- paste0(outDir,'/streamflow_spread_',n,'_',strftime(startDate,"%Y%m%d%H"),
+                	        '_',strftime(endDate,"%Y%m%d%H"),'.png')
+		ggsave(filename=fileOutPath, plot = gg)
+
+		gg <- ggplot() +
+              		geom_smooth(data=spreadDf, aes(x=POSIXct,y=af50,ymin=af25,ymax=af75,color="Mean Modeled"),stat="identity",alpha=1) +
+	      		geom_line(data=spreadDf, aes(x=POSIXct,y=ObsAccAF,color='Observed'),size=1.2,linetype='dashed') + 
+              		scale_color_manual(name='Model Run',values = colOut) +
+              		ggtitle(title) + xlab('Date') + ylab('Accumulated Runoff (thousands acre-feet)') + ylim(0,yMaxAF)
+        	fileOutPath <- paste0(outDir,'/acc_runoff_af_spread_',n,'_',strftime(startDate,"%Y%m%d%H"),
+                       	'_',strftime(endDate,"%Y%m%d%H"),'.png')
+        	ggsave(filename=fileOutPath, plot = gg)
+
+		#Spaghetti plots
+		numColor = length(unique(dfTmp$enstag)) + 1
+		colOut <- colOutList[1:numColor]
+		colOut[length(colOut)] <- 'black'
+		gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=q_cfs,color=enstag)) + geom_line() + 
+	      		geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') + 
+	      		scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag),'Observed')) + 
+	      		ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,yMax)  
+        	fileOutPath <- paste0(outDir,'/streamflow_spaghetti_',n,'_',strftime(startDate,"%Y%m%d%H"),
+                	        '_',strftime(endDate,"%Y%m%d%H"),'.png')
+        	ggsave(filename = fileOutPath, plot = gg)
+
+		gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=ACCFLOW_af,color=enstag)) + geom_line() +
+	      		geom_line(data=spreadDf, aes(x=POSIXct,y=ObsAccAF,color='Observed'),size=1.2,linetype='dashed') + 
+              		scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag),'Observed')) +
+              		ggtitle(title) + xlab('Date') + ylab('Accumulated Runoff (thousands acre-feet') + ylim(0,yMaxAF)
+        	fileOutPath <- paste0(outDir,'/acc_runoff_af_spaghetti_',n,'_',strftime(startDate,"%Y%m%d%H"),
+                	        '_',strftime(endDate,"%Y%m%d%H"),'.png')
+        	ggsave(filename = fileOutPath, plot = gg)
+
+		# Produce hydrograph raster
+		gg <- ggplot(dfTmp3, aes(x=POSIXct, y=tag, fill=q_cfs)) + geom_raster() +
+	      		scale_fill_gradientn(colours = rainbow(10)) + 
+	      		ggtitle(title) + xlab('Date') + ylab('Ensemble')  
+	      		#scale_x_date(labels = date_format("%d:%H")) 
+		fileOutPath <- paste0(outDir,'/streamflow_raster_hydrograph_',n,'_',strftime(startDate,"%Y%m%d%H"),
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
-	ggsave(filename=fileOutPath, plot = gg)
+		ggsave(filename=fileOutPath, plot=gg)
 
-	gg <- ggplot() +
-              geom_smooth(data=spreadDf, aes(x=POSIXct,y=af50,ymin=af25,ymax=af75,color="Mean Modeled"),stat="identity",alpha=1) +
-	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsAccAF,color='Observed'),size=1.2,linetype='dashed') + 
-              scale_color_manual(name='Model Run',values = colOut) +
-              ggtitle(title) + xlab('Date') + ylab('Accumulated Runoff (thousands acre-feet)') + ylim(0,yMaxAF)
-        fileOutPath <- paste0(outDir,'/acc_runoff_af_spread_',n,'_',strftime(startDate,"%Y%m%d%H"),
-                        '_',strftime(endDate,"%Y%m%d%H"),'.png')
-        ggsave(filename=fileOutPath, plot = gg)
+		gg <- ggplot(dfTmp, aes(x=POSIXct, y=enstag, fill=ACCFLOW_af)) + geom_raster() +
+              		scale_fill_gradientn(colours = rainbow(10)) +
+              		ggtitle(title) + xlab('Date') + ylab('Ensemble')
+        	fileOutPath <- paste0(outDir,'/acc_flow_af_raster_hydrograph_',n,'_',strftime(startDate,"%Y%m%d%H"),
+        	                '_',strftime(endDate,"%Y%m%d%H"),'.png')
+ 	       	ggsave(filename=fileOutPath, plot=gg)
 
-	#Spaghetti plots
-	numColor = length(unique(dfTmp$enstag)) + 1
-	colOut <- colOutList[1:numColor]
-	colOut[length(colOut)] <- 'black'
-	gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=q_cfs,color=enstag)) + geom_line() + 
-	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') + 
-	      scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag),'Observed')) + 
-	      ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,yMax)  
-        fileOutPath <- paste0(outDir,'/streamflow_spaghetti_',n,'_',strftime(startDate,"%Y%m%d%H"),
-                        '_',strftime(endDate,"%Y%m%d%H"),'.png')
-        ggsave(filename = fileOutPath, plot = gg)
+		#LK TMP PRINT STATS TO SCREEN
+        	print(paste0('BAINS: ',n))
+        	print(paste0('MEAN ACCUMULATED RUNOFF (kaf): ',max(spreadDf$mean_af[!is.na(spreadDf$mean_af)])))
+	        print(paste0('MEDIAN ACCUMULATED RUNOFF (kaf): ',max(spreadDf$median_af[!is.na(spreadDf$median_af)])))
 
-	gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=ACCFLOW_af,color=enstag)) + geom_line() +
-	      geom_line(data=spreadDf, aes(x=POSIXct,y=ObsAccAF,color='Observed'),size=1.2,linetype='dashed') + 
-              scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag),'Observed')) +
-              ggtitle(title) + xlab('Date') + ylab('Accumulated Runoff (thousands acre-feet') + ylim(0,yMaxAF)
-        fileOutPath <- paste0(outDir,'/acc_runoff_af_spaghetti_',n,'_',strftime(startDate,"%Y%m%d%H"),
-                        '_',strftime(endDate,"%Y%m%d%H"),'.png')
-        ggsave(filename = fileOutPath, plot = gg)
-
-	# Produce hydrograph raster
-	gg <- ggplot(dfTmp3, aes(x=POSIXct, y=tag, fill=q_cfs)) + geom_raster() +
-	      scale_fill_gradientn(colours = rainbow(10)) + 
-	      ggtitle(title) + xlab('Date') + ylab('Ensemble')  
-	      #scale_x_date(labels = date_format("%d:%H")) 
-	fileOutPath <- paste0(outDir,'/streamflow_raster_hydrograph_',n,'_',strftime(startDate,"%Y%m%d%H"),
-                        '_',strftime(endDate,"%Y%m%d%H"),'.png')
-	ggsave(filename=fileOutPath, plot=gg)
-
-	gg <- ggplot(dfTmp, aes(x=POSIXct, y=enstag, fill=ACCFLOW_af)) + geom_raster() +
-              scale_fill_gradientn(colours = rainbow(10)) +
-              ggtitle(title) + xlab('Date') + ylab('Ensemble')
-        fileOutPath <- paste0(outDir,'/acc_flow_af_raster_hydrograph_',n,'_',strftime(startDate,"%Y%m%d%H"),
-                        '_',strftime(endDate,"%Y%m%d%H"),'.png')
-        ggsave(filename=fileOutPath, plot=gg)
-
-	#LK TMP PRINT STATS TO SCREEN
-        print(paste0('BAINS: ',n))
-        print(paste0('MEAN ACCUMULATED RUNOFF (kaf): ',max(spreadDf$mean_af[!is.na(spreadDf$mean_af)])))
-        print(paste0('MEDIAN ACCUMULATED RUNOFF (kaf): ',max(spreadDf$median_af[!is.na(spreadDf$median_af)])))
-
+	}
 }
 
 plotEnsFlow <- function(n, modDfs,
