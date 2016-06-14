@@ -278,7 +278,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	# If no observations present, skip to next station
 	indCheck <- which(dfTmp3$tag == "Obs")
 	if (length(indCheck) == 0) {
-		stop('Found no Observations')
+		break
 	}
 
 	# Calculate maximum value for plotting purposes.
