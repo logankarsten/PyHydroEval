@@ -271,7 +271,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 
 	}
 
-	print(dfTmp3)
 	# Remove any erroneous NA values
 	dfTmp3 <- subset(dfTmp3, !is.na(tag))
 
