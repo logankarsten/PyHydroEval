@@ -136,9 +136,9 @@ if (calcStats | createPlots) {
 		for (i in STRfile) {
 			if (file.exists(i)) {
 				load(i)
-				print(obsStrData)
 				if (exists("obsStrData.map")) obsStrData <- remapData(obsStrData, obsStrData.map)
 				if (exists("obsStrMeta.map")) obsStrMeta <- remapData(obsStrMeta, obsStrMeta.map)
+				print(obsStrData)
 				if ( !is.null(gageList) ) { 
 					obsStrData_TMP <- subset(obsStrData, obsStrData$site_no %in% unique(gageList$site_no))
 					obsStrMeta_TMP <- subset(obsStrMeta, obsStrMeta$site_no %in% unique(gageList$site_no))
