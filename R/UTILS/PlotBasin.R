@@ -227,9 +227,9 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 			for (j in 1:length(ensLab)){
 				dfPad$POSIXct[count] <- as.POSIXct(dateTmp,format='%Y-%m-%d %H:%M')
 				dfPad$enstag[count] <- ensLab[j]
-				dfPad$st_lon[count] <- unique(dfTmp$st_lon)
-				dfPad$st_lat[count] <- unique(dfTmp$st_lat)
-				dfPad$st_id[count] <- unique(dfTmp$st_id)
+				#dfPad$st_lon[count] <- unique(dfTmp$st_lon)
+				#dfPad$st_lat[count] <- unique(dfTmp$st_lat)
+				#dfPad$st_id[count] <- unique(dfTmp$st_id)
 				dfPad$tag[count] <- unique(dfTmp$tag)[1]
 				dfPad$site_no[count] <- n
 				count <- count + 1
@@ -310,9 +310,9 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 		dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
 		qCalc <- quantile(dfTmp2$q_cfs, probs=seq(0,1,0.25), na.rm = TRUE)
 		afCalc <- quantile(dfTmp2$ACCFLOW_af, probs=seq(0,1,0.25), na.rm = TRUE)
-		spreadDf$st_id[i] <- dfTmp2$st_id[1]
-		spreadDf$st_lon[i] <- dfTmp2$st_lon[1]
-		spreadDf$st_lat[i] <- dfTmp2$st_lat[1]
+		#spreadDf$st_id[i] <- dfTmp2$st_id[1]
+		#spreadDf$st_lon[i] <- dfTmp2$st_lon[1]
+		#spreadDf$st_lat[i] <- dfTmp2$st_lat[1]
 		spreadDf$POSIXct[i] <- dfTmp2$POSIXct[1]
 		spreadDf$site_no[i] <- dfTmp2$site_no[1]
 		spreadDf$tag[i] <- dfTmp2$tag[1]
@@ -461,7 +461,6 @@ plotEnsFlow <- function(n, modDfs,
 	yMax <- 1.2*max(dfTmp$q_cfs)
 	yMaxAF <- 1.2*max(dfTmp$ACCFLOW_af)
 
-	print(dfTmp)
 	# Spread plots
         spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=19))
         names(spreadDf) <- c('st_id','st_lon','st_lat','POSIXct','site_no','tag',
@@ -491,9 +490,9 @@ plotEnsFlow <- function(n, modDfs,
                 dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
                 qCalc <- quantile(dfTmp2$q_cfs, probs=seq(0,1,0.25), na.rm = TRUE)
 		afCalc <- quantile(dfTmp2$ACCFLOW_af, probs=seq(0,1,0.25), na.rm = TRUE)
-                spreadDf$site_id[i] <- dfTmp2$st_id[1]
-                spreadDf$st_lon[i] <- dfTmp2$st_lon[1]
-                spreadDf$st_lat[i] <- dfTmp2$st_lat[1]
+                #spreadDf$site_id[i] <- dfTmp2$st_id[1]
+                #spreadDf$st_lon[i] <- dfTmp2$st_lon[1]
+                #spreadDf$st_lat[i] <- dfTmp2$st_lat[1]
                 spreadDf$POSIXct[i] <- dfTmp2$POSIXct[1]
                 spreadDf$site_no[i] <- dfTmp2$site_no[1]
                 spreadDf$tag[i] <- dfTmp2$tag[1]
