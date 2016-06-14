@@ -461,6 +461,7 @@ plotEnsFlow <- function(n, modDfs,
 	yMax <- 1.2*max(dfTmp$q_cfs)
 	yMaxAF <- 1.2*max(dfTmp$ACCFLOW_af)
 
+	print(dfTmp)
 	# Spread plots
         spreadDf <- data.frame(matrix(NA, nrow=nSteps,ncol=19))
         names(spreadDf) <- c('st_id','st_lon','st_lat','POSIXct','site_no','tag',

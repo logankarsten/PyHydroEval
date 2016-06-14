@@ -200,7 +200,6 @@ if (reachRting) {
 		gageNames <- gageNames[which(gageNames != "")]
         }
         idCol <- "site_no"
-	print(gageNames)
 	modDfsOut <- modChrtout
 } else {
         if (is.null(hydroTags2)) hydroTags2 <- unique(modFrxstout$tag)
