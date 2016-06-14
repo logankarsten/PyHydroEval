@@ -275,12 +275,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	# Remove any erroneous NA values
 	dfTmp3 <- subset(dfTmp3, !is.na(tag))
 
-	# If no observations present, skip to next station
-	indCheck <- which(dfTmp3$tag == "Obs")
-	if (length(indCheck) == 0) {
-		break
-	}
-
 	# Calculate maximum value for plotting purposes.
 	yMax <- 1.2*max(dfTmp3$q_cfs)
 
