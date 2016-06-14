@@ -93,7 +93,7 @@ for (n in names(gage2basinList)) {
                         lnCols=accflowColors,
                         lnTyps=accflowTypes, lnWds=accflowWidths,
                         labTitle=paste0("Accumulated Flow: ", n, " (", obsStrMeta$site_name[obsStrMeta$site_no==n], ")"), obsCol="cumqvol_mm")
-        dev.off()
+        #dev.off()
 }
 if (writeHtml) {
 	cat('## Accumulated Flow Plots\n', file=paste0(writePlotDir,"/plots_hydro.Rmd"), append=TRUE)
@@ -162,7 +162,7 @@ for (n in gageNames) {
                         lnWds=hydroWidths,
                         labTitle=plotTitle,
                         stdate=hydroStartDate, enddate=hydroEndDate, obsCol="q_cms", idCol=idCol)
-        dev.off()
+        #dev.off()
 }
 if (writeHtml) {
         cat('## Hydrographs\n', file=paste0(writePlotDir,"/plots_hydro.Rmd"), append=TRUE)
@@ -243,14 +243,14 @@ for (i in 1:length(hydroTags2)) {
 			    	        startDate=hydroEnsStartDate,
 			    	        endDate=hydroEnsEndDate,
 			    	        outDir=writePlotDir)
-				dev.off()
+				#dev.off()
 		} else {
 			plotEnsFlow(n, modDfs=modDfsOut,
                                     title=plotTitle,
                                     startDate=hydroEnsStartDate,
                                     endDate=hydroEnsEndDate,
                                     outDir=writePlotDir)
-                        dev.off()
+                        #dev.off()
 		}
         }
 }
@@ -271,7 +271,7 @@ for (i in 1:length(modTags)) {
 			   stDate=basSnowEnsStartDate,
 			   endDate=basSnowEnsEndDate,
 			   outDir=writePlotDir)
-		dev.off()
+		#dev.off()
 	}   
 }
 }
@@ -298,7 +298,7 @@ for (n in names(gage2basinList)) {
                         lnCols=accprecipColors,
                         lnTyps=accprecipTypes, lnWds=accprecipWidths,
                         labTitle=paste0("Accumulated Precip: ", n, " (", obsStrMeta$site_name[obsStrMeta$site_no==n], ")"))
-        dev.off()
+        #dev.off()
 }
 if (writeHtml) {
         cat('## Accumulated Basin-Mean Precip Plots\n', file=paste0(writePlotDir,"/plots_climate.Rmd"), append=TRUE)
@@ -343,7 +343,7 @@ for (n in names(gage2basinList)) {
                         lnWds=flowsweWidths,
                         labTitle=paste0("Streamflow with Basin-Mean SWE: ", n),
                         stdate=flowsweStartDate, enddate=flowsweEndDate)
-        dev.off()
+        #dev.off()
 }
 if (writeHtml) {
         cat('## Streamflow & Basin-mean SWE Plots\n', file=paste0(writePlotDir,"/plots_snow.Rmd"), append=TRUE)
@@ -410,7 +410,7 @@ for (i in 1:length(flowlsmTags)) {
                         labTitle=paste0("Streamflow: ", ngageChar, " (", obsStrMeta$site_name[obsStrMeta$site_no==ngageChar], ")"),
                         stdate=flowlsmStartDate, enddate=flowlsmEndDate, obsCol="q_cms", idCol=idCol,
 			tsSecs=ts, areaSqKm=mskgeo.areaList[[as.character(ngage)]]*geoDX/1000, ngage=ngage)
-        	dev.off()
+        	#dev.off()
 	}
 }
 if (writeHtml) {
@@ -476,7 +476,7 @@ for (n in sites) {
                 sweCol.obs="SWE_mm", sweCol.mod="SNEQV", fact=1, snowh=FALSE,
                 labTitle="Accumulated Precipitation and SWE",
                 stdate=sweStartDate, enddate=sweEndDate)
-  dev.off()
+  #dev.off()
 }
 if (writeHtml) {
         cat('## Station SWE Plots\n', file=paste0(writePlotDir,"/plots_snow.Rmd"), append=TRUE)
@@ -520,7 +520,7 @@ if (metPlot) {
                         	title=paste0(obsMetMeta$site_name[obsMetMeta$site_id==n], ":\nDaily Temperature"),
                         	xLab="", adj=(-273.15), 
 				stdate=metStartDate, enddate=metEndDate)
-  			dev.off()
+  			#dev.off()
 			if (writeHtml) {
 			        cat('## MET Station Plots\n', file=paste0(writePlotDir,"/plots_climate.Rmd"), append=TRUE)
                 		cat(paste0("```{r met_", i, "_", n, ", fig.width = 13.5, fig.height = 21, out.width='1350', out.height='2100', echo=FALSE}\n"),
@@ -548,7 +548,7 @@ if (metPlot) {
                         	title=paste0(obsMetMeta$site_name[obsMetMeta$site_id==n], ":\nDaily Shortwave Radiation"),
                         	xLab="",
 				stdate=metStartDate, enddate=metEndDate)
-  			dev.off()
+  			#dev.off()
   			# Wind
   			png(paste0(writePlotDir, "/met_wind_", i, "_", n, ".png"), width=1350, height=2100, res=225)
   			PlotMet(obs=obsMetData.dy,
@@ -560,7 +560,7 @@ if (metPlot) {
                         	title=paste0(obsMetMeta$site_name[obsMetMeta$site_id==n], ":\nDaily Wind Speed"),
                         	xLab="",
 				stdate=metStartDate, enddate=metEndDate)
-  			dev.off()
+  			#dev.off()
   			# Humidity
   			png(paste0(writePlotDir, "/met_relhum_", i, "_", n, ".png"), width=1350, height=2100, res=225)
   			PlotMet(obs=obsMetData.dy,
@@ -572,7 +572,7 @@ if (metPlot) {
                         	title=paste0(obsMetMeta$site_name[obsMetMeta$site_id==n], ":\nRelative Humidity"),
                         	xLab="",
 				stdate=metStartDate, enddate=metEndDate)
-  			dev.off()
+  			#dev.off()
   			# Pressure
   			png(paste0(writePlotDir, "/met_press_", i, "_", n, ".png"), width=1350, height=2100, res=225)
   			PlotMet(obs=obsMetData.dy,
@@ -584,7 +584,7 @@ if (metPlot) {
                         	title=paste0(obsMetMeta$site_name[obsMetMeta$site_id==n], ":\nSurface Pressure"),
                         	xLab="", mult=0.001,
 				stdate=metStartDate, enddate=metEndDate)
-  			dev.off()
+  			#dev.off()
 		}
 	}
 }
