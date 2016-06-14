@@ -132,7 +132,8 @@ if (calcStats | createPlots) {
 		# No subset
 		} else {
 			gageList <- NULL
-		} 
+		}
+		print(gageList) 
 		for (i in STRfile) {
 			if (file.exists(i)) {
 				load(i)
@@ -160,7 +161,6 @@ if (calcStats | createPlots) {
 	}
 }
 
-print(obsStrData)
 # Read in basin Snow/SNODAS
 if (readSnodas & readBasinSnodas) {
         # Load necessary mask data to perform analysis
