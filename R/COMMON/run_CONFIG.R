@@ -136,6 +136,7 @@ if (calcStats | createPlots) {
 		for (i in STRfile) {
 			if (file.exists(i)) {
 				load(i)
+				print(i)
 				print(obsStrdata)
 				if (exists("obsStrData.map")) obsStrData <- remapData(obsStrData, obsStrData.map)
 				if (exists("obsStrMeta.map")) obsStrMeta <- remapData(obsStrMeta, obsStrMeta.map)
