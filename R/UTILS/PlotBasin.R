@@ -245,6 +245,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	dfTmp$ACCFLOW_af <- dfTmp$ACCFLOW_af/1000.0
 
 	print(n)
+	print(dfTmp)
 	# Create df with observations and modeled values for raster hydrograph
 	dfTmp3 = data.frame(matrix(NA,nrow=nSteps*(length(ensLab)+1),ncol=3))
 	names(dfTmp3) <- c('POSIXct','tag','q_cfs')
