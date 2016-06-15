@@ -410,9 +410,9 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 		numColor = length(unique(dfTmp$enstag)) + 1
 		colOut <- colOutList[1:numColor]
 		colOut[length(colOut)] <- 'black'
-		gg <- ggplot2(data=dfTmp,aes(x=POSIXct,y=q_cfs,color=enstag,group=enstag)) + geom_line() + 
-	      		geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed',group='Observed'),size=1.2,linetype='dashed') + 
-	      		scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag),'Observed')) + 
+		gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=q_cfs,color=enstag)) + geom_line() + 
+	      		geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') + 
+	      		scale_color_manual(name='Model Run',values = colOut) + 
 	      		ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,yMax)  
         	fileOutPath <- paste0(outDir,'/streamflow_spaghetti_',n,'_',strftime(startDate,"%Y%m%d%H"),
                 	        '_',strftime(endDate,"%Y%m%d%H"),'.png')
