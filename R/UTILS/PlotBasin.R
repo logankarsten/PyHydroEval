@@ -424,7 +424,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 
 		gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=ACCFLOW_af,color=enstag)) + geom_line() +
 	      		geom_line(data=spreadDf, aes(x=POSIXct,y=ObsAccAF,color='Observed'),size=1.2,linetype='dashed') + 
-              		scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag),'Observed')) +
+              		scale_color_manual(name='Model Run',values = colOut) +
               		ggtitle(title) + xlab('Date') + ylab('Accumulated Runoff (thousands acre-feet') + ylim(0,yMaxAF)
         	fileOutPath <- paste0(outDir,'/acc_runoff_af_spaghetti_',n,'_',strftime(startDate,"%Y%m%d%H"),
                 	        '_',strftime(endDate,"%Y%m%d%H"),'.png')
