@@ -410,7 +410,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 		numColor = length(unique(dfTmp$enstag)) + 1
 		colOut <- colOutList[1:numColor]
 		colOut[length(colOut)] <- 'black'
-		gg <- ggplot(data=melt(dfTmp,id.vars='POSIXct'),aes(x=POSIXct,y=q_cfs,color=enstag)) + geom_line() + 
+		gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=q_cfs,color=enstag)) + geom_line() + 
 	      		geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') + 
 	      		scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag),'Observed')) + 
 	      		ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,yMax)  
