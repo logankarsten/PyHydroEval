@@ -410,6 +410,10 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 		numColor = length(unique(dfTmp$enstag)) + 1
 		colOut <- colOutList[1:numColor]
 		colOut[length(colOut)] <- 'black'
+		# Re-order to account for alphabetical order
+		labels1 <- c(unique(dfTmp$enstag),'Observed')
+		order1 <- order(labels1)
+		colOut <- colOut[order1]
 		gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=q_cfs,color=enstag)) + geom_line() + 
 	      		geom_line(data=spreadDf, aes(x=POSIXct,y=ObsCFS,color='Observed'),size=1.2,linetype='dashed') + 
 	      		scale_color_manual(name='Model Run',values=colOut) + 
