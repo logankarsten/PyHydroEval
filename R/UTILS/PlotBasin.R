@@ -337,6 +337,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	spreadDf$ObsAF <- NA
 	spreadDf$ObsAccAF <- NA
 
+	
 	for (i in 1:nSteps) {
 		dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
 
@@ -375,7 +376,10 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 			for (j in 1:length(dfTmp2$q_cfs)){
 				diffTmp <- minCfs - obsBaseFlow
 				if (!is.na(dfTmp2$q_cfs[j])){
+					print('----------------')
+					print(dfTmp2$q_cfs[j])
 					dfTmp2$q_cfs[j] <- dfTmp2$q_cfs[j] - diffTmp
+					print(dfTmp2$q_cfs[j])
 					if (dfTmp2$q_cfs[j] < 0.0){
 						dfTmp2$q_cfs[j] <- 0.0
 					}
