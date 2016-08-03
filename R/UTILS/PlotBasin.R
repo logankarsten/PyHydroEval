@@ -361,11 +361,14 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 
 		# If baseflow correction is desired, apply here.
       if (hydroEnsBaseFlowCorr == 1){
+			print(startDateBaseFlow)
 			# First store observation at beginning of beginning of forecast period
 			if (dates[i] == startDateBaseFlow){
 				obsBaseFlow <- obs$q_cms[ind[1]]*35.3147
+				print(obsBaseFlow)
 			}
 
+			print(dates[i])
 			# Next, calculate minimum ESP forecast value.
 			minCfs <- min(dfTmp2$q_cfs)
 			
