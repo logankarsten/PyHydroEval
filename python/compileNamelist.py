@@ -1044,8 +1044,8 @@ def editNamelist(pathIn,args,dbIn):
 					print "ERROR: Failure to find input model file for ensemble hydrograph plotting."
 					sys.exit(1)
 
-			searchStr <- "hydroEnsBiasCorr <- 0"
-			replaceStr <- "hydroEnsBiasCorr <- 1"
+			searchStr = "hydroEnsBiasCorr <- 0"
+			replaceStr = "hydroEnsBiasCorr <- 1"
 			el(pathIn,searchStr,replaceStr)
 
 		elif int(args.plot) == 23:
@@ -1067,8 +1067,8 @@ def editNamelist(pathIn,args,dbIn):
 					print "ERROR: Failure to find input model file for ensemble hydrograph plotting."
 					sys.exit(1)
 
-			searchStr <- "hydroEnsBaseFlowCorr <- 0"
-			replaceStr <- "hydroEnsBaseFlowCorr <- 1"
+			searchStr = "hydroEnsBaseFlowCorr <- 0"
+			replaceStr = "hydroEnsBaseFlowCorr <- 1"
 			el(pathIn,searchStr,replaceStr)
 
 		elif int(args.plot) == 24:
@@ -1090,10 +1090,10 @@ def editNamelist(pathIn,args,dbIn):
 					print "ERROR: Failure to find input model file for ensemble hydrograph plotting."
 					sys.exit(1)
 
-			searchStr <- "hydroEnsBiasCorr <- 0"
-			replaceStr <- "hydroEnsBiasCorr <- 1"
+			searchStr = "hydroEnsBiasCorr <- 0"
+			replaceStr = "hydroEnsBiasCorr <- 1"
 			el(pathIn,searchStr,replaceStr)
 
-			searchStr <- "hydroEnsBaseFlowCorr <- 0"
-			replaceStr <- "hydroEnsBaseFlowCorr <- 1"
+			searchStr = "hydroEnsBaseFlowCorr <- 0"
+			replaceStr = "hydroEnsBaseFlowCorr <- 1"
 			el(pathIn,searchStr,replaceStr)
