@@ -382,7 +382,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 				diffTmp <- minCfs - obsBaseFlow
 				print(diffTmp)
 				print(j)
-				if (!is.na(dfTmp2$q_cfs[j]){
+				if (!is.na(dfTmp2$q_cfs[j])){
 					dfTmp2$q_cfs[j] <- dfTmp2$q_cfs[j] - diffTmp
 					if (dfTmp2$q_cfs[j] < 0.0){
 						dfTmp2$q_cfs[j] <- 0.0
