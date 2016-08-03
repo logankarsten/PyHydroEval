@@ -231,10 +231,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	dfTmp$q_cfs = dfTmp$q_cfs * bias
         dfTmp$ACCFLOW_af = dfTmp$ACCFLOW_af*bias
 
-	print(startDate)
-	print(bias)
-	print(hydroEnsBaseFlowCorr)
-	print(hydroEnsBiasCorr)
 	if (hydroEnsBaseFlowCorr == 1){
 		startDateBaseFlow <- startDate
 	}
@@ -361,7 +357,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 
 		# If baseflow correction is desired, apply here.
       if (hydroEnsBaseFlowCorr == 1){
-			print(startDateBaseFlow)
 			# First store observation at beginning of beginning of forecast period
 			if (i == 1){
 				indTmp <- which(obs$POSIXct == startDateBaseFlow)
@@ -369,7 +364,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 				print(obsBaseFlow)
 			}
 
-			print(dates[i])
 			# Next, calculate minimum ESP forecast value.
 			minCfs <- min(dfTmp2$q_cfs)
 	
@@ -380,8 +374,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 			# have already gone to zero at the beginning of the forecast time period. 
 			for (j in 1:length(dfTmp2$q_cfs)){
 				diffTmp <- minCfs - obsBaseFlow
-				print(diffTmp)
-				print(j)
 				if (!is.na(dfTmp2$q_cfs[j])){
 					dfTmp2$q_cfs[j] <- dfTmp2$q_cfs[j] - diffTmp
 					if (dfTmp2$q_cfs[j] < 0.0){
