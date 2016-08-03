@@ -802,19 +802,19 @@ def editNamelist(pathIn,args,dbIn):
 			#replaceStr = "hydroTags2 <- " + tagStr
 			#el(pathIn,searchStr,replaceStr)
 			searchStr = "hydroEnsPlot <- FALSE"
-                        replaceStr = "hydroEnsPlot <- TRUE"
-                        el(pathIn,searchStr,replaceStr)
+         replaceStr = "hydroEnsPlot <- TRUE"
+         el(pathIn,searchStr,replaceStr)
 			status = 0
 			for checkStr in ['_CHRTOUT_ALL.Rdata','_CHRTOUT_GAGES.Rdata','_FRXST.Rdata']:
-                                try:
-                                        ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
-                                        status = 1
-                                        break
-                                except:
-                                        continue
-                        if status == 0:
-                                print "ERROR: Failure to find input model file for ensemble hydrograph plotting."
-                                sys.exit(1)
+         	try:
+            	ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
+               status = 1
+               break
+            except:
+               continue
+            if status == 0:
+               print "ERROR: Failure to find input model file for ensemble hydrograph plotting."
+               sys.exit(1)
 
 		elif int(args.plot) == 4:
 			searchStr = "accprecipTags <- NULL"
@@ -1029,67 +1029,71 @@ def editNamelist(pathIn,args,dbIn):
 			el(pathIn,searchStr,replaceStr)
 		elif int(args.plot) == 22:
 			searchStr = "hydroTags2 <- NULL"
-                        searchStr = "hydroEnsPlot <- FALSE"
-                        replaceStr = "hydroEnsPlot <- TRUE"
-                        el(pathIn,searchStr,replaceStr)
-                        status = 0
-                        for checkStr in ['_CHRTOUT_ALL.Rdata','_CHRTOUT_GAGES.Rdata','_FRXST.Rdata']:
-                                try:
-                                        ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
-                                        status = 1
-                                        break
-                                except:
-                                        continue
-                        if status == 0:
-                                print "ERROR: Failure to find input model file for ensemble hydrograph plotting."
-                                sys.exit(1)
+         #replaceStr = "hydroTags2 <- " + tagStr
+         #el(pathIn,searchStr,replaceStr)
+         searchStr = "hydroEnsPlot <- FALSE"
+         replaceStr = "hydroEnsPlot <- TRUE"
+         el(pathIn,searchStr,replaceStr)
+         status = 0
+         for checkStr in ['_CHRTOUT_ALL.Rdata','_CHRTOUT_GAGES.Rdata','_FRXST.Rdata']:
+            try:
+               ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
+               status = 1
+               break
+            except:
+               continue
+            if status == 0:
+               print "ERROR: Failure to find input model file for ensemble hydrograph plotting."
+               sys.exit(1)
 
-								searchStr <- "hydroEnsBiasCorr <- 0"
-								replaceStr <- "hydroEnsBiasCorr <- 1"
-								el(pathIn,searchStr,replaceStr)
+			searchStr <- "hydroEnsBiasCorr <- 0"
+			replaceStr <- "hydroEnsBiasCorr <- 1"
+			el(pathIn,searchStr,replaceStr)
 
 		elif int(args.plot) == 23:
 			searchStr = "hydroTags2 <- NULL"
-                        searchStr = "hydroEnsPlot <- FALSE"
-                        replaceStr = "hydroEnsPlot <- TRUE"
-                        el(pathIn,searchStr,replaceStr)
-                        status = 0
-                        for checkStr in ['_CHRTOUT_ALL.Rdata','_CHRTOUT_GAGES.Rdata','_FRXST.Rdata']:
-                                try:
-                                        ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
-                                        status = 1
-                                        break
-                                except:
-                                        continue
-                        if status == 0:
-                                print "ERROR: Failure to find input model file for ensemble hydrograph plotting."
-                                sys.exit(1)
+         #replaceStr = "hydroTags2 <- " + tagStr
+         #el(pathIn,searchStr,replaceStr)
+         searchStr = "hydroEnsPlot <- FALSE"
+         replaceStr = "hydroEnsPlot <- TRUE"
+         el(pathIn,searchStr,replaceStr)
+         status = 0
+         for checkStr in ['_CHRTOUT_ALL.Rdata','_CHRTOUT_GAGES.Rdata','_FRXST.Rdata']:
+            try:
+               ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
+               status = 1
+               break
+            except:
+               continue
+            if status == 0:
+               print "ERROR: Failure to find input model file for ensemble hydrograph plotting."
+               sys.exit(1)
 
-								searchStr <- "hydroEnsBaseFlowCorr <- 0"
-                        replaceStr <- "hydroEnsBaseFlowCorr <- 1"
-                        el(pathIn,searchStr,replaceStr)
+			searchStr <- "hydroEnsBaseFlowCorr <- 0"
+         replaceStr <- "hydroEnsBaseFlowCorr <- 1"
+         el(pathIn,searchStr,replaceStr)
 
 		elif int(args.plot) == 24:
 			searchStr = "hydroTags2 <- NULL"
-                        searchStr = "hydroEnsPlot <- FALSE"
-                        replaceStr = "hydroEnsPlot <- TRUE"
-                        el(pathIn,searchStr,replaceStr)
-                        status = 0
-                        for checkStr in ['_CHRTOUT_ALL.Rdata','_CHRTOUT_GAGES.Rdata','_FRXST.Rdata']:
-                                try:
-                                        ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
-                                        status = 1
-                                        break
-                                except:
-                                        continue
-                        if status == 0:
-                                print "ERROR: Failure to find input model file for ensemble hydrograph plotting."
-                                sys.exit(1)
+         searchStr = "hydroEnsPlot <- FALSE"
+         replaceStr = "hydroEnsPlot <- TRUE"
+         el(pathIn,searchStr,replaceStr)
+         status = 0
+         for checkStr in ['_CHRTOUT_ALL.Rdata','_CHRTOUT_GAGES.Rdata','_FRXST.Rdata']:
+         	try:
+            	ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
+               status = 1
+               break
+            except:
+               continue
+            if status == 0:
+               print "ERROR: Failure to find input model file for ensemble hydrograph plotting."
+               sys.exit(1)
 
-								searchStr <- "hydroEnsBiasCorr <- 0"
-                        replaceStr <- "hydroEnsBiasCorr <- 1"
-                        el(pathIn,searchStr,replaceStr)
+			searchStr <- "hydroEnsBiasCorr <- 0"
+         replaceStr <- "hydroEnsBiasCorr <- 1"
+         el(pathIn,searchStr,replaceStr)
 
-								searchStr <- "hydroEnsBaseFlowCorr <- 0"
-                        replaceStr <- "hydroEnsBaseFlowCorr <- 1"
-                        el(pathIn,searchStr,replaceStr)
+			searchStr <- "hydroEnsBaseFlowCorr <- 0"
+         replaceStr <- "hydroEnsBaseFlowCorr <- 1"
+         el(pathIn,searchStr,replaceStr)
