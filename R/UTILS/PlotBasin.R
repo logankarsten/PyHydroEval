@@ -373,7 +373,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 			# Next, calculate minimum ESP forecast value.
 			minCfs <- min(!is.na(dfTmp2$q_cfs))
 		
-			print(minCfs)	
+			print(dfTmp2$q_cfs)	
 			# Next, calculate difference between minimum ESP forecast value and observation from 
 			# the beginning of the forecast period. Apply that value to ALL ESP forecast values.
 			# If modeled streamflow goes below zero, set it to 0. This is for cases where observations
