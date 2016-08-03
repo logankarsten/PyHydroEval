@@ -271,7 +271,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 			indReplace <- which(dfTmp$POSIXct == dates[i])
 			# First store observation at beginning of forecast period.
 			if (i == 1){
-				indTmp <- which(obs$POSIXct == startDateBaseFlow)
+				indTmp <- which(obs$site_no == n & obs$POSIXct == startDateBaseFlow)
             obsBaseFlow <- obs$q_cms[indTmp[1]]*35.3147
             print(obsBaseFlow)
          }
