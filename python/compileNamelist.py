@@ -1092,7 +1092,7 @@ def editNamelist(pathIn,args,dbIn):
 
 			searchStr <- "hydroEnsBiasCorr <- 0"
 			replaceStr <- "hydroEnsBiasCorr <- 1"
-         el(pathIn,searchStr,replaceStr)
+			el(pathIn,searchStr,replaceStr)
 
 			searchStr <- "hydroEnsBaseFlowCorr <- 0"
          replaceStr <- "hydroEnsBaseFlowCorr <- 1"
