@@ -1075,20 +1075,20 @@ def editNamelist(pathIn,args,dbIn):
 			searchStr = "hydroTags2 <- NULL"
          #replaceStr = "hydroTags2 <- " + tagStr
          #el(pathIn,searchStr,replaceStr)
-         searchStr = "hydroEnsPlot <- FALSE"
-         replaceStr = "hydroEnsPlot <- TRUE"
-         el(pathIn,searchStr,replaceStr)
-         status = 0
-         for checkStr in ['_CHRTOUT_ALL.Rdata','_CHRTOUT_GAGES.Rdata','_FRXST.Rdata']:
-            try:
-               ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
-               status = 1
-               break
-            except:
-               continue
-            if status == 0:
-               print "ERROR: Failure to find input model file for ensemble hydrograph plotting."
-               sys.exit(1)
+			searchStr = "hydroEnsPlot <- FALSE"
+			replaceStr = "hydroEnsPlot <- TRUE"
+			el(pathIn,searchStr,replaceStr)
+			status = 0
+			for checkStr in ['_CHRTOUT_ALL.Rdata','_CHRTOUT_GAGES.Rdata','_FRXST.Rdata']:
+				try:
+					ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
+					status = 1
+					break
+				except:
+					continue
+				if status == 0:
+					print "ERROR: Failure to find input model file for ensemble hydrograph plotting."
+					sys.exit(1)
 
 			searchStr <- "hydroEnsBiasCorr <- 0"
          replaceStr <- "hydroEnsBiasCorr <- 1"
