@@ -229,7 +229,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	}
 
 	dfTmp$q_cfs = dfTmp$q_cfs * bias
-        dfTmp$ACCFLOW_af = dfTmp$ACCFLOW_af*bias
+   dfTmp$ACCFLOW_af = dfTmp$ACCFLOW_af*bias
 
 	if (hydroEnsBaseFlowCorr == 1){
 		startDateBaseFlow <- startDate
@@ -264,6 +264,42 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 		dates <- unique(dfTmp$POSIXct)
 	}
 
+	if (hydroEnsBaseFlowCorr == 1){
+		for (i in 1:nSteps){
+			dfTmp1a <- subset(dfTmp, POSIXct == dates[i])
+
+			indReplace <- which(dfTmp$POSIXct == dates[i])
+			# First store observation at beginning of forecast period.
+			if (i == 1){
+				indTmp <- which(obs$POSIXct == startDateBaseFlow)
+            obsBaseFlow <- obs$q_cms[indTmp[1]]*35.3147
+            print(obsBaseFlow)
+         }
+
+			# Next, calculate minimum ESP forecast value.
+			minCfs <- min(dfTmp1a$q_cfs)
+
+			# Next, calculate difference between minimum ESP forecast value and observation from
+         # the beginning of the forecast period. Apply that value to ALL ESP forecast values.
+         # If modeled streamflow goes below zero, set it to 0. This is for cases where observations
+         # have already gone to zero at the beginning of the forecast time period.
+         for (j in 1:length(dfTmp1a$q_cfs)){
+            diffTmp <- minCfs - obsBaseFlow
+            if (!is.na(dfTmp1a$q_cfs[j])){
+               print('----------------')
+               print(dfTmp1a$q_cfs[j])
+               dfTmp1a$q_cfs[j] <- dfTmp1a$q_cfs[j] - diffTmp
+               print(dfTmp1a$q_cfs[j])
+               if (dfTmp1a$q_cfs[j] < 0.0){
+                  dfTmp1a$q_cfs[j] <- 0.0
+               }
+            }
+         }
+
+			# Place data back into data frame
+			dfTmp$q_cfs[indReplace] <- dfTmp1a$q_cfs
+		}
+	}
 	# Set accumulated acre-feet to thousands of acre-feet
 	dfTmp$ACCFLOW_af <- dfTmp$ACCFLOW_af/1000.0
 
@@ -356,37 +392,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
                         }
       }
 
-		# If baseflow correction is desired, apply here.
-      if (hydroEnsBaseFlowCorr == 1){
-			# First store observation at beginning of beginning of forecast period
-			if (i == 1){
-				indTmp <- which(obs$POSIXct == startDateBaseFlow)
-				obsBaseFlow <- obs$q_cms[indTmp[1]]*35.3147
-				print(obsBaseFlow)
-			}
-
-			# Next, calculate minimum ESP forecast value.
-			minCfs <- min(dfTmp2$q_cfs)
-	
-			print(minCfs)	
-			# Next, calculate difference between minimum ESP forecast value and observation from 
-			# the beginning of the forecast period. Apply that value to ALL ESP forecast values.
-			# If modeled streamflow goes below zero, set it to 0. This is for cases where observations
-			# have already gone to zero at the beginning of the forecast time period. 
-			for (j in 1:length(dfTmp2$q_cfs)){
-				diffTmp <- minCfs - obsBaseFlow
-				if (!is.na(dfTmp2$q_cfs[j])){
-					print('----------------')
-					print(dfTmp2$q_cfs[j])
-					dfTmp2$q_cfs[j] <- dfTmp2$q_cfs[j] - diffTmp
-					print(dfTmp2$q_cfs[j])
-					if (dfTmp2$q_cfs[j] < 0.0){
-						dfTmp2$q_cfs[j] <- 0.0
-					}
-				}
-			}
-		}
-
 		qCalc <- quantile(dfTmp2$q_cfs, probs=seq(0,1,0.25), na.rm = TRUE)
 		afCalc <- quantile(dfTmp2$ACCFLOW_af, probs=seq(0,1,0.25), na.rm = TRUE)
 		#spreadDf$st_id[i] <- dfTmp2$st_id[1]
@@ -409,20 +414,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 		spreadDf$mean_af[i] <- mean(dfTmp2$ACCFLOW_af)
 		spreadDf$median_af[i] <- median(dfTmp2$ACCFLOW_af)
 
-		# Observations
-		#ind <- which(obs$site_no == n & strftime(obs$POSIXct,"%Y-%m-%d %H:%M") == strftime(dates[i],"%Y-%m-%d %H:%M"))
-		#if (length(ind) != 0){
-	 	#	spreadDf$ObsCFS[i] <- obs$q_cms[ind[1]]*35.3147
-		#}
-		# Calculate volume of water in terms of acre-feet
-		#if (i == 1){
-		#	spreadDf$ObsAF[i] <- 0.0
-		#} else {
-		#	dtSec <- as.numeric(difftime(spreadDf$POSIXct[i],spreadDf$POSIXct[i-1],units='secs'))
-		#	if (!is.na(spreadDf$ObsCFS[i])){
-      #                          spreadDf$ObsAF[i] <- ((spreadDf$ObsCFS[i]*dtSec)/43559.9)/1000.0
-      #                  }
-		#}
 	}
 
 	# Calculate cumulative observed flow in thousands acre-feet
