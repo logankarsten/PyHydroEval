@@ -300,7 +300,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	# Set accumulated acre-feet to thousands of acre-feet
 	dfTmp$ACCFLOW_af <- dfTmp$ACCFLOW_af/1000.0
 
-	print(dfTmp$ACCFLOW_af)
 	print(n)
 	# Create df with observations and modeled values for raster hydrograph
 	dfTmp3 = data.frame(matrix(NA,nrow=nSteps*(length(ensLab)+1),ncol=3))
@@ -328,6 +327,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 
 	}
 
+	print(dfTmp$ACCFLOW_af)
 	# Remove any erroneous NA values
 	dfTmp3 <- subset(dfTmp3, !is.na(tag))
 
