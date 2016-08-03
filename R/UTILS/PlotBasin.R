@@ -363,8 +363,9 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
       if (hydroEnsBaseFlowCorr == 1){
 			print(startDateBaseFlow)
 			# First store observation at beginning of beginning of forecast period
-			if (dates[i] == startDateBaseFlow){
-				obsBaseFlow <- obs$q_cms[ind[1]]*35.3147
+			if (i == 1){
+				indTmp <- which(obs$POSIXct == startDateBaseFlow)
+				obsBaseFlow <- obs$q_cms[indTmp[1]]*35.3147
 				print(obsBaseFlow)
 			}
 
