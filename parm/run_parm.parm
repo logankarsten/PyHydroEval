@@ -135,3 +135,6 @@ statsFlag = []
 # 19 - Basin-aggregated model ensemble SWE plots.
 # 20 - SNOTEL vs. Model Acc precip plots.
 # 21 - SNOTEL vs. Model acc precip plots + basin aggregation scatter plots.
+# 22 - Ensemble hydrograph plots with bias correction.
+# 23 - Ensemble hydrograph plots with baseflow correction.
+# 24 - Ensemble hydrograph plots with baseflow correction plus bias correction.

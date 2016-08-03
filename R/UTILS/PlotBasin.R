@@ -212,6 +212,29 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
         nSteps <- length(dates)
 	ensLab <- unique(modDfs$enstag)
 
+	if (hydroEnsBiasCorr == 1){
+		if (n == "RIODELCO") {
+                	bias = 0.74
+        	} else if (n == "CONMOGCO") {
+                	bias = 1.16
+        	} else if (n == "LOSORTCO") {
+                	bias = 1.55
+        	} else if (n == "SANORTCO") {
+                	bias = 0.91
+        	} else {
+                	bias = 1.0
+        	}
+        } else {
+		bias = 1.0
+	}
+
+	dfTmp$q_cfs = dfTmp$q_cfs * bias
+        dfTmp$ACCFLOW_af = dfTmp$ACCFLOW_af*bias
+
+	if (hydroEnsBaseFlowCorr == 1){
+		startDateBaseFlow <- startDate
+	}
+
 	# Determine beginning dates, info for padding.
 	if (padSteps > 0){
 		dt <- as.numeric(difftime(dfTmp$POSIXct[2],dfTmp$POSIXct[1],units="hours"))
@@ -316,6 +339,45 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 
 	for (i in 1:nSteps) {
 		dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
+
+		# Observations
+      ind <- which(obs$site_no == n & strftime(obs$POSIXct,"%Y-%m-%d %H:%M") == strftime(dates[i],"%Y-%m-%d %H:%M"))
+      if (length(ind) != 0){
+         spreadDf$ObsCFS[i] <- obs$q_cms[ind[1]]*35.3147
+      }
+      # Calculate volume of water in terms of acre-feet
+      if (i == 1){
+         spreadDf$ObsAF[i] <- 0.0
+      } else {
+         dtSec <- as.numeric(difftime(spreadDf$POSIXct[i],spreadDf$POSIXct[i-1],units='secs'))
+         if (!is.na(spreadDf$ObsCFS[i])){
+                                spreadDf$ObsAF[i] <- ((spreadDf$ObsCFS[i]*dtSec)/43559.9)/1000.0
+                        }
+      }
+
+		# If baseflow correction is desired, apply here.
+      if (hydroEnsBaseFlowCorr == 1){
+			# First store observation at beginning of beginning of forecast period
+			if (dates[i] == startDateBaseFlow){
+				obsBaseFlow <- obs$q_cms[ind[1]]*35.3147
+			}
+
+			# Next, calculate minimum ESP forecast value.
+			minCfs <- min(dfTmp2$q_cfs)
+			
+			# Next, calculate difference between minimum ESP forecast value and observation from 
+			# the beginning of the forecast period. Apply that value to ALL ESP forecast values.
+			# If modeled streamflow goes below zero, set it to 0. This is for cases where observations
+			# have already gone to zero at the beginning of the forecast time period. 
+			for (j in length(dfTmp2$q_cfs)){
+				diffTmp <- minCfs - obsBaseFlow
+				dfTmp2$q_cfs[j] <- dfTmp2$q_cfs[j] - diffTmp
+				if (dfTmp2$q_cfs[j] < 0.0){
+					dfTmp2$q_cfs[j] <- 0.0
+				}
+			}
+		}
+
 		qCalc <- quantile(dfTmp2$q_cfs, probs=seq(0,1,0.25), na.rm = TRUE)
 		afCalc <- quantile(dfTmp2$ACCFLOW_af, probs=seq(0,1,0.25), na.rm = TRUE)
 		#spreadDf$st_id[i] <- dfTmp2$st_id[1]
@@ -339,19 +401,19 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 		spreadDf$median_af[i] <- median(dfTmp2$ACCFLOW_af)
 
 		# Observations
-		ind <- which(obs$site_no == n & strftime(obs$POSIXct,"%Y-%m-%d %H:%M") == strftime(dates[i],"%Y-%m-%d %H:%M"))
-		if (length(ind) != 0){
-			spreadDf$ObsCFS[i] <- obs$q_cms[ind[1]]*35.3147
-		}
+		#ind <- which(obs$site_no == n & strftime(obs$POSIXct,"%Y-%m-%d %H:%M") == strftime(dates[i],"%Y-%m-%d %H:%M"))
+		#if (length(ind) != 0){
+	 	#	spreadDf$ObsCFS[i] <- obs$q_cms[ind[1]]*35.3147
+		#}
 		# Calculate volume of water in terms of acre-feet
-		if (i == 1){
-			spreadDf$ObsAF[i] <- 0.0
-		} else {
-			dtSec <- as.numeric(difftime(spreadDf$POSIXct[i],spreadDf$POSIXct[i-1],units='secs'))
-			if (!is.na(spreadDf$ObsCFS[i])){
-                                spreadDf$ObsAF[i] <- ((spreadDf$ObsCFS[i]*dtSec)/43559.9)/1000.0
-                        }
-		}
+		#if (i == 1){
+		#	spreadDf$ObsAF[i] <- 0.0
+		#} else {
+		#	dtSec <- as.numeric(difftime(spreadDf$POSIXct[i],spreadDf$POSIXct[i-1],units='secs'))
+		#	if (!is.na(spreadDf$ObsCFS[i])){
+      #                          spreadDf$ObsAF[i] <- ((spreadDf$ObsCFS[i]*dtSec)/43559.9)/1000.0
+      #                  }
+		#}
 	}
 
 	# Calculate cumulative observed flow in thousands acre-feet
@@ -385,6 +447,8 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 
 	spreadDf$Date <- as.Date(spreadDf$POSIXct)
 	dfTmp$Date <- as.Date(dfTmp$POSIXct)
+
+	dfTmp3$q_cfs = dfTmp3$q_cfs * bias
 
 	if (plotFlag == 1) {
 		colOut <- c('red','black')
@@ -500,6 +564,25 @@ plotEnsFlow <- function(n, modDfs,
 	spreadDf$mean_af <- NA
 	spreadDf$median_af <- NA
 
+	if (hydroEnsBiasCorr == 1){
+                if (n == "RIODELCO") {
+                        bias = 0.74
+                } else if (n == "CONMOGCO") {
+                        bias = 1.16
+                } else if (n == "LOSORTCO") {
+                        bias = 1.55
+                } else if (n == "SANORTCO") {
+                        bias = 0.91
+                } else {
+                        bias = 1.0
+                }
+        } else {
+                bias = 1.0
+        }
+
+	dfTmp$q_cfs = dfTmp$q_cfs * bias
+        dfTmp$ACCFLOW_af = dfTmp$ACCFLOW_af*bias
+
         for (i in 1:nSteps) {
                 dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
                 qCalc <- quantile(dfTmp2$q_cfs, probs=seq(0,1,0.25), na.rm = TRUE)
@@ -529,6 +612,8 @@ plotEnsFlow <- function(n, modDfs,
 	print(paste0('BAINS: ',n))
 	print(paste0('MEAN ACCUMULATED RUNOFF (kaf): ',max(spreadDf$mean_af)))
 	print(paste0('MEDIAN ACCUMULATED RUNOFF (kaf): ',max(spreadDf$median_af)))
+
+	dfTmp3$q_cfs = dfTmp3$q_cfs * bias
 
         spreadDf$Date <- as.Date(spreadDf$POSIXct)
         dfTmp$Date <- as.Date(dfTmp$POSIXct)

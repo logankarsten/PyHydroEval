@@ -292,7 +292,13 @@ writePlotDir <- NULL
                 hydroEnsStartDate <- NULL 
 
                 # Specify end date
-                hydroEnsEndDate <- NULL 
+                hydroEnsEndDate <- NULL
+
+		# Specify whether to apply bias correction
+		hydroEnsBiasCorr <- 0
+
+		# Specify whether to apply baseflow correction
+		hydroEnsBaseFlowCorr <- 0 
 
 	## Generate ensemble model basin snow plots?
 	basSnoEnsPlot <- FALSE

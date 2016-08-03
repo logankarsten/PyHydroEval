@@ -76,7 +76,7 @@ def checkArgs(parser):
 			print "ERROR: Invalid stat value."
 			raise
 	if parser.plot:
-		if (int(parser.plot) < 1) or (int(parser.plot) > 21):
+		if (int(parser.plot) < 1) or (int(parser.plot) > 24):
 			print "ERROR: Invalid plot value."
 			raise 
 	if parser.plot:
