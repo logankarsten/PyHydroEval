@@ -286,10 +286,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
          for (j in 1:length(dfTmp1a$q_cfs)){
             diffTmp <- minCfs - obsBaseFlow
             if (!is.na(dfTmp1a$q_cfs[j])){
-               print('----------------')
-               print(dfTmp1a$q_cfs[j])
                dfTmp1a$q_cfs[j] <- dfTmp1a$q_cfs[j] - diffTmp
-               print(dfTmp1a$q_cfs[j])
                if (dfTmp1a$q_cfs[j] < 0.0){
                   dfTmp1a$q_cfs[j] <- 0.0
                }
@@ -303,6 +300,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	# Set accumulated acre-feet to thousands of acre-feet
 	dfTmp$ACCFLOW_af <- dfTmp$ACCFLOW_af/1000.0
 
+	print(dfTmp$ACCFLOW_af)
 	print(n)
 	# Create df with observations and modeled values for raster hydrograph
 	dfTmp3 = data.frame(matrix(NA,nrow=nSteps*(length(ensLab)+1),ncol=3))
