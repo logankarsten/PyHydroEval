@@ -1068,8 +1068,8 @@ def editNamelist(pathIn,args,dbIn):
 					sys.exit(1)
 
 			searchStr <- "hydroEnsBaseFlowCorr <- 0"
-         replaceStr <- "hydroEnsBaseFlowCorr <- 1"
-         el(pathIn,searchStr,replaceStr)
+			replaceStr <- "hydroEnsBaseFlowCorr <- 1"
+			el(pathIn,searchStr,replaceStr)
 
 		elif int(args.plot) == 24:
 			searchStr = "hydroTags2 <- NULL"
