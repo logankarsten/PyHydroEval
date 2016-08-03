@@ -231,6 +231,10 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	dfTmp$q_cfs = dfTmp$q_cfs * bias
         dfTmp$ACCFLOW_af = dfTmp$ACCFLOW_af*bias
 
+	print(startDate)
+	print(bias)
+	print(hydroEnsBaseFlowCorr)
+	print(hydroEnsBiasCorr)
 	if (hydroEnsBaseFlowCorr == 1){
 		startDateBaseFlow <- startDate
 	}
