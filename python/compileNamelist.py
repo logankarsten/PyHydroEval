@@ -806,7 +806,7 @@ def editNamelist(pathIn,args,dbIn):
 			el(pathIn,searchStr,replaceStr)
 			status = 0
 			for checkStr in ['_CHRTOUT_ALL.Rdata','_CHRTOUT_GAGES.Rdata','_FRXST.Rdata']:
-			try:
+				try:
             	ioMgmntMod.modReadInCheck(indDbOrig,begPDateObj,endPDateObj,pathIn,args,dbIn,(strTmp + checkStr))
                status = 1
                break
