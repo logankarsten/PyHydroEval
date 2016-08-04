@@ -311,10 +311,10 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 				} else {
 					dtSec <- as.numeric(difftime(posixTmp[j],posixTmp[j-1],units='secs'))
 				}
-				afTmp[j] <- ((afTmp[j]*dtSec)/43559.9)/1000.0
+				afTmp[j] <- ((cfsTmp[j]*dtSec)/43559.9)
 			}
 			dfTmp$q_af[indTmp] <- afTmp
-			dfTmp$ACCFLOW[indTmp] <- cumsum(afTmp) 
+			dfTmp$ACCFLOW_af[indTmp] <- cumsum(afTmp) 
 		}
 	}
 	# Set accumulated acre-feet to thousands of acre-feet
