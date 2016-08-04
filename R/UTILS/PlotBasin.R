@@ -416,7 +416,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	tmpFlow <- spreadDf$ObsAF
 	spreadDf$ObsAccAF[!is.na(spreadDf$ObsAF)] <- cumsum(spreadDf$ObsAF[!is.na(spreadDf$ObsAF)])
 
-	print(spreadDf)
 	# If padding is present, add observed accumulated flow to modeled accumulated flow.
 	if (padSteps > 0 ) {
 		ind <- which(spreadDf$POSIXct == startDatePad)
@@ -483,6 +482,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
                 	        '_',strftime(endDate,"%Y%m%d%H"),'.png')
         	ggsave(filename = fileOutPath, plot = gg)
 
+		print(dfTmp)
 		gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=ACCFLOW_af,color=enstag)) + geom_line() +
 	      		geom_line(data=spreadDf, aes(x=POSIXct,y=ObsAccAF,color='Observed'),size=1.2,linetype='dashed') + 
               		scale_color_manual(name='Model Run',values = colOut) +
