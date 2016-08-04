@@ -327,7 +327,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 
 	}
 
-	print(dfTmp$ACCFLOW_af)
 	# Remove any erroneous NA values
 	dfTmp3 <- subset(dfTmp3, !is.na(tag))
 
@@ -484,6 +483,9 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
                 	        '_',strftime(endDate,"%Y%m%d%H"),'.png')
         	ggsave(filename = fileOutPath, plot = gg)
 
+		print(dfTmp$ACCFLOW_af)
+		print('xxxxxxxxxxxxxxxxxxxxxxxxxx')
+		print(spreadDf$ObsAccAF)
 		gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=ACCFLOW_af,color=enstag)) + geom_line() +
 	      		geom_line(data=spreadDf, aes(x=POSIXct,y=ObsAccAF,color='Observed'),size=1.2,linetype='dashed') + 
               		scale_color_manual(name='Model Run',values = colOut) +
