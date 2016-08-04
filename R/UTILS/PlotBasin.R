@@ -304,6 +304,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 			posixTmp <- dfTmp$POSIXct[indTmp]
 			afTmp <- dfTmp$q_af[indTmp]
 			for (j in 1:length(posixTmp)){
+				print(j)
 				if (j == 1){
 					dtSec <- 0.0
 				} else {
