@@ -370,7 +370,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	spreadDf$ObsAF <- NA
 	spreadDf$ObsAccAF <- NA
 
-	
+   print(dfTmp)	
 	for (i in 1:nSteps) {
 		dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
 
@@ -483,9 +483,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
                 	        '_',strftime(endDate,"%Y%m%d%H"),'.png')
         	ggsave(filename = fileOutPath, plot = gg)
 
-		print(dfTmp$ACCFLOW_af)
-		print('xxxxxxxxxxxxxxxxxxxxxxxxxx')
-		print(spreadDf$ObsAccAF)
 		gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=ACCFLOW_af,color=enstag)) + geom_line() +
 	      		geom_line(data=spreadDf, aes(x=POSIXct,y=ObsAccAF,color='Observed'),size=1.2,linetype='dashed') + 
               		scale_color_manual(name='Model Run',values = colOut) +
