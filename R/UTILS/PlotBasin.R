@@ -373,21 +373,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	for (i in 1:nSteps) {
 		dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
 
-		# Observations
-      ind <- which(obs$site_no == n & strftime(obs$POSIXct,"%Y-%m-%d %H:%M") == strftime(dates[i],"%Y-%m-%d %H:%M"))
-      if (length(ind) != 0){
-         spreadDf$ObsCFS[i] <- obs$q_cms[ind[1]]*35.3147
-      }
-      # Calculate volume of water in terms of acre-feet
-      if (i == 1){
-         spreadDf$ObsAF[i] <- 0.0
-      } else {
-         dtSec <- as.numeric(difftime(spreadDf$POSIXct[i],spreadDf$POSIXct[i-1],units='secs'))
-         if (!is.na(spreadDf$ObsCFS[i])){
-                                spreadDf$ObsAF[i] <- ((spreadDf$ObsCFS[i]*dtSec)/43559.9)/1000.0
-                        }
-      }
-
 		qCalc <- quantile(dfTmp2$q_cfs, probs=seq(0,1,0.25), na.rm = TRUE)
 		afCalc <- quantile(dfTmp2$ACCFLOW_af, probs=seq(0,1,0.25), na.rm = TRUE)
 		#spreadDf$st_id[i] <- dfTmp2$st_id[1]
@@ -409,6 +394,21 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 		spreadDf$af100[i] <- afCalc[[5]]
 		spreadDf$mean_af[i] <- mean(dfTmp2$ACCFLOW_af)
 		spreadDf$median_af[i] <- median(dfTmp2$ACCFLOW_af)
+
+		# Observations
+      ind <- which(obs$site_no == n & strftime(obs$POSIXct,"%Y-%m-%d %H:%M") == strftime(dates[i],"%Y-%m-%d %H:%M"))
+      if (length(ind) != 0){
+         spreadDf$ObsCFS[i] <- obs$q_cms[ind[1]]*35.3147
+      }
+      # Calculate volume of water in terms of acre-feet
+      if (i == 1){
+         spreadDf$ObsAF[i] <- 0.0
+      } else {
+         dtSec <- as.numeric(difftime(spreadDf$POSIXct[i],spreadDf$POSIXct[i-1],units='secs'))
+         if (!is.na(spreadDf$ObsCFS[i])){
+                                spreadDf$ObsAF[i] <- ((spreadDf$ObsCFS[i]*dtSec)/43559.9)/1000.0
+                        }
+      }
 
 	}
 
