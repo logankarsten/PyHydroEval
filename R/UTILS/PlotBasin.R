@@ -255,7 +255,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 				#dfPad$st_id[count] <- unique(dfTmp$st_id)
 				dfPad$tag[count] <- unique(dfTmp$tag)[1]
 				dfPad$site_no[count] <- n
-				count <- count + 1
+   			count <- count + 1
 			}
 		}
 		# Bind to existing dfTmp 
@@ -295,6 +295,24 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 
 			# Place data back into data frame
 			dfTmp$q_cfs[indReplace] <- dfTmp1a$q_cfs
+		}
+
+		# Re-calculate accumulated model runoff using updated streamflow values
+		for (i in 1:length(ensLab)){
+			indTmp <- which(dfTmp$ensTag == ensLab[i] & !is.na(dfTmp$q_cfs) & dfTmp$site_no == n)
+			cfsTmp <- dfTmp$q_cfs[ind]
+			posixTmp <- dfTmp$POSIXct
+			afTmp <- dfTmp$q_af
+			for (j in 1:length(posixTmp){
+				if (j == 1){
+					dtSec <- 0.0
+				} else {
+					dtSec <- as.numeric(difftime(posixTmp[j] - posixTmp[j-1],units='secs')
+				}
+				afTmp[j] <- ((afTmp[j]*dtSec)/43559.9)/1000.0
+			}
+			dfTmp$q_af[indTmp] <- afTmp
+			dfTmp$ACCFLOW[indTmp] <- cumsum(afTmp) 
 		}
 	}
 	# Set accumulated acre-feet to thousands of acre-feet
@@ -482,7 +500,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
                 	        '_',strftime(endDate,"%Y%m%d%H"),'.png')
         	ggsave(filename = fileOutPath, plot = gg)
 
-		print(dfTmp)
 		gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=ACCFLOW_af,color=enstag)) + geom_line() +
 	      		geom_line(data=spreadDf, aes(x=POSIXct,y=ObsAccAF,color='Observed'),size=1.2,linetype='dashed') + 
               		scale_color_manual(name='Model Run',values = colOut) +
