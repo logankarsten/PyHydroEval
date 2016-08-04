@@ -273,7 +273,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 			if (i == 1){
 				indTmp <- which(obs$site_no == n & obs$POSIXct == startDateBaseFlow)
             obsBaseFlow <- obs$q_cms[indTmp[1]]*35.3147
-            print(obsBaseFlow)
          }
 
 			# Next, calculate minimum ESP forecast value.
@@ -305,9 +304,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 			cfsTmp <- dfTmp$q_cfs[indTmp]
 			posixTmp <- dfTmp$POSIXct[indTmp]
 			afTmp <- dfTmp$q_af[indTmp]
-			print(length(indTmp))
 			for (j in 1:length(posixTmp)){
-				print(j)
 				if (j == 1){
 					dtSec <- 0.0
 				} else {
