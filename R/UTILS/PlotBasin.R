@@ -307,7 +307,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 				if (j == 1){
 					dtSec <- 0.0
 				} else {
-					dtSec <- as.numeric(difftime(posixTmp[j] - posixTmp[j-1],units='secs')
+					dtSec <- as.numeric(difftime(posixTmp[j] - posixTmp[j-1]),units='secs')
 				}
 				afTmp[j] <- ((afTmp[j]*dtSec)/43559.9)/1000.0
 			}
