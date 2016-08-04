@@ -299,6 +299,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 
 		# Re-calculate accumulated model runoff using updated streamflow values
 		for (i in 1:length(ensLab)){
+			print(names(dfTmp))
 			print(ensLab[i])
 			print(n)
 			indTmp <- which(dfTmp$ensTag == ensLab[i] & !is.na(dfTmp$q_cfs) & dfTmp$site_no == n)
