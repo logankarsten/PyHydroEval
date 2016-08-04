@@ -303,6 +303,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 			cfsTmp <- dfTmp$q_cfs[indTmp]
 			posixTmp <- dfTmp$POSIXct[indTmp]
 			afTmp <- dfTmp$q_af[indTmp]
+			print(length(posixTmp))
 			for (j in 1:length(posixTmp)){
 				print(j)
 				if (j == 1){
