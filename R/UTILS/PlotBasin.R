@@ -370,7 +370,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	spreadDf$ObsAF <- NA
 	spreadDf$ObsAccAF <- NA
 
-   print(dfTmp)	
 	for (i in 1:nSteps) {
 		dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
 
@@ -417,6 +416,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	tmpFlow <- spreadDf$ObsAF
 	spreadDf$ObsAccAF[!is.na(spreadDf$ObsAF)] <- cumsum(spreadDf$ObsAF[!is.na(spreadDf$ObsAF)])
 
+	print(spreadDf)
 	# If padding is present, add observed accumulated flow to modeled accumulated flow.
 	if (padSteps > 0 ) {
 		ind <- which(spreadDf$POSIXct == startDatePad)
