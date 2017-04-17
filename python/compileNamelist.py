@@ -581,6 +581,15 @@ def editNamelist(pathIn,args,dbIn):
 			searchStr = "readChrtout_GAGES <- FALSE"
 			replaceStr = "readChrtout_GAGES <- TRUE"
 			el(pathIn,searchStr,replaceStr)
+		elif int(args.chRead) == 3:
+			modFileOut = begAStr1 + "_" + endAStr1 + "_" + strTmp + "_CHRTOUT_GAGES.Rdata"
+			searchStr = "readChrtout <- FALSE"
+			replaceStr = "readChrtout <- TRUE"
+			el(pathIn,searchStr,replaceStr)
+			searchStr = "readLink2gage <- FALSE"
+			replaceStr = "readLink2gage <- read.table('" + dbIn.plotLink2GageFile[indDbOrig] + \
+			             "', sep='\t', header=TRUE, colClasses=c('integer','character'))"
+			el(pathIn,searchStr,replaceStr)
 		modPathOut = "'" + dbIn.topDir[indDbOrig] + "/" + dbIn.alias[indDbOrig] + \
 			     "/analysis_out/read_datasets/" + modFileOut + "'"
 		searchStr = "modReadFileOut <- NULL"
