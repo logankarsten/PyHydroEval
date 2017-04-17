@@ -638,6 +638,10 @@ plotEnsFlow <- function(n, modDfs,
 	dfTmp$q_cfs = dfTmp$q_cfs * bias
         dfTmp$ACCFLOW_af = dfTmp$ACCFLOW_af*bias
 
+         # Establish max values
+         yMax <- 1.2*max(dfTmp$q_cfs)
+         yMaxAF <- 1.2*max(dfTmp$ACCFLOW_af)
+
         for (i in 1:nSteps) {
                 dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
                 qCalc <- quantile(dfTmp2$q_cfs, probs=seq(0,1,0.25), na.rm = TRUE)

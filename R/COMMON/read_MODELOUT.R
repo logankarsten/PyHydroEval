@@ -840,7 +840,7 @@ if (readMod & readChrtout) {
                 idlist <- unique(rtLinks$link)
         }
 
-	print(idList)
+	print(idlist)
 	## Loop through model run output directories
 	for (i in 1:length(modPathList)){
 		modoutPath <- modPathList[i]
