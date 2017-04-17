@@ -92,7 +92,8 @@ for (n in names(gage2basinList)) {
                         labObs="Observed",
                         lnCols=accflowColors,
                         lnTyps=accflowTypes, lnWds=accflowWidths,
-                        labTitle=paste0("Accumulated Flow: ", n, " (", obsStrMeta$site_name[obsStrMeta$site_no==n], ")"), obsCol="cumqvol_mm")
+			labTitle=paste0("Accumulated Flow: ", n), obsCol="cumqvol_mm")
+                        #labTitle=paste0("Accumulated Flow: ", n, " (", obsStrMeta$site_name[obsStrMeta$site_no==n], ")"), obsCol="cumqvol_mm")
         #dev.off()
 }
 if (writeHtml) {
@@ -108,7 +109,8 @@ if (writeHtml) {
                         labObs="Observed",
                         lnCols=accflowColors,
                         lnTyps=accflowTypes, lnWds=accflowWidths,
-                        labTitle=paste0("Accumulated Flow: ", "{{n}}", " (", obsStrMeta$site_name[obsStrMeta$site_no=="{{n}}"], ")"), obsCol="cumqvol_mm")\n')
+			labTitle=paste0("Accumulated Flow: ", "{{n}}"),obsCol="cumqvol_mm")\n')
+                        #labTitle=paste0("Accumulated Flow: ", "{{n}}", " (", obsStrMeta$site_name[obsStrMeta$site_no=="{{n}}"], ")"), obsCol="cumqvol_mm")\n')
 		cat(plottxt, file=paste0(writePlotDir,"/plots_hydro.Rmd"), append=TRUE)
 		cat('```\n', file=paste0(writePlotDir,"/plots_hydro.Rmd"), append=TRUE)
 	}
@@ -147,11 +149,13 @@ hydroWidths <- rep(lineWd, length(hydroList))
 for (n in gageNames) {
 	if (idCol == "site_no") {
 		siteId <- n
-		plotTitle <- paste0("Streamflow: ", n, " (", obsStrMeta$site_name[obsStrMeta$site_no==n], ")")
+		plotTitle <- paste0("Streamflow: ", n)
+		#plotTitle <- paste0("Streamflow: ", n, " (", obsStrMeta$site_name[obsStrMeta$site_no==n], ")")
 	} else if (idCol =="link") {
 		siteId <- subset(rtLinks$site_no, rtLinks$link==n)
 		plotTitle <- paste0("Streamflow: ", subset(rtLinks$site_no, rtLinks$link==n), 
-			" (", obsStrMeta$site_name[obsStrMeta$site_no==subset(rtLinks$site_no, rtLinks$link==n)], ")")
+			" ")
+			#" (", obsStrMeta$site_name[obsStrMeta$site_no==subset(rtLinks$site_no, rtLinks$link==n)], ")")
 	}
         png(paste0(writePlotDir, "/hydrogr_", siteId, ".png"), width=2100, height=1350, res=225)
         PlotFlow(n, modDfs=hydroList,
@@ -169,8 +173,8 @@ if (writeHtml) {
         for (n in gageNames) {
                 cat(paste0("```{r hydro_", n, ", fig.width = 12, fig.height = 6, out.width='700', out.height='350', echo=FALSE}\n"), 
 			file=paste0(writePlotDir,"/plots_hydro.Rmd"), append=TRUE)
-                plottxt <- knitr::knit_expand(text='plotTitle <- paste0("Streamflow: ", subset(rtLinks$site_no, rtLinks$link=={{n}}),   
-                        " (", obsStrMeta$site_name[obsStrMeta$site_no==subset(rtLinks$site_no, rtLinks$link=={{n}})], ")");
+                plottxt <- knitr::knit_expand(text='plotTitle <- paste0("Streamflow: ", subset(rtLinks$site_no, rtLinks$link=={{n}})," ");  
+                        #" (", obsStrMeta$site_name[obsStrMeta$site_no==subset(rtLinks$site_no, rtLinks$link=={{n}})], ")");
 			PlotFlow("{{n}}", modDfs=hydroList,
                         obs=obsStrData,
                         labMods=hydroTags,
@@ -219,8 +223,8 @@ for (i in 1:length(hydroTags2)) {
                                 plotTitle <- paste0("Streamflow: ", n, " Model: ", modelTag)
                         } else if (idCol =="link") {
                                 siteId <- subset(rtLinks$site_no, rtLinks$link==n)
-                                plotTitle <- paste0("Streamflow: ", subset(rtLinks$site_no, rtLinks$link==n),
-                                        " (", obsStrMeta$site_name[obsStrMeta$site_no==subset(rtLinks$site_no, rtLinks$link==n)], ") ", "Model: ", modelTag)
+                                plotTitle <- paste0("Streamflow: ", subset(rtLinks$site_no, rtLinks$link==n)," Model: ",modelTag)
+                                        #" (", obsStrMeta$site_name[obsStrMeta$site_no==subset(rtLinks$site_no, rtLinks$link==n)], ") ", "Model: ", modelTag)
                         }
                         obsFlag <- 1 	
                 } else { # Make ensemble plots with observationis
