@@ -586,7 +586,7 @@ def editNamelist(pathIn,args,dbIn):
 			searchStr = "readChrtout <- FALSE"
 			replaceStr = "readChrtout <- TRUE"
 			el(pathIn,searchStr,replaceStr)
-			searchStr = "readLink2gage <- FALSE"
+			searchStr = "readLink2gage <- NULL"
 			replaceStr = "readLink2gage <- read.table('" + dbIn.plotLink2GageFile[indDbOrig] + \
 			             "', sep='\t', header=TRUE, colClasses=c('integer','character'))"
 			el(pathIn,searchStr,replaceStr)
