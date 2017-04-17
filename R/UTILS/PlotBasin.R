@@ -212,24 +212,44 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
         nSteps <- length(dates)
 	ensLab <- unique(modDfs$enstag)
 
-	if (hydroEnsBiasCorr == 1){
-		if (n == "RIODELCO") {
-                	bias = 0.74
-        	} else if (n == "CONMOGCO") {
-                	bias = 1.16
-        	} else if (n == "LOSORTCO") {
-                	bias = 1.55
-        	} else if (n == "SANORTCO") {
-                	bias = 0.91
-        	} else {
-                	bias = 1.0
-        	}
-        } else {
-		bias = 1.0
-	}
+        if (hydroEnsBiasCorr == 1){
+                 if (n == "RIODELCO") {
+                         bias = 1.195
+                 } else if (n == "CONMOGCO") {
+                         bias = 1.026
+                 } else if (n == "LOSORTCO") {
+                         bias = 0.892
+                 } else if (n == "SANORTCO") {
+                         bias = 0.372
+                 } else if (n == "SANMANCO") {
+                         bias = 0.672
+                 } else if (n == "EASALMCO") {
+                         bias = 0.922
+                 } else if (n == "EASCEMCO") {
+                         bias = 5.482
+                 } else if (n == "GUNGUNCO") {
+                         bias = 0.722
+                 } else if (n == "OHIOCRCO") {
+                         bias = 0.694
+                 } else if (n == "SLABAXCO") {
+                         bias = 1.497
+                 } else if (n == "TAYALMCO") {
+                         bias = 0.483
+                 } else if (n == "TAYBERCO") {
+                         bias = 0.421
+                 } else if (n == "TOMGUNCO") {
+                         bias = 271.023
+                 } else if (n == "TOMSARCO") {
+                         bias = 0.510
+                 } else {
+                         bias = 1.0
+                 }
+         } else {
+                 bias = 1.0
+         }
 
 	dfTmp$q_cfs = dfTmp$q_cfs * bias
-   dfTmp$ACCFLOW_af = dfTmp$ACCFLOW_af*bias
+        dfTmp$ACCFLOW_af = dfTmp$ACCFLOW_af*bias
 
 	if (hydroEnsBaseFlowCorr == 1){
 		startDateBaseFlow <- startDate
@@ -647,8 +667,6 @@ plotEnsFlow <- function(n, modDfs,
 	print(paste0('BAINS: ',n))
 	print(paste0('MEAN ACCUMULATED RUNOFF (kaf): ',max(spreadDf$mean_af)))
 	print(paste0('MEDIAN ACCUMULATED RUNOFF (kaf): ',max(spreadDf$median_af)))
-
-	dfTmp3$q_cfs = dfTmp3$q_cfs * bias
 
         spreadDf$Date <- as.Date(spreadDf$POSIXct)
         dfTmp$Date <- as.Date(dfTmp$POSIXct)
