@@ -213,6 +213,10 @@ if (reachRting) {
 	modDfsOut <- modFrxstout
 }
 
+# TEMP FOR ESP RIO - WE DONT WANT TO USE ROUTELINK FILE
+gageNames <- unique(modDfsOut$site_no)
+linkIds <- unique(modDfsOut$link)
+
 # Loop over station gauges and create suite of ensemble plots
 for (i in 1:length(hydroTags2)) {
         modelTag <- hydroTags2[i]
