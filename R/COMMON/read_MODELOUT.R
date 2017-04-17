@@ -840,6 +840,7 @@ if (readMod & readChrtout) {
                 idlist <- unique(rtLinks$link)
         }
 
+	print(idList)
 	## Loop through model run output directories
 	for (i in 1:length(modPathList)){
 		modoutPath <- modPathList[i]
@@ -858,6 +859,7 @@ if (readMod & readChrtout) {
 		# Add ensemble tags
 		modChrtout$enstag <- ensoutTag
 
+		print(unique(modChrtout$site_no))
                 # If realLink2gage is present, reset site_no to values in the table.
 		if (!is.null(readLink2gage)){
 			for (j in 1:length(idlist)){
