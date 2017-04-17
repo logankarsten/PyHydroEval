@@ -114,7 +114,7 @@ if (calcStats | createPlots) {
 	}
 	if (!is.null(STRfile) & (strProc | accflowPlot | hydroPlot | hydroEnsPlot| flowswePlot | flowlsmPlot) ) {
 		obsStrData_FINAL <- data.frame()
-		obsStrMeta_FINAL <- data.frame()
+		#obsStrMeta_FINAL <- data.frame()
 		# Gridded routing case w/ subset
 		if ( !reachRting & exists("stid2gageList") ) {
 			if (is.list(stid2gageList)) {
@@ -140,19 +140,19 @@ if (calcStats | createPlots) {
 				if (exists("obsStrMeta.map")) obsStrMeta <- remapData(obsStrMeta, obsStrMeta.map)
 				if ( !is.null(gageList) ) { 
 					obsStrData_TMP <- subset(obsStrData, obsStrData$site_no %in% unique(gageList$site_no))
-					obsStrMeta_TMP <- subset(obsStrMeta, obsStrMeta$site_no %in% unique(gageList$site_no))
+					#obsStrMeta_TMP <- subset(obsStrMeta, obsStrMeta$site_no %in% unique(gageList$site_no))
 				} else {
 					obsStrData_TMP <- obsStrData
-					obsStrMeta_TMP <- obsStrMeta
+					#obsStrMeta_TMP <- obsStrMeta
 				}
 				obsStrData_FINAL <- plyr::rbind.fill(obsStrData_FINAL, obsStrData_TMP)
-                        	obsStrMeta_FINAL <- plyr::rbind.fill(obsStrMeta_FINAL, obsStrMeta_TMP)
+                        	#obsStrMeta_FINAL <- plyr::rbind.fill(obsStrMeta_FINAL, obsStrMeta_TMP)
 			} else {
 				stop(paste("Streamflow obs file specified but does not exist:", STRfile))
 			}
 		}
 		obsStrData <- obsStrData_FINAL
-		obsStrMeta <- obsStrMeta_FINAL
+		#obsStrMeta <- obsStrMeta_FINAL
 		if ( reachRting & !is.null(gageList) ) {
 			obsStrData <- plyr::join(obsStrData, gageList, by="site_no")
 		}
