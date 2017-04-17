@@ -860,7 +860,7 @@ if (readMod & readChrtout) {
 
                 # If realLink2gage is present, reset site_no to values in the table.
 		if (!is.null(readLink2gage)){
-			for (j in unique(readLink2gage$site_no)){
+			for (j in 1:length(idList)){
 				print(idlist[j])
 				ind <- which(modChrtout$link == idlist[j])
 				print(ind)
