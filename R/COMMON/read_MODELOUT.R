@@ -860,8 +860,11 @@ if (readMod & readChrtout) {
                 # If realLink2gage is present, reset site_no to values in the table.
 		if (!is.null(readLink2Gage)){
 			for (j in unique(idlist$site_no)){
+				print(idlist$link[j])
 				ind <- which(modChrtout$link == idlist$link[j])
+				print(ind)
 				modChrtout$site_no[ind] = idlist$site_no[j]
+				print(idlist$site_no[j])
 			}
 		}
 		# Calculate accumulated flow
