@@ -857,6 +857,13 @@ if (readMod & readChrtout) {
 		# Add ensemble tags
 		modChrtout$enstag <- ensoutTag
 
+                # If realLink2gage is present, reset site_no to values in the table.
+		if (!is.null(readLink2Gage)){
+			for (j in unique(idlist$site_no)){
+				ind <- which(modChrtout$link == idlist$link[j])
+				modChrtout$site_no[ind] = idlist$site_no[j]
+			}
+		}
 		# Calculate accumulated flow
 		modChrtout$q_cfs <- NA
 		modChrtout$q_af <- NA
