@@ -136,7 +136,6 @@ if (calcStats | createPlots) {
 		for (i in STRfile) {
 			if (file.exists(i)) {
 				load(i)
-				print(STRfile)
 				if (exists("obsStrData.map")) obsStrData <- remapData(obsStrData, obsStrData.map)
 				if (exists("obsStrMeta.map")) obsStrMeta <- remapData(obsStrMeta, obsStrMeta.map)
 				if ( !is.null(gageList) ) { 
@@ -152,6 +151,7 @@ if (calcStats | createPlots) {
 				stop(paste("Streamflow obs file specified but does not exist:", STRfile))
 			}
 		}
+		print(obsStrData_FINAL)
 		obsStrData <- obsStrData_FINAL
 		#obsStrMeta <- obsStrMeta_FINAL
 		if ( reachRting & !is.null(gageList) ) {
