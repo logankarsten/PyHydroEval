@@ -216,7 +216,9 @@ if (reachRting) {
 # Loop over station gauges and create suite of ensemble plots
 for (i in 1:length(hydroTags2)) {
         modelTag <- hydroTags2[i]
+        print(modelTag)
         for (n in gageNames) {
+		print(n)
                 if (!is.null(STRfile)) { # Make ensemble plots with observations
         		if (idCol == "site_no") {
                                 siteId <- n

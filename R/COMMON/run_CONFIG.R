@@ -151,7 +151,6 @@ if (calcStats | createPlots) {
 				stop(paste("Streamflow obs file specified but does not exist:", STRfile))
 			}
 		}
-		print(obsStrData_FINAL)
 		obsStrData <- obsStrData_FINAL
 		#obsStrMeta <- obsStrMeta_FINAL
 		if ( reachRting & !is.null(gageList) ) {
