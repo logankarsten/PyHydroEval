@@ -858,7 +858,7 @@ if (readMod & readChrtout) {
 		modChrtout$enstag <- ensoutTag
 
                 # If realLink2gage is present, reset site_no to values in the table.
-		if (!is.null(readLink2Gage)){
+		if (!is.null(readLink2gage)){
 			for (j in unique(idlist$site_no)){
 				print(idlist$link[j])
 				ind <- which(modChrtout$link == idlist$link[j])
