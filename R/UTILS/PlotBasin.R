@@ -664,6 +664,7 @@ plotEnsFlow <- function(n, modDfs,
         for (i in 1:length(uniqueDays)){
 		for (j in 1:length(ensLab)){
                 	dayCurrentTmp <- uniqueDays[i]
+			print(dayCurrentTmp)
 			ensTmp <- ensLab[j]
                 	indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dayCurrentTmp & dfTmp$enstag == ensTmp)
 			dfTmpDaily$link[countDaily] <- dfTmp$link[indTmp[1]]
