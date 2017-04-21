@@ -256,12 +256,14 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	
 	# Calculate daily means of streamflow values. This is due to hourly output being very flashing over the course
         # of a day due to diurnal effects in the NoahMP model
-        for (i in 1:length(uniqueDays)){
-		dayCurrentTmp <- uniqueDays[i]
-                ensTmp <- dfTmp$enstag[i]
-                print(paste0(dayCurrentTmp,' ENS = ',ensTmp))
-                indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dayCurrentTmp && dfTmp$ensTag == ensTmp)
-                dfTmp$q_cfs[i] <- mean(dfTmp$q_cfs[indTmp])
+	for (i in 1:length(uniqueDays)){
+                for (j in 1:length(ensLab)){
+                        dayCurrentTmp <- uniqueDays[i]
+                        ensTmp <- dfTmp$enstag[j]
+                        print(paste0(dayCurrentTmp,' ENS = ',ensTmp))
+                        indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dayCurrentTmp && dfTmp$ensTag == ensTmp)
+                        dfTmp$q_cfs[i] <- mean(dfTmp$q_cfs[indTmp])
+                }
         }
 	if (hydroEnsBaseFlowCorr == 1){
 		startDateBaseFlow <- startDate
@@ -656,11 +658,13 @@ plotEnsFlow <- function(n, modDfs,
 	# Calculate daily means of streamflow values. This is due to hourly output being very flashing over the course
         # of a day due to diurnal effects in the NoahMP model
         for (i in 1:length(uniqueDays)){
-                dayCurrentTmp <- uniqueDays[i]
-                ensTmp <- dfTmp$enstag[i]
-                print(paste0(dayCurrentTmp,' ENS = ',ensTmp))
-                indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dayCurrentTmp && dfTmp$ensTag == ensTmp)
-                dfTmp$q_cfs[i] <- mean(dfTmp$q_cfs[indTmp])
+		for (j in 1:length(ensLab)){
+                	dayCurrentTmp <- uniqueDays[i]
+                	ensTmp <- dfTmp$enstag[j]
+                	print(paste0(dayCurrentTmp,' ENS = ',ensTmp))
+                	indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dayCurrentTmp && dfTmp$ensTag == ensTmp)
+                	dfTmp$q_cfs[i] <- mean(dfTmp$q_cfs[indTmp])
+		}
         }
         # Establish max values
         yMax <- 1.2*max(dfTmp$q_cfs)
