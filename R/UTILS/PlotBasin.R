@@ -669,7 +669,7 @@ plotEnsFlow <- function(n, modDfs,
 			dfTmpDaily$link[countDaily] <- dfTmp$link[indTmp[1]]
 			dfTmpDaily$POSIXct[countDaily] <- dfTmp$POSIXct[indTmp[1]]
 			dfTmpDaily$site_no[countDaily] <- n
-			dfTmpDaily$site_no[enstag] <- ensTmp
+			dfTmpDaily$enstag[countDaily] <- ensTmp
                 	dfTmpDaily$q_cfs[countDaily] <- mean(dfTmp$q_cfs[indTmp])
 			countDaily <- countDaily + 1
 		}
