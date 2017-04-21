@@ -651,9 +651,18 @@ plotEnsFlow <- function(n, modDfs,
 	dfTmp$q_cfs = dfTmp$q_cfs * bias
         dfTmp$ACCFLOW_af = dfTmp$ACCFLOW_af*bias
 
-         # Establish max values
-         yMax <- 1.2*max(dfTmp$q_cfs)
-         yMaxAF <- 1.2*max(dfTmp$ACCFLOW_af)
+        # Calculate daily means of streamflow values. This is due to hourly output being very flashing over the course
+        # of a day due to diurnal effects in the NoahMP model
+        for (i in 1:nSteps){
+                dCurrentTmp <- dfTmp$POSIXct
+                print(dCurrentTmp)
+                dateStr <- strftime(dfTmp$POSIXct,'%Y-%m-%d')
+                indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dateStr)
+                dfTmp$q_cfs[i] <- mean(dfTmp$q_cfs[indTmp])
+        }
+        # Establish max values
+        yMax <- 1.2*max(dfTmp$q_cfs)
+        yMaxAF <- 1.2*max(dfTmp$ACCFLOW_af)
 
         for (i in 1:nSteps) {
                 dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
