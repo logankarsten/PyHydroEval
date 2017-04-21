@@ -259,7 +259,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
                 dCurrentTmp <- dfTmp$POSIXct[i]
                 ensTmp <- dfTmp$ensTag[i]
                 dateStr <- strftime(dfTmp$POSIXct[i],'%Y-%m-%d')
-                print(paste0(dateStr,' ENS = ',ensTmp)
+                print(paste0(dateStr,' ENS = ',ensTmp))
                 indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dateStr && dfTmp$ensTag == ensTmp)
                 dfTmp$q_cfs[i] <- mean(dfTmp$q_cfs[indTmp])
         }
@@ -658,7 +658,7 @@ plotEnsFlow <- function(n, modDfs,
                 dCurrentTmp <- dfTmp$POSIXct[i]
 		ensTmp <- dfTmp$ensTag[i]
                 dateStr <- strftime(dfTmp$POSIXct[i],'%Y-%m-%d')
-		print(paste0(dateStr,' ENS = ',ensTmp)
+		print(paste0(dateStr,' ENS = ',ensTmp))
                 indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dateStr && dfTmp$ensTag == ensTmp)
                 dfTmp$q_cfs[i] <- mean(dfTmp$q_cfs[indTmp])
         }
