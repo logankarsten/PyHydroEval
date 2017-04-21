@@ -262,7 +262,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 			ensTmp <- ensLab[j]
                         print(paste0(dayCurrentTmp,' ENS = ',ensTmp))
                         indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dayCurrentTmp && dfTmp$ensTag == ensTmp)
-                        dfTmp$q_cfs[i] <- mean(dfTmp$q_cfs[indTmp])
+                        dfTmp$q_cfs[indTmp] <- mean(dfTmp$q_cfs[indTmp])
                 }
         }
 	if (hydroEnsBaseFlowCorr == 1){
@@ -663,7 +663,7 @@ plotEnsFlow <- function(n, modDfs,
 			ensTmp <- ensLab[j]
                 	print(paste0(dayCurrentTmp,' ENS = ',ensTmp))
                 	indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dayCurrentTmp && dfTmp$ensTag == ensTmp)
-                	dfTmp$q_cfs[i] <- mean(dfTmp$q_cfs[indTmp])
+                	dfTmp$q_cfs[indTmp] <- mean(dfTmp$q_cfs[indTmp])
 		}
         }
         # Establish max values
