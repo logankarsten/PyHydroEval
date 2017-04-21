@@ -254,13 +254,15 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
         dfTmp$ACCFLOW_af = dfTmp$ACCFLOW_af*bias
 	
 	# Calculate daily means of streamflow values. This is due to hourly output being very flashing over the course
-	# of a day due to diurnal effects in the NoahMP model
-	for (i in 1:nSteps){
-		dCurrentTmp <- dfTmp$POSIXct
-		dateStr <- strftime(dfTmp$POSIXct,'%Y-%m-%d')
-		indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dateStr)
-		dfTmp$q_cfs[i] <- mean(dfTmp$q_cfs[indTmp])
-	}
+        # of a day due to diurnal effects in the NoahMP model
+        for (i in 1:length(dfTmp%q_cfs){
+                dCurrentTmp <- dfTmp$POSIXct[i]
+                ensTmp <- dfTmp$ensTag[i]
+                dateStr <- strftime(dfTmp$POSIXct[i],'%Y-%m-%d')
+                print(paste0(dateStr,' ENS = ',ensTmp)
+                indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dateStr && dfTmp$ensTag == ensTmp)
+                dfTmp$q_cfs[i] <- mean(dfTmp$q_cfs[indTmp])
+        }
 	if (hydroEnsBaseFlowCorr == 1){
 		startDateBaseFlow <- startDate
 	}
@@ -652,10 +654,12 @@ plotEnsFlow <- function(n, modDfs,
 
         # Calculate daily means of streamflow values. This is due to hourly output being very flashing over the course
         # of a day due to diurnal effects in the NoahMP model
-        for (i in 1:nSteps){
-                dCurrentTmp <- dfTmp$POSIXct
-                dateStr <- strftime(dfTmp$POSIXct,'%Y-%m-%d')
-                indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dateStr)
+        for (i in 1:length(dfTmp%q_cfs){
+                dCurrentTmp <- dfTmp$POSIXct[i]
+		ensTmp <- dfTmp$ensTag[i]
+                dateStr <- strftime(dfTmp$POSIXct[i],'%Y-%m-%d')
+		print(paste0(dateStr,' ENS = ',ensTmp)
+                indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dateStr && dfTmp$ensTag == ensTmp)
                 dfTmp$q_cfs[i] <- mean(dfTmp$q_cfs[indTmp])
         }
         # Establish max values
