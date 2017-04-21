@@ -584,6 +584,7 @@ plotEnsFlow <- function(n, modDfs,
 	# Create dataframe to hold daily data
 	dfTmpDaily <- data.frame(matrix(NA,ncol=5,nrow=length(uniqueDays)*length(ensLab)))
 	names(dfTmpDaily) <- c('link','q_cfs','POSIXct','site_no','enstag')
+	dfTmpDaily$POSIXct <- as.POSIXct('1900-01-01 00:00',format='%Y-%m-%d %H:%M')
 
 	# Set accumulated acre-feet to thousands of acre-feet
 	dfTmp$ACCFLOW_af <- dfTmp$ACCFLOW_af/1000.0
