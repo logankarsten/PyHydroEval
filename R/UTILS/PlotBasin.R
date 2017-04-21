@@ -209,6 +209,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	#Subset data based on gage, date range
 	dfTmp <- subset(modDfs,site_no==n & POSIXct >= startDate & POSIXct <= endDate)
 	dates <- unique(dfTmp$POSIXct)
+	uniqueDays <- unique(strftime(dfTmp$POSIXct,'%Y-%m-%d'))
         nSteps <- length(dates)
 	ensLab <- unique(modDfs$enstag)
 
@@ -255,12 +256,11 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	
 	# Calculate daily means of streamflow values. This is due to hourly output being very flashing over the course
         # of a day due to diurnal effects in the NoahMP model
-        for (i in 1:length(dfTmp$q_cfs)){
-                dCurrentTmp <- dfTmp$POSIXct[i]
+        for (i in 1:length(uniqueDays)){
+		dayCurrentTmp <- uniqueDays[i]
                 ensTmp <- dfTmp$enstag[i]
-                dateStr <- strftime(dfTmp$POSIXct[i],'%Y-%m-%d')
-                print(paste0(dateStr,' ENS = ',ensTmp))
-                indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dateStr && dfTmp$ensTag == ensTmp)
+                print(paste0(dayCurrentTmp,' ENS = ',ensTmp))
+                indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dayCurrentTmp && dfTmp$ensTag == ensTmp)
                 dfTmp$q_cfs[i] <- mean(dfTmp$q_cfs[indTmp])
         }
 	if (hydroEnsBaseFlowCorr == 1){
@@ -577,6 +577,7 @@ plotEnsFlow <- function(n, modDfs,
         dfTmp <- subset(modDfs,site_no==n & POSIXct >= startDate & POSIXct <= endDate)
         dates <- unique(dfTmp$POSIXct)
         nSteps <- length(dates)
+	uniqueDays <- unique(strftime(dfTmp$POSIXct,'%Y-%m-%d'))
         ensLab <- unique(modDfs$enstag)
 
 	# Set accumulated acre-feet to thousands of acre-feet
@@ -652,14 +653,13 @@ plotEnsFlow <- function(n, modDfs,
 	dfTmp$q_cfs = dfTmp$q_cfs * bias
         dfTmp$ACCFLOW_af = dfTmp$ACCFLOW_af*bias
 
-        # Calculate daily means of streamflow values. This is due to hourly output being very flashing over the course
+	# Calculate daily means of streamflow values. This is due to hourly output being very flashing over the course
         # of a day due to diurnal effects in the NoahMP model
-        for (i in 1:length(dfTmp$q_cfs)){
-                dCurrentTmp <- dfTmp$POSIXct[i]
-		ensTmp <- dfTmp$enstag[i]
-                dateStr <- strftime(dfTmp$POSIXct[i],'%Y-%m-%d')
-		print(paste0(dateStr,' ENS = ',ensTmp))
-                indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dateStr && dfTmp$ensTag == ensTmp)
+        for (i in 1:length(uniqueDays)){
+                dayCurrentTmp <- uniqueDays[i]
+                ensTmp <- dfTmp$enstag[i]
+                print(paste0(dayCurrentTmp,' ENS = ',ensTmp))
+                indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dayCurrentTmp && dfTmp$ensTag == ensTmp)
                 dfTmp$q_cfs[i] <- mean(dfTmp$q_cfs[indTmp])
         }
         # Establish max values
