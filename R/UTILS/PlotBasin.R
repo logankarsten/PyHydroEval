@@ -260,7 +260,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
                 for (j in 1:length(ensLab)){
                         dayCurrentTmp <- uniqueDays[i]
 			ensTmp <- ensLab[j]
-                        print(paste0(dayCurrentTmp,' ENS = ',ensTmp))
                         indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dayCurrentTmp & dfTmp$enstag == ensTmp)
                         dfTmp$q_cfs[indTmp] <- mean(dfTmp$q_cfs[indTmp])
                 }
@@ -661,10 +660,7 @@ plotEnsFlow <- function(n, modDfs,
 		for (j in 1:length(ensLab)){
                 	dayCurrentTmp <- uniqueDays[i]
 			ensTmp <- ensLab[j]
-                	print(paste0(dayCurrentTmp,' ENS = ',ensTmp))
                 	indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dayCurrentTmp & dfTmp$enstag == ensTmp)
-			print(dfTmp$q_cfs[indTmp])
-			print(mean(dfTmp$q_cfs[indTmp]))
                 	dfTmp$q_cfs[indTmp] <- mean(dfTmp$q_cfs[indTmp])
 		}
         }
