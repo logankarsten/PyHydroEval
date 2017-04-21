@@ -214,33 +214,35 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 
         if (hydroEnsBiasCorr == 1){
                  if (n == "RIODELCO") {
-                         bias = 1.195
+                         bias = 0.89
                  } else if (n == "CONMOGCO") {
-                         bias = 1.026
+                         bias = 0.61
                  } else if (n == "LOSORTCO") {
-                         bias = 0.892
+                         bias = 0.66
                  } else if (n == "SANORTCO") {
-                         bias = 0.372
+                         bias = 0.29
                  } else if (n == "SANMANCO") {
-                         bias = 0.672
+                         bias = 0.31
                  } else if (n == "EASALMCO") {
-                         bias = 0.922
+                         bias = 0.76
                  } else if (n == "EASCEMCO") {
-                         bias = 5.482
+                         bias = 6.36
                  } else if (n == "GUNGUNCO") {
-                         bias = 0.722
+                         bias = 0.47
                  } else if (n == "OHIOCRCO") {
-                         bias = 0.694
+                         bias = 0.80
                  } else if (n == "SLABAXCO") {
                          bias = 1.497
                  } else if (n == "TAYALMCO") {
-                         bias = 0.483
+                         bias = 0.38
+		 } else if (n == "TAYATPCO") {
+                        bias = 0.43
                  } else if (n == "TAYBERCO") {
-                         bias = 0.421
+                         bias = 0.37
                  } else if (n == "TOMGUNCO") {
-                         bias = 271.023
+                         bias = 258.92
                  } else if (n == "TOMSARCO") {
-                         bias = 0.510
+                         bias = 0.34
                  } else {
                          bias = 1.0
                  }
@@ -601,33 +603,35 @@ plotEnsFlow <- function(n, modDfs,
 
 	if (hydroEnsBiasCorr == 1){
                 if (n == "RIODELCO") {
-                        bias = 1.195
+                        bias = 0.89
                 } else if (n == "CONMOGCO") {
-                        bias = 1.026
+                        bias = 0.61
                 } else if (n == "LOSORTCO") {
-                        bias = 0.892
+                        bias = 0.66
                 } else if (n == "SANORTCO") {
-                        bias = 0.372
+                        bias = 0.29
 		} else if (n == "SANMANCO") {
-			bias = 0.672
+			bias = 0.31
 		} else if (n == "EASALMCO") {
-			bias = 0.922
+			bias = 0.76
 		} else if (n == "EASCEMCO") {
-			bias = 5.482
+			bias = 6.36
 		} else if (n == "GUNGUNCO") {
-			bias = 0.722
+			bias = 0.47
 		} else if (n == "OHIOCRCO") {
-			bias = 0.694
+			bias = 0.80
 		} else if (n == "SLABAXCO") {
 			bias = 1.497
 		} else if (n == "TAYALMCO") {
-			bias = 0.483
+			bias = 0.38
+		} else if (n == "TAYATPCO") {
+			bias = 0.43
 		} else if (n == "TAYBERCO") {
-			bias = 0.421
+			bias = 0.37
 		} else if (n == "TOMGUNCO") {
-			bias = 271.023
+			bias = 258.92
 		} else if (n == "TOMSARCO") {
-			bias = 0.510
+			bias = 0.34
                 } else {
                         bias = 1.0
                 }
