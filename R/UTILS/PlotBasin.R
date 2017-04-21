@@ -257,7 +257,6 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	# of a day due to diurnal effects in the NoahMP model
 	for (i in 1:nSteps){
 		dCurrentTmp <- dfTmp$POSIXct
-		print(dCurrentTmp)
 		dateStr <- strftime(dfTmp$POSIXct,'%Y-%m-%d')
 		indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dateStr)
 		dfTmp$q_cfs[i] <- mean(dfTmp$q_cfs[indTmp])
@@ -655,7 +654,6 @@ plotEnsFlow <- function(n, modDfs,
         # of a day due to diurnal effects in the NoahMP model
         for (i in 1:nSteps){
                 dCurrentTmp <- dfTmp$POSIXct
-                print(dCurrentTmp)
                 dateStr <- strftime(dfTmp$POSIXct,'%Y-%m-%d')
                 indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dateStr)
                 dfTmp$q_cfs[i] <- mean(dfTmp$q_cfs[indTmp])
