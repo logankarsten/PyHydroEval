@@ -257,7 +257,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
         # of a day due to diurnal effects in the NoahMP model
         for (i in 1:length(dfTmp$q_cfs)){
                 dCurrentTmp <- dfTmp$POSIXct[i]
-                ensTmp <- dfTmp$ensTag[i]
+                ensTmp <- dfTmp$enstag[i]
                 dateStr <- strftime(dfTmp$POSIXct[i],'%Y-%m-%d')
                 print(paste0(dateStr,' ENS = ',ensTmp))
                 indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dateStr && dfTmp$ensTag == ensTmp)
@@ -656,7 +656,7 @@ plotEnsFlow <- function(n, modDfs,
         # of a day due to diurnal effects in the NoahMP model
         for (i in 1:length(dfTmp$q_cfs)){
                 dCurrentTmp <- dfTmp$POSIXct[i]
-		ensTmp <- dfTmp$ensTag[i]
+		ensTmp <- dfTmp$enstag[i]
                 dateStr <- strftime(dfTmp$POSIXct[i],'%Y-%m-%d')
 		print(paste0(dateStr,' ENS = ',ensTmp))
                 indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dateStr && dfTmp$ensTag == ensTmp)
