@@ -677,6 +677,7 @@ plotEnsFlow <- function(n, modDfs,
         # Establish max values
         yMax <- 1.2*max(dfTmp$q_cfs)
         yMaxAF <- 1.2*max(dfTmp$ACCFLOW_af)
+	yMaxDaily <- 1.2*max(dfTmpDaily$q_cfs)
 
         for (i in 1:nSteps) {
                 dfTmp2 <- subset(dfTmp, POSIXct == dates[i])
@@ -733,7 +734,7 @@ plotEnsFlow <- function(n, modDfs,
         colOut[length(colOut)] <- 'black'
         gg <- ggplot(data=dfTmpDaily,aes(x=POSIXct,y=q_cfs,color=enstag)) + geom_line() +
               scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmpDaily$enstag))) +
-              ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,yMax)
+              ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,yMaxDaily)
         fileOutPath <- paste0(outDir,'/streamflow_spaghetti_',n,'_',strftime(startDate,"%Y%m%d%H"),
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
         ggsave(filename = fileOutPath, plot = gg)
