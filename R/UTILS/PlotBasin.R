@@ -581,6 +581,10 @@ plotEnsFlow <- function(n, modDfs,
 	uniqueDays <- unique(strftime(dfTmp$POSIXct,'%Y-%m-%d'))
         ensLab <- unique(modDfs$enstag)
 
+	# Create dataframe to hold daily data
+	dfTmpDaily <- data.frame(matrix(NA,ncol=5,nrow=length(uniqueDays*length(ensLab)))
+	names(dfTmpDaily) <- c('link','q_cfs','POSIXct','site_no','enstag')
+
 	# Set accumulated acre-feet to thousands of acre-feet
 	dfTmp$ACCFLOW_af <- dfTmp$ACCFLOW_af/1000.0
 
@@ -656,12 +660,18 @@ plotEnsFlow <- function(n, modDfs,
 
 	# Calculate daily means of streamflow values. This is due to hourly output being very flashing over the course
         # of a day due to diurnal effects in the NoahMP model
+	countDaily <- 1
         for (i in 1:length(uniqueDays)){
 		for (j in 1:length(ensLab)){
                 	dayCurrentTmp <- uniqueDays[i]
 			ensTmp <- ensLab[j]
                 	indTmp <- which(strftime(dfTmp$POSIXct,'%Y-%m-%d') == dayCurrentTmp & dfTmp$enstag == ensTmp)
-                	dfTmp$q_cfs[indTmp] <- mean(dfTmp$q_cfs[indTmp])
+			dfTmpDaily$link[countDaily] <- dfTmp$link[indTmp[1]]
+			dfTmpDaily$POSIXct[countDaily] <- dfTmp$POSIXct[indTmp[1]]
+			dfTmpDaily$site_no[countDaily] <- n
+			dfTmpDaily$site_no[enstag] <- ensTmp
+                	dfTmpDaily$q_cfs[countDaily] <- mean(dfTmp$q_cfs[indTmp])
+			countDaily <- countDaily + 1
 		}
         }
         # Establish max values
@@ -721,8 +731,8 @@ plotEnsFlow <- function(n, modDfs,
         numColor = length(unique(dfTmp$enstag))
 	colOut <- colOutList[1:numColor]
         colOut[length(colOut)] <- 'black'
-        gg <- ggplot(data=dfTmp,aes(x=POSIXct,y=q_cfs,color=enstag)) + geom_line() +
-              scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmp$enstag))) +
+        gg <- ggplot(data=dfTmpDaily,aes(x=POSIXct,y=q_cfs,color=enstag)) + geom_line() +
+              scale_color_manual(name='Model Run',values = colOut,label=c(unique(dfTmpDaily$enstag))) +
               ggtitle(title) + xlab('Date') + ylab('Streamflow (cfs)') + ylim(0,yMax)
         fileOutPath <- paste0(outDir,'/streamflow_spaghetti_',n,'_',strftime(startDate,"%Y%m%d%H"),
                         '_',strftime(endDate,"%Y%m%d%H"),'.png')
@@ -736,7 +746,7 @@ plotEnsFlow <- function(n, modDfs,
         ggsave(filename = fileOutPath, plot = gg)
 
         # Produce hydrograph raster
-        gg <- ggplot(dfTmp, aes(x=POSIXct, y=enstag, fill=q_cfs)) + geom_raster() +
+        gg <- ggplot(dfTmpDaily, aes(x=POSIXct, y=enstag, fill=q_cfs)) + geom_raster() +
               scale_fill_gradientn(colours = rainbow(10)) +
               ggtitle(title) + xlab('Date') + ylab('Ensemble')
         fileOutPath <- paste0(outDir,'/streamflow_raster_hydrograph_',n,'_',strftime(startDate,"%Y%m%d%H"),
