@@ -255,7 +255,7 @@ plotEnsFlowWObs <- function(n, modDfs, obs,
 	
 	# Calculate daily means of streamflow values. This is due to hourly output being very flashing over the course
         # of a day due to diurnal effects in the NoahMP model
-        for (i in 1:length(dfTmp$q_cfs){
+        for (i in 1:length(dfTmp$q_cfs)){
                 dCurrentTmp <- dfTmp$POSIXct[i]
                 ensTmp <- dfTmp$ensTag[i]
                 dateStr <- strftime(dfTmp$POSIXct[i],'%Y-%m-%d')
@@ -654,7 +654,7 @@ plotEnsFlow <- function(n, modDfs,
 
         # Calculate daily means of streamflow values. This is due to hourly output being very flashing over the course
         # of a day due to diurnal effects in the NoahMP model
-        for (i in 1:length(dfTmp$q_cfs){
+        for (i in 1:length(dfTmp$q_cfs)){
                 dCurrentTmp <- dfTmp$POSIXct[i]
 		ensTmp <- dfTmp$ensTag[i]
                 dateStr <- strftime(dfTmp$POSIXct[i],'%Y-%m-%d')
