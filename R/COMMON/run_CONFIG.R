@@ -129,6 +129,8 @@ if (calcStats | createPlots) {
 			} else {
 				gageList <- subset(rtLinks[,c("link","site_no")], !(rtLinks$site_no == ''))
 			}
+                } else if (readLink2gage) {
+                        gageList <- readLink2gage
 		# No subset
 		} else {
 			gageList <- NULL

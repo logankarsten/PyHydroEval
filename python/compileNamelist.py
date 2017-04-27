@@ -1041,6 +1041,10 @@ def editNamelist(pathIn,args,dbIn):
 			searchStr = "hydroEnsPlot <- FALSE"
 			replaceStr = "hydroEnsPlot <- TRUE"
 			el(pathIn,searchStr,replaceStr)
+			searchStr = "readLink2gage <- NULL"
+                        replaceStr = "readLink2gage <- read.table('" + dbIn.plotLink2GageFile[indDbOrig] + \
+                                     "', sep=',', header=TRUE, colClasses=c('integer','character'))"
+                        el(pathIn,searchStr,replaceStr)
 			status = 0
 			for checkStr in ['_CHRTOUT_ALL.Rdata','_CHRTOUT_GAGES.Rdata','_FRXST.Rdata']:
 				try:
